@@ -1,6 +1,10 @@
 # bash robots/start-some-robots.sh &
 # tail -f log1
-# pkill -f python
+# pkill -[signal # or name] -f python
+# 1 SIGHUP     Terminate   Hang up controlling terminal or      Yes
+# 2 SIGINT     Terminate   Interrupt from keyboard, Control-C   Yes
+# 9 SIGKILL    Terminate   Forced-process termination           Yes
+#15 SIGTERM    Terminate   Process termination                  Yes
 
 rm log*
 #./msc/create-tape-utexas23-reconstruction
