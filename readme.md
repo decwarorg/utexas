@@ -58,6 +58,8 @@ baseline situation is to be on a raspberry pi that is/can be used for the pidp10
 
 concerning raspi pidp10 'temporary brain damage', what we're seeing is the raspi pidp10 combo occasionally misbehaving, blinking oddly, etc, including failing to build tops10 or decwar. using dec10test to 'clear the blinkers' or 'pulling the plug' is needed whenever things get sideways. after 'sufficient reset' things are fine again. basically the raspi pidp10 has some kind of 'memory' or 'state' around what's happened to it recently, and it gets sideways over time. fine. nuke it from orbit.
 
+please remember not to skip step 3 'prep utexas23 reconstruction tape file' whenever you have new changes in the decwar code. notably, on your first run, the step1 archive gives you an obsolete 'stale' tape. step3 is how you bring in fresh game code.
+
 ## step1 have the contents of the downloadable archive in your utexas folder
 
 the script msc/create-archive-project-utexas was used to create project-utexas-archive-20250506.tar.gz. download the archive by hitting this [archive link](https://drive.google.com/file/d/1aLbaDcyIBG6pUwKbhw9UbuXFTfXkR1Cd/view?usp=sharing) and dearchive the contents and have them placed in your utexas folder
