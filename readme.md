@@ -54,7 +54,7 @@ to have on the radar. project utexas relates with the higher-level [pidp-10 proj
  
 # how-to
 
-baseline situation is to be on a raspberry pi that is/can be used for the pidp-10 stuff. pidp-10 is not necessary, but simply assuming most decwar will be associated with pidp-10 raspi. have a local clone of the decwar repo and be in the utexas folder, everything happens 'inside the utexas folder'. git tracking does not include some relatively large and static binary files that you need to bring in manually, these are downloaded as an archive and taken care of in step1.
+baseline situation is to be on a raspberry pi that is/can be used for the pidp-10 stuff. pidp-10 is not necessary, but simply assuming most decwar will be associated with pidp-10 raspi. have a local clone of the utexas repo and be in its 'utexas folder', everything happens 'inside the utexas folder'. git tracking does not include some relatively large and static binary files that you need to bring in manually, these are downloaded as an archive and taken care of in step1.
 
 ## step1 have the contents of the downloadable archive in your utexas folder
 
