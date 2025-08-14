@@ -1,7 +1,7 @@
 # project utexas
 
 - [going backwards](#going-backwards)
-- [how-to](#how-to)
+- [guide](#guide)
   - [step1 and step2, hardware](#step1-have-the-contents-of-the-downloadable-archive-in-your-utexas-folder)
   - [step3 and step4, software](#step3-prep-utexas23-reconstruction-tape-file)
 - [robot players](#robot-players)
@@ -44,7 +44,7 @@ nutshell history
 
 there's been a playable decwar, but it's a little different than the primordial utexas version. project utexas is about reconstruction of the original, converging nearer and nearer towards the primordial code and effectively going backwards in time. if a copy of the original code is discovered, it will hopefully match closely with the utexas reconstruction.
 
-meanwhile, it's a living time capsule of fifty year old hardware and software, completely open for explorations and experiments. it's a big, many layered, complex system, but given time and user feedback can hopefully converge towards modern standards of friendliness and usability. and it's standing on the shoulders of giants. here's some discussion around those giants, and what they mean for day-to-day life with project utexas. the four 'steps' referred to here are the step1, step2, step3, step4 of the [how-to](#how-to) below.
+meanwhile, it's a living time capsule of fifty year old hardware and software, completely open for explorations and experiments. it's a big, many layered, complex system, but given time and user feedback can hopefully converge towards modern standards of friendliness and usability. and it's standing on the shoulders of giants. here's some discussion around those giants, and what they mean for day-to-day life with project utexas. the four 'steps' referred to here are the step1, step2, step3, step4 of the [guide](#guide) below.
 
 step1 and step2. hardware. the hardware aspects are thanks to richard cornwell, and a useful entrypoint is rich's [pdp10 hardware repo](https://github.com/rcornwell/pidp10), and more broadly rich's [main hardware repo](https://github.com/rcornwell/sims). rich is a member of the [opensimh steering group](https://opensimh.org/about/). project utexas hardware can be a complex topic, as there were multiple generations of dec10 (ka, ki, kl, ks) and a zoo of attached devices. in a nutshell, it's useful to gradually become familiar with the hardware aspects of utexas. for digital systems, fifty years mean nothing, and at least in a digital sense the hardware is very 'real' and 'physical'.
 
@@ -52,7 +52,7 @@ step3 and step4. software. tops10, fortran iv, and other necessary low-level sys
 
 to have on the radar. project utexas relates with the higher-level [pidp10 project](https://obsolescence.dev/pdp10). utexas was directly triggered and inspired by the release of the pidp10 in the summer of 2024. all of the work and good spirit of oscar, lars, and rich are further inspiration. ideally utexas can be fully integrated within the pidp10 'ecosystem'. there are good questions to tackle here, especially around interactions between ka and kl simh exes, and also the [pdpcontrol](https://github.com/rcornwell/pidp10/blob/master/bin/pdpcontrol.sh) bash script associated with the pidp10 package. these are simply question marks to keep on the radar and learn about along the way. one thing to keep in mind is that decwar requires fortran iv/66, an earlier fortran than the fortran10/v/77 commonly encountered these days. it's possible that fortran iv integration will play a major role in the future of utexas within the pidp10 context.
  
-# how-to
+# guide
 
 baseline situation is to be on a raspberry pi that is/can be used for the pidp10 stuff. pidp10 is not necessary, but simply assuming most decwar will be associated with pidp10 raspi. have a local clone of the utexas repo and be in its 'utexas folder', everything happens 'inside the utexas folder'. git tracking does not include some relatively large and static binary files that you need to bring in manually, these are downloaded as an archive and taken care of in step1.
 
@@ -111,7 +111,7 @@ things are changing fast with the robots so best to hop over to that [readme](ro
 
 # folder structure
 
-- docs, various howto and note related docs accumulating around the project
+- docs, various guide and note related docs accumulating around the project
   - [utexas notes](docs/readme.md/#project-utexas-notes)
   - [utexas log](docs/project-utexas-log.md/#project-utexas-log)
   - [utexas tops10 users guide](docs/readme.md/#utexas-tops10-users-guide)
