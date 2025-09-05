@@ -18,7 +18,7 @@ nutshell history
 
 [utexas center for american history](https://briscoecenter.org/) catalog item [v2.2](https://repositories.lib.utexas.edu/items/1aa48343-09ab-4b3b-a9f2-e2e525074a4d) has files migrated from a decus magnetic tape, including a somewhat doubtful patched executable, but no source code. here's the instructions a utexas player saw [june 3, 1980 v2.2 utexas](docs/DECWAR22.HLP). utexas decwar had eighteen playable ships. this is also definitely what players at the southwest texas state university computation center, san marcos texas, saw circa 1983 and 1984.
 
-[utexas center for american history](https://briscoecenter.org/) catalog item [v2.3](https://repositories.lib.utexas.edu/items/7e2ccf50-e814-4bce-91d2-a7f6440eabe4) has files ported by merlyn cousins from harris newman's decwar 2.3 source code to a simh pdp10. newman's 2.3 version reflected changes made to utexas decwar so the game could be installed on a compuserve pdp10, circa 1981. here's the instructions a compuserve player saw [november 20, 1981 v2.3 compuserve](docs/DECWAR23CIS.HLP). compuserve decwar had ten playable ships.
+[utexas center for american history](https://briscoecenter.org/) catalog item [v2.3](https://repositories.lib.utexas.edu/items/7e2ccf50-e814-4bce-91d2-a7f6440eabe4) is source code ported circa 2011 by merlyn cousins from the compuserve decwar 2.3 source code to simh pdp10. harris newman received this code around 1995, as discussed elsewhere in this repo. it started as an original utexas 2.3 tape and had been modified by compuserve circa 1981 for commercial purposes. here's the instructions a compuserve player saw [november 20, 1981 v2.3 compuserve](docs/DECWAR23CIS.HLP). compuserve decwar had ten playable ships.
 
 # going backwards
 
