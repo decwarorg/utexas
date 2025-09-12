@@ -15,7 +15,7 @@ your bash prompt should now begin with (venv) showing it's active. within your v
 
 with project utexas 'booted from disk' and running in a terminal, open other terminals and use the commands
 
-    python robots/gen2.py [captain's name]
+    python robots/main.py [captain's name]
     bash robots/start-some-robots.sh &
 
 to watch and shutdown

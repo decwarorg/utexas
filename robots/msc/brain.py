@@ -1,10 +1,10 @@
 import random
 import time
-from definitions import robots, Mode
-from concepts.enemybases import EnemyBases
-from concepts.enemyships import EnemyShips
+from .definitions import robots, Mode
+from .enemy_bases import EnemyBases
+from .enemy_ships import EnemyShips
 
-class Brain2:
+class Brain:
     superbot = 'nomad'
 
     def __init__(self, name, braincnt, tc):
