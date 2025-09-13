@@ -25,7 +25,7 @@ to watch and shutdown
     1 SIGHUP     Terminate   Hang up controlling terminal
     2 SIGINT     Terminate   Interrupt from keyboard, Control-C
     9 SIGKILL    Terminate   Forced-process termination
-    15 SIGTERM    Terminate   Process termination
+    15 SIGTERM   Terminate   Process termination
     20 SIGTSTP   ctrlz
 
 # gen2

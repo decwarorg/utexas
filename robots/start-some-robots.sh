@@ -1,16 +1,12 @@
+# ------ help / usages infos -------------------------------------
 # bash robots/start-some-robots.sh &
 # tail -f log1
 # pkill -[signal # or name] -f python
-# 1 SIGHUP     Terminate   Hang up controlling terminal or      Yes
-# 2 SIGINT     Terminate   Interrupt from keyboard, Control-C   Yes
-# 9 SIGKILL    Terminate   Forced-process termination           Yes
-#15 SIGTERM    Terminate   Process termination                  Yes
+# 2  SIGINT  ctrlc   
+# 20 SIGTSTP ctrlz
+# -----------------------------------------------------------------
 
 rm log*
-#./msc/create-tape-utexas23-reconstruction
-#./dec10blinken simh/boot-from-disk.ini > log0 &
-#sleep 30
-
 python -u robots/main.py nomad > log1 &
 sleep 2
 python -u robots/main.py robot2 > log2 &
@@ -31,6 +27,3 @@ python -u robots/main.py robot9 > log9 &
 sleep 5
 python -u robots/main.py robot10 > log10 &
 sleep 5
-#python -u robots/main.py robot11 > log11 &
-#sleep 5
-#python -u robots/main.py robot12 > log12 &
