@@ -3,6 +3,7 @@ import time
 from .definitions import robots, Mode
 from .enemy_bases import EnemyBases
 from .enemy_ships import EnemyShips
+from .galaxy import Galaxy
 
 class Brain:
 
@@ -17,27 +18,30 @@ class Brain:
         self.age_offense = 50
         self.enemybases = EnemyBases()
         self.enemyships = EnemyShips()
+        self.galaxy = Galaxy()
 
     def next(self):
-        self.housekeeping()
+        self.backbrain()
         try:
-            if self.name == 'nomad': self.galaxy()
+            if self.name == 'nomad': self.nomad()
             if self.mode == Mode.offense: self.offense()
             elif self.mode == Mode.defense: self.defense()
         except:
             try: self.try_to_stay_in_game()
             except: raise
     
-    def housekeeping(self):
+    def backbrain(self):
         self.cnt += 1
         self.age = self.cnt - self.last_new_ship_cnt
         if self.age > self.age_offense: self.mode = Mode.offense
     
-    def galaxy(self):
+    def nomad(self):
+        if self.age <= 2: self.command_and_response('*password *mink')
         self.speak()
         res = self.command_and_response('time')
         res = self.command_and_response('po a')
         res = self.command_and_response('list ships')
+        self.galaxy.update(res)
 
     def offense(self):
         res = self.command_and_response('bases enemy')
