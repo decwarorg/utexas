@@ -1,24 +1,25 @@
-import math
+import json
 
 class Galaxy:
     
     def __init__(self):
-        self.vhs = []
+        self.galaxy = {'ships': []}
         
     def update(self, raw):
         if not raw: return 
-        vhs = []
+        self.galaxy['ships'] = [] # reset
         for rec in raw:
             try:
                 tmp = rec.split('@')
-                ship = tmp[0].strip()
+                name = tmp[0].strip()
                 tmp1, tmp2 = tmp[1][:5], tmp[1][5:]
                 tmp3 = tmp1.split('-')
                 v = int(tmp3[0].strip())
                 h = int(tmp3[1].strip())
-                vhs.append([v, h, ship])
+                self.galaxy['ships'].append({'position': {'v': v, 'h': h}, 'name': name})
             except: pass
-        if vhs: self.vhs = vhs
-        for rec in self.vhs: print(rec)
-        return
+        fp = open('galaxy.json', 'w')
+        json.dump(self.galaxy, fp)
+        fp.flush()
+        fp.close()
     
