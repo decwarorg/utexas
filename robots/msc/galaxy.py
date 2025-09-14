@@ -1,4 +1,5 @@
 import json
+import shutil
 
 class Galaxy:
     
@@ -22,4 +23,6 @@ class Galaxy:
         json.dump(self.galaxy, fp)
         fp.flush()
         fp.close()
+        try: shutil.copy('galaxy.json', '../galaxy/galaxy.json')
+        except: pass
     
