@@ -5,9 +5,27 @@ from .definitions import fed, emp
 class Galaxy:
     
     def __init__(self):
-        self.galaxy = {'ships': []}
+        self.galaxy = {'ships': [], 'bases': []}
+
+    def bases(self, raw):
+        if not raw: return 
+        self.galaxy['bases'] = [] # reset
+        for rec in raw:
+            try:
+                tmp = rec.split('@')
+                type = tmp[0].strip()
+                if '<>' in type: side = 'f'
+                elif ')(' in type: side = 'e'
+                else: continue
+                tmp2 = tmp[1].split(' ')
+                tmp3 = tmp2[0].split('-')
+                v = int(tmp3[0].strip())
+                h = int(tmp3[1].strip())
+                self.galaxy['bases'].append({'position': {'v': v, 'h': h}, 'side': side})
+            except: pass
+        return
         
-    def update(self, raw):
+    def ships(self, raw):
         if not raw: return 
         self.galaxy['ships'] = [] # reset
         for rec in raw:

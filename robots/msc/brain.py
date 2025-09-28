@@ -40,8 +40,8 @@ class Brain:
         self.speak()
         # res = self.command_and_response('time')
         # res = self.command_and_response('po a')
-        res = self.command_and_response('list ships')
-        self.galaxy.update(res)
+        self.galaxy.ships(self.command_and_response('list ships'))
+        self.galaxy.bases(self.command_and_response('list bases'))
 
     def offense(self):
         res = self.command_and_response('bases enemy')
