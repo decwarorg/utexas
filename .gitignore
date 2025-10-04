@@ -3,6 +3,8 @@ dsk/
 tapes/
 tmp/
 /venv*
+.venv
+galaxy.json
 
 *.tap
 !*/hlp/decwar.tap

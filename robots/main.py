@@ -7,7 +7,7 @@ from msc import cli
 from msc.brain import Brain
 from msc.definitions import ships
 
-class Game:
+class Robot:
 
     def __init__(self, *args, **kwargs):
         self.args, self.kwargs = args, kwargs
@@ -139,21 +139,21 @@ class Game:
             pass
 
 args, kwargs = cli.main()
-game = Game(*args, **kwargs)
-rothread = threading.Thread(target=game.play)
-rothread.start()
+robot = Robot(*args, **kwargs)
+robotthrd = threading.Thread(target=robot.play)
+robotthrd.start()
     
 def main():
     signal.signal(signal.SIGINT, ctrlc)
     signal.signal(signal.SIGTSTP, ctrlz)
     try:
-        game.set_mode('2')
+        robot.set_mode('2')
         listen_keyboard(on_press=keypress)
     except: pass
 
 def keypress(key):
     print(f'{key} key pressed')
-    game.set_mode(key)
+    robot.set_mode(key)
     if key == '0': stop_listening()
 
 def ctrlc(sig, frame):
