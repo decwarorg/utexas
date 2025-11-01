@@ -230,7 +230,7 @@ C	if (lofchk(0)) call cc1 drforbin(merlyn)
 	nstar  = int(51 * ran(0)) * 5 + 100
 	nhole  = int(41.0 * ran(0) + 10)
 c--	nplnet = int(20.0 + ran(0) * 61.0)
-	nplnet = 60			! ALWAYS insert max. # of planets
+	nplnet = 20			! ALWAYS insert max. # of planets
 	do 900 i = 1 , KNBASE
 	  call place (((DXFBAS*100) + i), 1, base(i,KVPOS,1), 
      +	  base(i,KHPOS,1))

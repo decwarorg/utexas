@@ -8,7 +8,7 @@
 	parameter ksid=25	!# of words to hold compressed row of galaxy
 	parameter kgalh=75	!maximum Horizontal coordinate in galaxy
 	parameter brdsiz=1875	!board size (kgalv * kgalh / 3)
-	parameter knplnt=60	!maximum number of planets
+	parameter knplnt=20	!maximum number of planets
 !	kmnpln==20		;minimum number of planets
 !	kmxpln==80		;maximum number of planets
 	parameter kndev=9	!number of devices
