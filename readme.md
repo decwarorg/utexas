@@ -85,10 +85,6 @@ have the line 'do utexas.do' uncommented in the ini file to install/reinstall ut
 
 you can use the above to telnet in from multiple terminals and start the game as several players on both sides, then try the radio, phasers, torpedoes, shields, etc.
 
-# robot players
-
-things are changing fast with the robots so best to hop over to that [readme](robots/readme.md)
-
 # folder structure
 
 - docs, various guide and note related docs accumulating around the project
