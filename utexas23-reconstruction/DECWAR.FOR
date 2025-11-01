@@ -3251,7 +3251,7 @@ d	call timin ('ROMDRV')
 	call pridis (locr(KVPOS), locr(KHPOS), KRANGE, 0, 0)
 	if (PASFLG)  dbits = dbits .or. bits(who)
 	call makhit
-151	if (iran (10) .eq. 1) call tell ! let the Romulan speak!
+151	if (iran (1) .eq. 1) call tell ! let the Romulan speak! was 10
 *.......Romulan searches for a target in range
  100	call dist (iplace, nplc, numsec)
 	if (numsec .gt. KRANGE)  goto 9999		!in range?
@@ -3298,7 +3298,7 @@ d	call timin ('ROMDRV')
 	dbits = dbits .and. .not. nomsg
 	call makhit
 *.......Activate bases and planets, rebuild bases a little
-1000	if (iran (50) .le. 1) call tell ! let the Romulan speak!
+1000	if (iran (1) .le. 1) call tell ! let the Romulan speak! was 50
 d	call timout ('ROMDRV')
 d	call timin  ('BASPHA')
 	call baspha
