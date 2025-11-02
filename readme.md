@@ -4,7 +4,6 @@
 - [guide](#guide)
   - [step1 and step2, hardware](#step1-have-the-contents-of-the-downloadable-archive-in-your-utexas-folder)
   - [step3 and step4, software](#step3-prep-utexas23-reconstruction-tape-file)
-- [robot players](#robot-players)
 - [folder structure](#folder-structure)
 
 nutshell history
@@ -96,8 +95,6 @@ you can use the above to telnet in from multiple terminals and start the game as
 - msc, miscellaneous shell scripts and related code
   - [create tape utexas23 reconstruction](msc/create-tape-utexas23-reconstruction)
   - [create archive project utexas](msc/create-archive-project-utexas)
-- robots, automatic players/agents to drive the action
-  - [readme](robots/readme.md)
 - simh, simh scripts
   - [utexas do](simh/utexas.do)
   - [boot from disk](simh/boot-from-disk.ini)
