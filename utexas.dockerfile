@@ -6,3 +6,7 @@ ADD docker /docker
 WORKDIR /docker/sims
 RUN make pdp10-kl
 
+# build back10 for tape handling
+WORKDIR /docker/back10
+RUN gcc back10.c -o back10
+
