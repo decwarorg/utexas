@@ -14,7 +14,7 @@ WORKDIR /docker
 RUN gcc back10.c -o back10
 
 ADD simh /docker/simh
-RUN #./pdp10-kl simh/create-boot-disk-from-tape.ini # if necessary...
+#RUN ./pdp10-kl simh/create-boot-disk-from-tape.ini # if necessary. and currently hangs on the ending continue
 
 ADD msc /docker/msc
 ADD utexas23-reconstruction /docker/utexas23-reconstruction
