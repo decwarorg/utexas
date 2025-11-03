@@ -1,0 +1,21 @@
+Current status:
+
+Operating Systems:
+BOS/360:   Works.
+
+TOS/360:   Works.
+
+DOS/360:   Works.
+
+OS/360:    MVT can be generated. Fortran, Algol working.
+
+TSS/370:   Works.
+
+VM/370:    Works.
+
+OS/VS1:    Sysgen works.
+
+MVS:       Errors during install of SMP.
+
+MTS D2.0&D4.0:  Works.
+
