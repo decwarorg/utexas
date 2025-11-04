@@ -19,3 +19,5 @@ ADD simh /docker/simh
 ADD msc /docker/msc
 ADD utexas23-reconstruction /docker/utexas23-reconstruction
 RUN msc/create-tape-utexas23-reconstruction
+
+CMD ["./pdp10-kl", "./simh/boot-from-disk.ini"]

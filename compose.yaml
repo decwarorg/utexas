@@ -1,0 +1,15 @@
+services:
+  utexas:
+    image: utexas
+    ports:
+      - "2030:2030"
+
+  merely-players:
+    image: merely-players
+    ports:
+      - "2031:2031"
+  
+  galaxy:
+    image: galaxy
+    ports:
+      - "8080:80"
