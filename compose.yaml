@@ -12,4 +12,4 @@ services:
   galaxy:
     image: galaxy
     ports:
-      - "8080:80"
+      - "2032:2032"
