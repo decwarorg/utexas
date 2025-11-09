@@ -103,3 +103,7 @@ you can use the above to telnet in from multiple terminals and start the game as
   - hlp folder, [hlp.com](utexas23-reconstruction/hlp/HLP.COM) comment file. note [decwar.imp](utexas23-reconstruction/hlp/DECWAR.IMP) important file, and the 1982 letter from utexas to compuserve, included on the primordial decwar tape as [decwar.ltr](utexas23-reconstruction/hlp/DECWAR.LTR)
   - msc folder, [msc.com](utexas23-reconstruction/msc/MSC.COM) comment file.
   - tec folder, for [teco scripts](docs/sec9-utexas-primordial-tape.md/#teco-scripts) to autogen fortran include files
+
+# versions
+
+- v1.0 20251109
