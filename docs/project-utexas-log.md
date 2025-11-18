@@ -1,5 +1,7 @@
 # project utexas log
 
+## 20251109 v1.0 on gitlab
+
 ## 20250814 gen2 robots
 
 each robot plays d at first. if it lives long enough, it switches to o. this is incentive to stay alive to help win. next up can be an instinct to repair when damaged. beginning to experiment with a 'graphical galaxy' for 'watching' the robots.
