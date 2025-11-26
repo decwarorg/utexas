@@ -7,12 +7,8 @@ if not os.path.exists('utexas'): os.system('git clone https://gitlab.com/decwar/
 os.chdir('utexas')
 os.system('git fetch')
 os.system('git reset --hard origin') # WARNING caution needed if you're coding in the repo
-os.chdir('docker')
-if not os.path.exists('dsk'):
-    os.system('unzip dsk-20251103.zip') # this will eventually be unnecessary
-    os.system('mv dsk-20251103 dsk')
-os.chdir('..')
-os.system('docker build -t utexas -f ./dockerfile-utexas .')
+if not os.path.exists('docker/dsk'): os.system('unzip docker/dsk-20251103.zip && mv dsk-20251103 docker/dsk')
+os.system('docker build -t utexas -f ./Dockerfile .')
 """
 cd into the utexas folder
 do the command 'docker compose up' - it will show console messages of the dec10 starting
