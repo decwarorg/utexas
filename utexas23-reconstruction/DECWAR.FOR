@@ -396,13 +396,14 @@ C	side's bases.
 	      dispto = (DXFSHP + (2 - i)) * 100 + k  ;  iwhat = 1
 	      dispfr = (DXFBAS + (i - 1)) * 100 + j  ;  shjump = 0
 	      id = pdist (Vfrom, Hfrom, Vto, Hto)
-	      call phadam (3-i, k, id, 200/numply, .FALSE.)	!hit him!
+	      ka = k ! stop index mod warning
+	      call phadam (3-i, ka, id, 200/numply, .FALSE.)	!hit him!
 	      tmscor(i,KPEDAM) = tmscor(i,KPEDAM) + ihita
 	      shstfr = base(j,3,i)       ;  shcnfr = 1
 	      if (klflg .ne. 0) tmscor(i,KPEKIL) = tmscor(i,KPEKIL) + 5000
- 200	      call pridis (shpcon(k,KVPOS), shpcon(k,KHPOS), KRANGE, 
+ 200	      call pridis (shpcon(ka,KVPOS), shpcon(ka,KHPOS), KRANGE, 
      +        team, 0)
-	      call pridis (shpcon(k,KVPOS), shpcon(k,KHPOS), 4, 0, 1)
+	      call pridis (shpcon(ka,KVPOS), shpcon(ka,KHPOS), 4, 0, 1)
 	      dbits = dbits .or. bits(k)
 	      call makhit				!send hit message
  300	    continue
@@ -796,7 +797,8 @@ C	STOKEN = 3 if this is a call from the REPAIR routine.
 	  if (typlst(i) .ne. KALF)  goto 1800
 	  do 700 j = 1, KNDEV
 	    if (.not. (equal(tknlst(i), device(j))))  goto 700
-	    call odev (j)
+	    ja = j ! fixes warning
+	    call odev (ja)
 	    if (oflg)  300, 400, 500
  300	    call space  ;  goto 600
  400	    call tab (10)    ;  goto 600
@@ -817,7 +819,8 @@ C	STOKEN = 3 if this is a call from the REPAIR routine.
 	call out (dmhdr2,2)
 1200	do 1700 i = 1, KNDEV			!scan the devices
 	  if (shpdam(who,i) .le. 0)  goto 1700	!damaged?
-	  call odev (i)
+	  ia = i ! fixes warning
+	  call odev (ia)
 	  if (oflg)  1300, 1400, 1500
 1300	  call space  ;  goto 1600
 1400	  call tab (10)    ;  goto 1600
@@ -946,7 +949,8 @@ C	for dead ships.
 	  active(i) = active(i) + 1
 	  if (active(i) .lt. 2)  go to 100	!inactive?
 	  active(i) = 0
-	  call free (i)				!remove dead ship
+	  ia = i ! fix warning
+	  call free (ia)				!remove dead ship
  100	continue
 	return
 	end
@@ -2806,6 +2810,7 @@ C	'BUILDS' the planet has undergone.
 	  if (PLAYER .and. (pteam .eq. team))  goto 300	!don't activate friendly planets
 *.........Search for a player within range
 	  do 200 j = 1, KNPLAY
+	    ja = j !ja added for DO index mod warning
 	    jtype = DXFPLN
 	    if (j .gt. KNPLAY/2)  jtype = DXEPLN
 	    if ((pcode .eq. jtype) .or. (.not. alive(j)))  goto 200
@@ -2821,7 +2826,7 @@ C	'BUILDS' the planet has undergone.
 	    shjump = 0
 	    iwhat = 1  ;  phit = (50 + (30 * locpln(k,3))) / numply
 	    id = pdist (Vfrom, Hfrom, Vto, Hto)
-	    call phadam (2, j, id, phit, .FALSE.)	!hit him!
+	    call phadam (2, ja, id, phit, .FALSE.)	!hit him!
 	    if (pcode .ne. DXNPLN)  tmscor(pteam,KPEDAM) = 
      +	    tmscor(pteam,KPEDAM) + ihita
 	    if ((klflg .ne. 0) .and. (pcode .ne. DXNPLN)) 
@@ -3401,7 +3406,9 @@ C	adjacent to his target.  If so, the star becomes the new target.
 	iHf = max0(iH - 1, 1)  ;  iHl = min0(iH + 1, KGALH)
 	do 100 i = iVf, iVl
 	do 100 j = iHf, iHl
-	  if (dispc (i,j) .ne. DXSTAR)  goto 100	!star?
+	  ia = i
+	  ja = j ! fix warnings
+	  if (dispc (ia,ja) .ne. DXSTAR)  goto 100	!star?
 	  iV = i  ;  iH = j  ;  return			!Yes!  retarget, return
  100	continue
 	return
@@ -3719,7 +3726,9 @@ C	on the Romulan, and remove black holes from the board.
 *.......Remove Black Holes from board.
 2100	do 2200 i = 1, KGALV
 	do 2200 j = 1, KGALH
-	  if (dispc (i,j) .eq. DXBHOL)  call setdsp (i, j, 0)
+	  ia = i
+	  ja = j ! fix warnings
+	  if (dispc (ia,ja) .eq. DXBHOL)  call setdsp (ia, ja, 0)
 2200	continue
 	return
 	end
@@ -3807,7 +3816,9 @@ C	and destroys as necessary.
 	objptr = 0  ;  strptr = 0		!initialize stack pointers
  100	do 400 V = max0 (1,iVc-1), min0(KGALV,iVc+1)
 	  do 300 H = max0 (1,iHc-1), min0(KGALH,iHc+1)
-	    object = dispc (V,H)
+	    VA = V
+	    HA = H ! fix warnings
+	    object = dispc (VA,HA)
 	    if ((object .lt. 1) .or. (object .gt. DXEPLN))  goto 200
 	    objptr = objptr + 1
 	    objstk(objptr,1) = V  ;  objstk(objptr,2) = H
@@ -3817,7 +3828,7 @@ C	and destroys as necessary.
 	    if (strptr .eq. 29)  goto 300	!no more room, so don't blow up star
 	    strptr = strptr + 1
 	    strstk(strptr,1) = V  ;  strstk(strptr,2) = H
-	    call setdsp (V, H, 0)
+	    call setdsp (VA, HA, 0)
  300	  continue
  400	continue
  500	if (objptr .eq. 0)  goto 600		!awwww!  no more victims!
