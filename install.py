@@ -8,10 +8,9 @@ os.chdir('utexas')
 os.system('git fetch')
 os.system('git reset --hard origin') # WARNING caution needed if you're coding in the repo
 if not os.path.exists('docker/dsk'): os.system('unzip docker/dsk-20251103.zip && mv dsk-20251103 docker/dsk')
-os.system('docker build -t utexas -f ./Dockerfile .')
+os.system('docker compose  up --build --force-recreate utexas')
 """
-cd into the utexas folder
-do the command 'docker compose up' - it will show console messages of the dec10 starting
+docker compose will bring up the utexas container and do a fresh build of decwar
 when it reaches 'utexas-1  | GAM assigned' it's finished and ready
 open another terminal and do 'telnet localhost 2030' (may need to 'brew install telnet' on some macs)
 """
