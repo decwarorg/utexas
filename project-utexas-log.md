@@ -1,5 +1,8 @@
 # project utexas log
 
+major versions
+- v1.0 20251109
+
 ## 20251130 move further toward docker compose
 
 we're now depending more on docker compose, with late bind of the utexas23-reconstruction folder so that changes can be seen within the utexas container. it's a 'live tape' inside the container.
