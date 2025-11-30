@@ -17,7 +17,3 @@ ADD simh /docker/simh
 #RUN ./pdp10-kl simh/create-boot-disk-from-tape.ini # if necessary. and currently hangs on the ending continue
 
 ADD msc /docker/msc
-ADD utexas23-reconstruction /docker/utexas23-reconstruction
-RUN msc/create-tape-utexas23-reconstruction
-
-CMD ["./pdp10-kl", "./simh/boot-from-disk.ini"]
