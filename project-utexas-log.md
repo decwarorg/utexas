@@ -1,7 +1,8 @@
 # project utexas log
 
 major versions
-- v1.0 20251109
+- v1.1.0 20251201
+- v1.0.0 20251109
 
 ## 20251130 move further toward docker compose
 
