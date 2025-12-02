@@ -4,7 +4,7 @@
 - [guide](#guide)
 - [folder structure](#folder-structure)
 
-for a nutshell history, please see the [decwar/history repo readme](https://gitlab.com/decwar/history)
+for a nutshell history, please see the [decwar/history readme](https://gitlab.com/decwar/history) and for push button installation and usage please see the [decwar/merely-players readme](https://gitlab.com/decwar/merely-players)
 
 # going backwards
 
