@@ -1,0 +1,30 @@
+    title	decfix - get decwar off the swapper
+
+	search	uuosym
+
+start:	reset
+	move	1,[^d8,,filop]
+	filop.	1,
+	 outstr	[asciz /?Broken.
+/]
+	reset
+	exit	1,
+	exit
+
+filop:	xwd	400001,.fornm	;rename
+	exp	17
+;	sixbit	/gam/		;commented out by drforbin
+	sixbit	/dskc/		;changed for proper device
+	exp	0
+	exp	0
+	xwd	renblk,lokblk
+	exp	0
+	exp	0
+
+renblk:
+lokblk:	sixbit	/decwar/
+	sixbit	/exe/
+	exp	0
+	xwd	5,30
+
+	end	start

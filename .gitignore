@@ -7,7 +7,7 @@ tmp/
 galaxy.json
 
 *.tap
-!*/hlp/decwar.tap
+!decwar.tap
 *.log
 
 dec10

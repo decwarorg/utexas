@@ -4,23 +4,27 @@ major versions
 - v1.1.0 20251201
 - v1.0.0 20251109
 
-## 20251130 move further toward docker compose
+# 20251201 v1.1 on gitlab and bring in oddities folder
+
+files not mentioned in DECWAR.TAP. these are the 'oddities'. they're mentioned in the 'commentary' files, but not DECWAR.TAP. oddities that don't very clearly belong in utexas23-reconstruction are kept in the oddities folder for now. this is a kind of waiting or staging area.
+
+# 20251130 move further toward docker compose
 
 we're now depending more on docker compose, with late bind of the utexas23-reconstruction folder so that changes can be seen within the utexas container. it's a 'live tape' inside the container.
 
-## 20251109 v1.0 on gitlab
+# 20251109 v1.0 on gitlab
 
-## 20250814 gen2 robots
+# 20250814 gen2 robots
 
 each robot plays d at first. if it lives long enough, it switches to o. this is incentive to stay alive to help win. next up can be an instinct to repair when damaged. beginning to experiment with a 'graphical galaxy' for 'watching' the robots.
 
 as part of playing with using gitlab for decwar/utexas and decwar/galaxy did do a fresh setup on the raspi, which uncovered a few stealth speed bumps along the way. updated the main readme guide section with those, especially the summary paragraphs there.
 
-## 20250719 'tell issue' fixed
+# 20250719 'tell issue' fixed
 
 came back after a few days with fresh eyes and spotted the problem. had already notice a crucial clue weeks ago but didn't understand it at first. strange 'tell messages' arriving with information about phaser and torpedo hits, blank lines, or occasionally even garbage. today noticed that with tell command bypassed these strange messages still arrive. this raised the question, could hit linked list entries be getting written into memory meant for the msg linked list? this is exactly what was happening. for the hit linked list, memory for ten ships was allocated, not for eighteen ships. the msg link list memory followed, and hit entries were getting written into it. simply needed to change the warmac line 'knhit==knhshp*^d10' to 'knhit==knhshp*^d18'. so now our outstanding topics are reduced to one - raspi pidp10 'temporary brain damage' - along with a note to keep in mind about locking unlocking.
 
-## 20250713 'nice enough' workflow1
+# 20250713 'nice enough' workflow1
 
 workflow1 has evolved enough to make public. nutshell -
 
@@ -34,6 +38,6 @@ time to try moving onward to new topics, while continuing to improve the followi
 - tell command - there's work to do. if tell is bypassed, ten robots go indefinitely. with tell, they're usually fine for between one and three hours before eventually there's some trouble. currently some robots will get knocked out and can be restarted, the overall game goes on. there's not a total hard crash, more of a degradation. the problem has definitely been traced down below the fortran and into the msg que macro. the suspect code paths, with lower level funcs in parenthesis, are makmsg -> (rsrv, remv, updt) and getmsg -> (srch, remv).
 - raspi pidp-10 'temporary brain damage' - what we're seeing is the raspi pidp-10 combo occasionally misbehaving, blinking oddly, etc, including failing to build tops10 or decwar. using dec10test to 'clear the blinkers' or 'pulling the plug' is needed whenever things get sideways. after 'sufficient reset' things are fine again. basically the raspi pidp-10 has some kind of 'memory' or 'state' around what's happened to it recently, and it gets sideways over time. fine. nuke it from orbit.
 
-## 20250511 first public mention of project utexas
+# 20250511 first public mention of project utexas
 
 first mention in github/drforbin/decwar discussions, 'project utexas - !call for testers!' - https://github.com/drforbin/decwar/discussions/27
