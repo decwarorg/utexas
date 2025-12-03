@@ -1,4 +1,6 @@
-the topic here is the contents of the folder utexas23-reconstruction. this folder is intended to match the contents of the primordial utexas tape, in particular the sdt 'source distribution tape' mentioned below
+the topic here is the contents of the folder utexas23-reconstruction. its objective is to match the contents of the primordial utexas tape, in particular the sdt 'source distribution tape' mentioned below and described by the file DECWAR.TAP. the critical build files from utexas23-reconstruction are written to simh tape image by the script [msc/create-tape-utexas23-reconstruction](../msc/create-tape-utexas23-reconstruction), then loaded and used to do a fresh decwar build on every simh dec10 start.
+
+there are also four 'commentary files' that mention files not shown in DECWAR.TAP. these are the 'oddities'. they're mentioned in the 'commentary' files, but not DECWAR.TAP. oddities that don't very clearly belong in utexas23-reconstruction are kept in the staging folder for now.
 
 the critical file is DECWAR.TAP. it's listing the contents of the sdt, and utexas23-reconstruction matches it as closely as possible.
 
@@ -8,14 +10,15 @@ the critical file is DECWAR.TAP. it's listing the contents of the sdt, and utexa
                                   ;tape, which should include only the
                                   ;executable file, plus documentation.
 
-there are also some other very interesting 'commentary' files
+and then there are four 'commentary' files. all are appended below
 
     dskc:[10,30,decwar,hlp]DECWAR.IMP
-    DECWAR.COM [10,30,DECWAR]     ;Comment file for [10,30,DECWAR] SFD.
-    HLP   .COM ;DMS comment file for [10,30,DECWAR,HLP] SFD.
-    MSC   .COM ;DMS comment file for [10,30,decwar,msc] SFD.
 
-these do mention files not mentioned in DECWAR.TAP. these are the 'oddities'. they're mentioned in the 'commentary' files, but not DECWAR.TAP. oddities that don't very clearly belong in utexas23-reconstruction are kept in the staging folder for now. this is a kind of waiting or staging area.
+    DECWAR.COM [10,30,DECWAR]     ;Comment file for [10,30,DECWAR] SFD.
+
+    HLP   .COM ;DMS comment file for [10,30,DECWAR,HLP] SFD.
+
+    MSC   .COM ;DMS comment file for [10,30,decwar,msc] SFD.
 
 # DECWAR.TAP
 
@@ -64,7 +67,7 @@ these do mention files not mentioned in DECWAR.TAP. these are the 'oddities'. th
 
 # DECWAR.IMP
     
-notes this commentary is ignoring folder structure. it's discussing the files while ignoring what folder they belong in. for example DECWAR.TAP shows that DECWAR.IMP is in the hlp folder, but that's not mentioned here within DECWAR.IMP itself.
+note DECWAR.IMP - IMP for 'important' - commentary file is ignoring folder structure. it's discussing the files while ignoring what folder they belong in. for example DECWAR.TAP shows that DECWAR.IMP is in the hlp folder, but that's not mentioned here within DECWAR.IMP itself.
 
     The following files are included on the DECWAR source distribution tape:
     
