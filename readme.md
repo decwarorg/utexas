@@ -32,7 +32,7 @@ there used to be a series of steps here for preparing and running on a raspi, es
   - [utexas do](simh/utexas.do)
   - [boot from disk](simh/boot-from-disk.ini)
   - [create boot disk from tape](simh/create-boot-disk-from-tape.ini)
-- [staging](staging/readme.md)
+- [staging](staging/)
 - utexas23-reconstruction, [primordial utexas tape reconstruction](utexas23-reconstruction/DECWAR.TAP)
   - hlp folder, [hlp.com](utexas23-reconstruction/hlp/HLP.COM) comment file. note [decwar.imp](utexas23-reconstruction/hlp/DECWAR.IMP) important file, and the 1982 letter from utexas to compuserve, included on the primordial decwar tape as [decwar.ltr](utexas23-reconstruction/hlp/DECWAR.LTR)
   - msc folder, [msc.com](utexas23-reconstruction/msc/MSC.COM) comment file.
