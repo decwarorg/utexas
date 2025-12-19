@@ -1,0 +1,51 @@
+
+	page
+	subttl	updnam	- update program's running name for tracking
+
+;this doesn't seem to be used-drforbin
+;	move	t1,newinfo
+;	move	t2,mask		; 77 in each position to be changed
+;	pushj	p,updnam
+
+updnam:	popj	17,
+
+	save<t3>
+	calli	t3,-14
+	  jfcl
+	and	t1,t2
+	or	t3,t2
+	xor	t3,t2
+	or	t3,t1
+	setnam	t3,
+	restore<t3>
+	popj	p,
+
+; FNDLOK	- translate lock address into six-bit chracter
+;	movei	t1,lokaddress
+;	pushj	p,fndlok
+; return with rh of t1 having the lock ID in all three 6-bit positions
+
+fndlok:
+	save	<t2,t3>
+	movei	t2,0
+fndlo1:	skipn	loknam(t2)
+	jrst	fndlo2
+	hrrz	t3,loknam(t2)
+	came	t3,t1
+	aoja	t2,fndlo1
+	hlrz	t1,loknam(t2)
+	jrst	fndlo3
+
+fndlo2:	cail	t1,board
+	caile	t1,board+brdsiz-1	; if in the board
+	skipa	t1,['???']		; then returh unknown lock
+	movei	t1,'BBB'		; else return board flag
+fndlo3:	restore<t3,t2>
+	popj	p,
+
+loknam:	xwd	'PPP',plnlok
+	xwd	'FFF',frelok
+	xwd	'QQQ',quelok
+	xwd	'NNN',numply
+	xwd	'SSS',staupd
+	0

@@ -551,7 +551,6 @@ lall
 	arg=16
 	p=17
 
-
 	pdlsiz==50		;depth of push down list
 	stksiz==50		;depth of argument save stack
 	ntry=^D30		;# of times to try to access locked routine
@@ -1120,10 +1119,7 @@ cbits:	phase 0
 	cf.bsc				;<DEL>
 	dephase
 
-
-
 	subttl	RESET./STOP./EXIT./EXIT/MONIT
-
 
 ;all changes below made by drforbin(merlyn)
 ;changes include ridding CIS variables and defining terminal wdth to 80 characters
@@ -1138,7 +1134,6 @@ cbits:	phase 0
 	entry	reset.
 	sixbit	/RESET./
 reset.:	reset
-
 ;drforbin added
 	move	t1,[xwd -1,.gtrdv]
 	gettab	t1,
@@ -1153,13 +1148,10 @@ reset.:	reset
 	  warn	  <An error has occured in 'reset.' (gettab call) killing job>,exit.
 	movem	t1,p.nam
 ;drforbin
-
-
 ;This removed obsolete drforbin
 ;	movem	.sgnam,p.nam	;save program name
 ;	movem	.sgppn,p.ppn	;save source PPN
 ;	movem	.sgdev,p.dev	;save device
-
 
 	move	t1,.JBFF	;get last used location in low seg
 	cail	t1,z		;setup code loaded?
@@ -1221,17 +1213,14 @@ iswiz:
 	pushj	p,crlf
 	skipn	hungup
 	output	tty,
-
 	popj	p,
-
-
+    
 ;	entry	stop., exit., exit
 ;	sixbit	/EXIT/
 ;stop.:
 ;exit.:
 ;exit:
 ;	jrst	monit
-
 	entry	monit
 	sixbit	/MONIT/
 monit:	skipn	hungup
@@ -1239,9 +1228,7 @@ monit:	skipn	hungup
 	pushj	p,unlo.	; release locks
 	monrt.	;drforbin (add)
 	popj	p,			;Used for TRAP return return
-
 ;	jrst	rdwhst	;add drforbin		; run "DWHOST"
-
 	entry	stop., exit., exit
 	sixbit	/EXIT/
 stop.:
@@ -1336,7 +1323,6 @@ echon:	;popj	p,
 	setzm	echflg
 	popj	p,
 
-
 ;;;	ECHOFF -- turn echoing off
 ;
 	entry	echoff
@@ -1347,7 +1333,6 @@ echoff:	;popj	p,
 	setom	echflg
 	popj	p,
 
-
 ;;;	DMPBUF -- dump the tty output buffer
 ;
 	entry	dmpbuf
@@ -1355,7 +1340,6 @@ echoff:	;popj	p,
 dmpbuf:	skipn	hungup
 	output	tty,
 	popj	p,
-
 
 ;;;	TTYON -- dump the TTY buffer and clear ^O
 ;
@@ -1368,76 +1352,42 @@ ttyon:	skipn	hungup
 	  jfcl
 	popj	p,
 
-
-
-
 	subttl	Low Level I/O -- Introduction
 
 comment %
-
-
-
 Added by drforbin
 -----
-
-
 it seems that the way it works is as follows;
-
 It uses filop. to init the channel. (open.)
-
 Then uses IN and OUT calls to get and put data.
-
 The SETI. and SETO. are used to set the 
-
 BUFFER input/out routines
-
 set in ic: and oc: by SETI. and SETO.
-
-
 the routine used to read into the buffers is sperate and
 again is set by SET(i/o)
-
-
 the input buffer instruction (ibfins) and output buffer instruction (obfins) is
 set by SETI and SETO. 
-
-
 To suspend output to the current file and open a new file for output
-
 	MOVE X1,[<file block>,,<file block>]
 	PUSHJ P,OPEN.
 	  open failed
 	PUSHJ P,SETO.
-
 To output the character from c to the current output file,
-
 	PUSHJ P,OCHR.
-
 To close the current output file and restore the old output file
-
 	PUSHJ P,CLOSE.
 	PUSHJ P,SETO.	(X1 must have value returned by previous call to SETO.)
-
-
 To suspend input from the current file and open a new file for input
-
 	HRLI X1,<file block>
 	PUSHJ P,OPEN.
 	  open failed
 	PUSHJ P,SETI.
-
 To input a character from the current input file into c
-
 	PUSHJ P,ICHR.
-
 To close the current input file and restore the old input file
-
 	PUSHJ P,CLOSE.
 	PUSHJ P,SETI.	(X1 must have value returned by previous call to SETI.)
-
-
 The file block has the format
-
 	.fbcio	address of character output,,input routines
 	.fbbuf	0,,address of buffers
 		or -1,,amount of space to allocate for buffers @ .JBFF
@@ -1454,12 +1404,6 @@ The file block has the format
 		or 0 to end block (if ersatz device)
 	.fbsfd	SFDs, terminated by the first 0 word
 %
-
-
-
-
-
-
 
 	subttl	Low Level I/O -- OPEN./CLOSE.
 
@@ -1544,8 +1488,6 @@ open.5:	came	x3,.JBFF	;buffer space allocated by this routine?
 open.6:	movem	x3,.JBFF	;restore .JBFF
 open.7:	restor	<x3,x2>
 	popj	p,
-
-
 
 ;;;	CLOSE. -- Close the most recently opened file and release any
 ;	core that was allocated for buffers.
@@ -1925,8 +1867,6 @@ inli.1:	setzm	rptflg		;this is a new command
 	jrst	.+2
 
 inli.2:	pushj	p,nxch.		;get next character
-
-
 	trne	f,cf.spe	;character requires special action?
 	jrst	inli.3		;yes
 	aos	t1,chrcnt	;increment input character count
@@ -1983,8 +1923,6 @@ inli.7:	trnn	f,cf.bsl	;back space over entire line?
 	sixbit	/NXCH./
 nxch.: pushj	p,ichr.		;get the next character
 	hrr	f,cbits(c)	;get the character type bits
-
-
 
 	trne	f,cf.ign	;ignore this character?
 	jrst	nxch.		;yes
@@ -2103,7 +2041,6 @@ ospc.:	movei	c,sp		;get a space
 	pushj	p,ochr.		;and output it
 	popj	p,
 
-
 ;;;	OCRL./CRLF -- Output <CR><LF> if not at left margin or previous
 ;	output line wasn't blank.
 ;
@@ -2130,7 +2067,6 @@ outc:	ldb	c,[point 7,@0(arg),6]
 	pushj	p,ochr.
 	popj	p,
 
-
 	entry	out2c		;output two left justified characters
 	sixbit	/OUT2C/
 out2c:	ldb	c,[point 7,@0(arg),6]
@@ -2138,7 +2074,6 @@ out2c:	ldb	c,[point 7,@0(arg),6]
 	ldb	c,[point 7,@0(arg),13]
 	pushj	p,ochr.
 	popj	p,
-
 
 	entry	outw		;output a single left justified word
 	sixbit	/OUTW/
@@ -2148,7 +2083,6 @@ outw:	move	t1,@0(arg)	;get word
 	movei	p1,tmp
 	pushj	p,ostr.
 	popj	p,
-
 
 	entry	out2w		;output two words
 	sixbit	/OUT2W/
@@ -2165,7 +2099,6 @@ out2w:	move	t1,@0(arg)	;get first word
 	;Output the time in the format hh:mm:ss
 	;
 	;	CALL OTIM (TIME)
-
 	entry	otim
 	sixbit	/OTIM/
 otim:	move	x1,@0(arg)
@@ -2198,7 +2131,6 @@ ostr.x:	ildb	c,p1
 	jumpe	c,cpopj
 	pushj	p,ochr.
 	jrst	ostr.x
-
 
 ;;;	OSTB. -- Output the string pointed to by P1.  Either a null or
 ;	blank terminates the string.  Output no more than 10 characters.
@@ -2645,7 +2577,6 @@ osts.:	save	<x1,x2,x3,x4>
 	pushj	p,otim
 ;end
 
-
 ;-------------------edited out by drforbin used CIS calls
 ;	movei	x1,tmp		; get current date
 ;	calli	x1,-121		; UNDAT. uuo
@@ -2659,7 +2590,6 @@ osts.:	save	<x1,x2,x3,x4>
 ;	  jfcl
 ;	pushj	p,xfrtmp
 ;-----------------------end drforbin
-
 
 	pushj	p,ospc.
 	pushj	p,ospc.
@@ -2691,7 +2621,6 @@ xfrtm1:	ildb	c,x1
 	popj	p,
 	pushj	p,ochr.
 	jrst	xfrtm1
-
 
 ;;;	STAT -- Output user info.
 ;
@@ -2809,10 +2738,7 @@ stat.y:	aojg	x4,stat.2	;ship name
 
 stat.2:	popj	p,
 
-
-
 	subttl	Random number generator
-
 
 ;;;	SETRAN -- Initialize the random number generator.
 ;
@@ -2857,7 +2783,6 @@ ran.:	move	t1,seed		;get current seed
 	idivi	t0,^D257	;the first prime number > 2^8
 	popj	p,
 
-
 	subttl	PWR
 
 ;;;	PWR -- Raise a floating point number to an integer power.
@@ -2873,7 +2798,6 @@ pwr:	save	<x1,x2,x3>
 	move	t0,x1
 	restor	<x3,x2,x1>
 	popj	p,
-
 
 pwr.:	save	<x3,x4>
 	cail	x3,5		;small enough to compute without recursing?
@@ -2946,10 +2870,7 @@ sets.2:	ildb	t1,p1		;get object code from board
 	setz	t1,
 	idpb	t1,p2		;terminate row with null byte
 	sojg	x3,sets.1	;finish remaining rows
-
 	popj	p,
-
-
 	dmove	t1,[exp " ","!"] ;-1 = warning symbol
 objtbl:	dmove	t1,[exp " ","."] ; 0 = nothing
 	pushj	p,getshp	 ; 1 = fed ship
@@ -3028,7 +2949,6 @@ mark.2:	ildb	t1,p1		;get object code from board
 	sojg	x2,mark.1	;flag remaining rows
 	popj	p,
 
-
 ;	Input
 ;	  X1: center
 ;	  X2: radius
@@ -3059,7 +2979,6 @@ shwscn:	pushj	p,ocrl.
 	imuli	x2,^D9
 	addi	x2,screen-^D9	;pointer to string for row
 	jrst	shws.2
-
 
 shws.1:	subi	x1,1		;next row
 	camge	x1,Vmin
@@ -3740,15 +3659,11 @@ gmsg.2:	movei	x4,@1(arg)	;address of array to store message in
 	cain	t2,777777
 	setzm	t2,
 	movem	t2,dbits	;who the message was sent to
-
 	hrlzi	t1,1(t1)	;FROM,,0
 	addi	t1,(x4)		;FROM,,TO
 	blt	t1,msglen-2(x4)	;transfer message to array
-
 	pushj	p,remv.		;remove entry from message queue
 	popj	p,
-
-
 entry	usrprj
 usrprj:	hlrz	0,usppn			;return user's project #
 	cain	0,337			;watch for devel. ppn
@@ -3765,9 +3680,7 @@ frcchk::
 	jrst	chkseq		; force sequence check on new user
 	sixbit	/chkseq/
 chkseq::
-
 	popj	p,		; ignore it for now!
-
 	calli	t1,-210		; is it time to check?
 	  move	t1,jsqtim	; in case of failure, do check now
 	camge	t1,jsqtim
@@ -3831,11 +3744,7 @@ jobsta:
 ;			^d2400		; 8
 ;		](t1)
 ;	movem	t1,@kttysp-1(arg)
-
-
-
 ;rewrite by merlyn (drforbin)
-
 	move	t1,[	2,,[	.TORSP
 				-1
 			   ]
@@ -3865,7 +3774,6 @@ jobsta:
 ;	skipe	t1,who			; if ship is assigned  ;commented by drforbin (not needed)
 
 ;	jrst	[calli	t2,-46		;commented drforbin;then set up the sequence #
-
 ;This is not needed
 ;	jrst	[pjob	t2,		;added drforbin;then set up the sequence #
 ;		 jfcl			;not needed with pjob return
@@ -3875,7 +3783,6 @@ jobsta:
 ;		]
 ;end
 ;----------
-
 	setz	t2,
 	getppn	t1,
 	  jfcl
@@ -3885,12 +3792,9 @@ jobsta:
 	cain	t3,077
 	movei	t2,1
 	movem	t2,debflg
-
 ;changed by drforbin (merlyn)
 ;replaced use of tmpcor ppn with standard monitor call
 ;	move	t1,usppn.##		; transfer user's ppn
-
-
 	getppn	t1,			;added drforin
 	movem	t1,usppn		;added drforbin
 	movem	t1,@kppn-1(arg)
@@ -3965,7 +3869,6 @@ gnm4:	move	t1,tmp			;same as above(DF) drforbin
 	movem	t1,@knam2-1(arg)
 gnm5:
 ;***	CIS change:
-
 	popj	p,
 
 ;drforbin explination 
@@ -4005,15 +3908,12 @@ inpt.2:	seto	0,		;yes, flag input ready
 	save<0>
 	restore<0>
 	popj	p,
-
-
 	entry	clear
 	sixbit	/CLEAR/
 clear:	skipe	hungup		; if job is not hungup
 	clrbfi			;clear the input buffer
 	setom	bufptr		;clear multiple command line
 	popj	p,
-
 
 	subttl	BLKSET/BLKMOV/LOCF
 
@@ -4033,7 +3933,6 @@ blkset:	move	t1,@1(arg)	;get value
 	blt	t1,(t2)
 	popj	p,
 
-
 ;;;	BLKMOV -- Move a block of data.
 ;
 ;		call BLKMOV (from,to,nwords)
@@ -4047,7 +3946,6 @@ blkmov:	hrli	t1,@0(arg)
 	blt	t1,(t2)
 	popj	p,
 
-
 ;;;	LOCF -- Return the location of a variable.
 ;
 ;		addr = LOCF(var)
@@ -4056,7 +3954,6 @@ blkmov:	hrli	t1,@0(arg)
 	sixbit	/LOCF/
 locf:	movei	0,@0(16)
 	popj	17,
-
 
 	subttl	DAYTIM/RUNTIM/ETIM/PAUSE
 
@@ -4069,9 +3966,7 @@ locf:	movei	0,@0(16)
 daytim:	mstime	0,
 	movem	0,@0(arg)
 	popj	p,
-
 ;add date 'getdat' function here using gettab
-
   entry getdat
   sixbit  /getdat/
   getdat: move 0,[%CNDAY]
@@ -4083,14 +3978,12 @@ daytim:	mstime	0,
 	;Return the current run time.
 	;
 	;	CALL RUNTIM (RTIM)
-
 	entry	runtim
 	sixbit	/RUNTIM/
 runtim:	setz	0,
 	runtim	0,
 	movem	0,@0(arg)
 	popj	p,
-
 
 	;Return the amount of time elapsed since the given time.
 	;The given time is in milliseconds past midnight, and may
@@ -4103,7 +3996,6 @@ runtim:	setz	0,
 	;   abs(TIM0) - current_time + 12 hours
 	;
 	;	dT = ETIM (TIM0)
-
 	entry	etim
 	sixbit	/ETIM/
 etim:	mstime	0,
@@ -4121,11 +4013,7 @@ etim:	mstime	0,
 
 	entry	pause
 	sixbit	/PAUSE/
-
-
 ;both comments and mstime calls added by merlyn
-
-
 pause:
 	skipg	@0(arg)		; if hibernate time .le. 0
 	popj	p,		; then don't hibernate!
@@ -4293,8 +4181,6 @@ inth.:
 	setom	intflg		;finished processing ^C interrupt
 	popj	p,
 
-
-
 	subttl	ABORT
 
 ;;;	ABORT -- If you have to leave the hard way, at least die gracefully.
@@ -4339,22 +4225,18 @@ abor.1:	pushj	p,kilhgh	;remove high segment from swapper
 	sixbit	/KILHGH/
 kilhgh:	skipe	dead		;high seg alread removed?
 	popj	p,		;yes, don't kill it again
-
 	setz	t1,
 	move	t2,p.dev
 	setz	t3,
 	open	ren,t1
 	  jrst	kilh.1
-
 	move	t1,p.nam	;get name of binary file
 	hrlzi	t2,'EXE'	;assume an extension of EXE
 ;	hrlzi	t2,'SHR'	;assume an extension of SHR
 	setzb	t3,
-
 	move	t4,p.ppn
 	lookup	ren,t1
 	  jrst	kilh.1
-
 	move	t4,p.ppn
 	rename	ren,t1		;remove high segment from swapper
 
@@ -4470,7 +4352,6 @@ deb.2:	skipn	timnam(x1)
 	outstr	[asciz "
 "]
 	soja	x1,deb.2
-
 
 	subttl	EQUAL
 
@@ -4947,7 +4828,6 @@ grip.8:	move	t1,dbuf+.BFADR	;reduce core to here
 	setzm	ccflg		;clear ^C flag
 	popj	p,
 
-
 ;;;	OGCH. -- Output character to gripe buffer.
 ;
 ogch.:	sosl	@obfctr		;any room in buffer?
@@ -5230,7 +5110,6 @@ slst.8:	hlrz	p2,x4
 slst.9:	restor	<p1,x4,x3>
 	popj	p,
 
-
 ;;;	OLST. -- Output a list.
 ;
 ;	Input
@@ -5267,13 +5146,11 @@ eshp.:	skipg	t3,who		;see whose ship to erase
 	move	t1,shpcon+<KSPCON-1>*KNPLAY-1(t3)
 	cain	t1,red		;condition red?
 	jrst	eshp.1		;yes, leave it there
-
 	move	t1,shpcon+<KVPOS-1>*KNPLAY-1(t3) ;vertical position
 	move	t2,shpcon+<KHPOS-1>*KNPLAY-1(t3) ;horizontal position
 	movei	t3,^D1000	;make black hole
 	pushj	p,sdsp.		;set display value
 eshp.1:	popj	p,
-
 
 ;;;	PSHP. -- Put ship on board.
 ;
@@ -5284,7 +5161,6 @@ pshp.:	skipg	t3,who
 	jrst	pshp.1
 	skipl	alive-1(t3)	;alive?
 	jrst	eshp.1		;no, forget it
-
 	move	t1,shpcon+<KVPOS-1>*KNPLAY-1(t3)
 	move	t2,shpcon+<KHPOS-1>*KNPLAY-1(t3)
 	addi	t3,^D100	;code for fed ship
@@ -5319,7 +5195,6 @@ ifn debug., <
 > ;end ifn debug.
 	popj	p,
 
-
 ;;;	DISPC -- Return DISP(v,h) div 100
 ;
 	entry	dispc
@@ -5327,7 +5202,6 @@ ifn debug., <
 dispc:	pushj	p,disp
 	idivi	t0,^D100
 	popj	p,
-
 
 ;;;	DISPX -- Return DISP(v,h) mod 100
 ;
@@ -5337,7 +5211,6 @@ dispx:	pushj	p,disp
 	idivi	t0,^D100
 	movei	t0,(t1)
 	popj	p,
-
 
 ;;;	SETDSP -- Set the contents of a location on the board.
 ;
@@ -5397,7 +5270,6 @@ ifn dbzer., <
 	popj	p,
 > ;end ifn debug.
 
-
 ;;;	GDSP. -- Return the contents of a location on the board.
 ;
 ;	Input
@@ -5409,7 +5281,6 @@ ifn dbzer., <
 gdsp.:	pushj	p,gptr.		;get pointer to location
 	ildb	t3,t2		;get object at location
 	popj	p,
-
 
 ;;;	SDSP. -- Set the value of a location on the board.
 ;
@@ -5423,7 +5294,6 @@ sdsp.:	save	<t3>
 	restor	<t3>
 	idpb	t3,t2		;put object there
 	popj	p,
-
 
 ;;;	GPTR. -- Return a pointer to a location on the board.
 ;
@@ -5480,8 +5350,6 @@ chkc.1:	save	<t1,t2,t3,t4,x1,x2,p1,c>
 	restor	<t0>
 	popj	p,
 
-
-
 ;;;	CHKD. -- Check display code for legality.  Since this is a debug
 ;	routine, to be placed anywhere, don't bash any ACs.
 ;
@@ -5530,8 +5398,6 @@ rngtbl:	0,,0			;empty space
 	0,,0			;star
 	0,,0			;black hole
 	radix	8
-
-
 
 ;;;	TRAC. -- Trace back the subroutine calls.
 ;
@@ -5695,56 +5561,6 @@ rmcopy:	ildb	c,p2		; copy (p2) to (p1)
 	popj	p,
 	idpb	c,p1
 	jrst	rmcopy
-	page
-	subttl	updnam	- update program's running name for tracking
-
-;this doesn't seem to be used-drforbin
-;	move	t1,newinfo
-;	move	t2,mask		; 77 in each position to be changed
-;	pushj	p,updnam
-
-updnam:	popj	17,
-
-	save<t3>
-	calli	t3,-14
-	  jfcl
-	and	t1,t2
-	or	t3,t2
-	xor	t3,t2
-	or	t3,t1
-	setnam	t3,
-	restore<t3>
-	popj	p,
-
-; FNDLOK	- translate lock address into six-bit chracter
-;	movei	t1,lokaddress
-;	pushj	p,fndlok
-; return with rh of t1 having the lock ID in all three 6-bit positions
-
-fndlok:
-	save	<t2,t3>
-	movei	t2,0
-fndlo1:	skipn	loknam(t2)
-	jrst	fndlo2
-	hrrz	t3,loknam(t2)
-	came	t3,t1
-	aoja	t2,fndlo1
-	hlrz	t1,loknam(t2)
-	jrst	fndlo3
-
-fndlo2:	cail	t1,board
-	caile	t1,board+brdsiz-1	; if in the board
-	skipa	t1,['???']		; then returh unknown lock
-	movei	t1,'BBB'		; else return board flag
-fndlo3:	restore<t3,t2>
-	popj	p,
-
-loknam:	xwd	'PPP',plnlok
-	xwd	'FFF',frelok
-	xwd	'QQQ',quelok
-	xwd	'NNN',numply
-	xwd	'SSS',staupd
-	0
 
 	page
 	end
