@@ -1,16 +1,11 @@
-
 	title	WARMAC -- MACRO support routines for DECWAR.FOR
-
 	%deb%==-1
-
 	twoseg
 	search	UUOSYM,MACTEN
 ;	sall
 ;	.directive flblst
-
 lall
 	subttl	Macro definitions
-
 	;added date macro drforbin
 	define dacon(cndat,day,month,year)<
 	idivi	cndat,^D31
@@ -23,16 +18,12 @@ lall
 	subi	cndat,^D2000
 	movem	cndat,year
 	>
-
 ;;;	ASCIL -- Define an ASCII string with <CR><LF><NUL> tacked on the end.
-;
 	define ascil (txt), <
 	  asciz `txt`
 	>
-
 ;;;	WARN -- Dump TTY buffer and output warning message.  Go to addr (if
 ;	given), else continue in sequence.
-;
 	define warn (txt,addr<.+1>), <
 	  jrst [skipn	hungup		; if not hungup
 		output	tty,		; then flush the tty buffer
@@ -41,10 +32,8 @@ lall
 		jrst addr
 		]
 	>
-
 ;;;	ERR -- Dump TTY buffer, output error message, and exit.  Go to
 ;	addr on CONTINUE (else if addr is blank, exit again).
-;
 	define err (txt,addr<.-1>), <
 	jrst	[skipn	hungup
 		 output	tty,
@@ -53,7 +42,6 @@ lall
 		jrst monit
 		]
 	>
-
 ;;;	SAVE -- Save data on argument stack (S).
 ;
 	define save (addr), <
@@ -61,7 +49,6 @@ lall
 	  irp addr, <push s,addr>
 	  list
 	>
-
 ;;;	RESTOR -- Restore data from argument stack (S).
 ;
 	define restor (addr), <
@@ -77,34 +64,24 @@ lall
 		pop	s,addr>
 	  list
 	>
-
 ;;;	COMMON -- Define a FORTRAN compatible common block.  Any following
 ;	REAL, INTEGER, or LOGICAL, macros define symbols relative to name.
-;
 	define common (name), <
 	  .common name [1]
 	  comblk=!name
 	  size==0
 	>
-
 ;;;	REAL -- Define a real scalar or array to be in the most recently
 ;	defined common block.
-;
 	define real (name,size), <array name, <size>>
-
 ;;;	INTEGER -- Define an integer scalar or array to be in the most recently
 ;	defined common block.
-;
 	define integer (name,size), <array name, <size>>
-
 ;;;	LOGICAL -- Define a logical scalar or array to be in the most recently
 ;	defined common block.
-;
 	define logical (name,size), <array name, <size>>
-
 ;;;	ARRAY -- Define an n dimensional array (n >= 0) in the most recently
 ;	defined common block.
-;
 	define array (name,dim), <
 	  name=size+comblk
 	  x..==1
@@ -127,25 +104,19 @@ lall
 	  x..==x..*odim..
 	  size==size+x..
 	>
-
 ;;;	SHOW -- Show value of symbol equated inside a macro.
-;
 	define show (sym), <
 	  exp sym
 	  .org .-1
 	>
-
 ;;;	FLGBIT -- Define a flag bit in terms of the previoulsy defined flag
 ;	bit.  To initialize this macro, set bit..==1.
-;
 	define flgbit (mnemonic), <
 	  mnemonic==bit..
 	  bit..==bit.._1
 	  show. mnemonic
 	>
-
 ;;;	GTTAB. -- GETTAB a value into ac.
-;
 	define gttab. (ac,number), <
 	  xlist
 	  move ac,[number]
@@ -153,9 +124,7 @@ lall
 	    halt
 	  list
 	>
-
 ;;;	OSTR -- Output asciz string.
-;
 	define ostr (addr), <
 	  xlist
 ;	 movei t1,addr  ;changed to below was using t1 and than to p1 drforbin
@@ -163,19 +132,15 @@ lall
 	  pushj p,ostr.
 	  list
 	>
-
 ;;;	OCHR -- Output character.
-;
 	define ochr (chr), <
 	  xlist
 	  movei c,chr
 	  pushj p,ochr.
 	  list
 	>
-
 ;;;	ARGBLK -- Define a fortran compatible argument block, and load a
 ;	pointer to it into the argument block pointer, arg.
-;
 	define argblk (args), <
 	  t..==0
 	  irp <args>, <t..==t..+1>
@@ -184,7 +149,6 @@ lall
 		    irp <args>, <exp args>
 		    ]+1
 	>
-
 	lofst.==0
 	define local (var), <irp var, <loc1 var>>
 	define loc1 (var1), <loc2 var1>
@@ -199,11 +163,8 @@ lall
 	  >
 	>
 	subttl	FORTRAN interface -- parameters
-
 	radix	10
-
 ;;;	General constants used by DECWAR
-
 	knplay==18		;maximum number of players (can't be increased)
 	knloks==^d40		; maximum number of active locks (LOCK./UNLOk.)
 	knstat==10		; number of statistic entries retained
@@ -239,31 +200,24 @@ lall
 	kqlen==10		;length of killed queue
 	maxint==^o377777777777	;biggest integer
 	locsiz==200		;size of LOCAL common block
-
 ;;;	Token types returned by GTKN
-
 	keol==-1		;end of line
 	knul==0			;null
 	kint==1			;integer
 	kflt==2			;floating point
 	kalf==3			;alphanumeric
-
 ;;;	SHPCON indeces
-
 	kvpos==1		;V coordinate of ships, etc.
 	khpos==2		;H coordinate of ship, etc.
 	knturn==3		;number of turns player has taken
-	kspcon==4		;condition of ship (1=green, 2 = yellow,
-				;  3=red)
+	kspcon==4		;condition of ship (1=green, 2=yellow, 3=red)
 	kntorp==5		;number of torps remaining
 	kshcon==6		;condition of shields (1=up, -1=down)
 	klfsup==7		;life support reserves in stardates
 	ksnrgy==8		;units of ship energy remaining
 	ksdam==9		;amount of ship damage
 	ksshpc==10		;shield %
-
 ;;;	SCORE indeces
-
 	kpedam==1		;points for damage to enemy
 	kpekil==2		;points for enemies killed
 	kpbdam==3		;points for damage to bases
@@ -272,9 +226,7 @@ lall
 	kprkil==6		;points for Romulans killed
 	knsdes==7		;numbers of stars destroyed
 	knpdes==8		;number of planets destroyed
-
 ;;;	SHPDAM indeces
-
 	kdshld==1		;damage to shields
 	kdwarp==2		;damage to warp engines
 	kdimp==3		;damage to impulse engines
@@ -283,9 +235,7 @@ lall
 	kdphas==6		;damage to phasers
 	kdcomp==7		;damage to computer
 	kdrad==8		;damage to radio
-
 ;;;	JOB constants
-
 	knjbst==9		;total number of job status words
 	kjob==1			;job number
 	knam1==2		;first half of SIXBIT user name
@@ -296,16 +246,13 @@ lall
 	kttytp==7		;TTY type
 	kjobtm==8		;daytime at start up of present ship
 	kruntm==9		;run time at start up of present ship
-
 ;;;	Bits used by LIST
-
 	nambit==^o000001	;ship name
 	prtbit==^o000002	;PORT
 	shpbit==^o000004	;SHIP
 	basbit==^o000010	;BASE
 	plnbit==^o000020	;PLANET
 	crdbit==^o000040	;coordinate
-
 	fedbit==^o000100	;FEDERATION, HUMAN
 	empbit==^o000200	;EMPIRE, KLINGON
 	rombit==^o000400	;ROMULAN
@@ -314,49 +261,36 @@ lall
 	allbit==^o004000	;ALL
 	rngbit==^o010000	;range
 	clsbit==^o020000	;CLOSEST
-
 	sumbit==^o040000	;SUMMARY
 	lstbit==^o100000	;LIST
 	outmsk==^o140000	;SUMMARY|LIST
-
 	irnbit==^o000001	;in range
 	isrbit==^o000002	;in specified range
 	igmbit==^o000004	;in game
 	ornbit==^o000010	;out of range
 	pasbit==^o000020	;selected only because password is set
 	knobit==^o000040	;only known about because it's been scanned
-
 	sidmsk==^o003700 ;fedbit|empbit|neubit|rombit|capbit
 	objmsk==^o000077 ;nambit|crdbit|basbit|shpbit|plnbit|prtbit
-
 ;;;	Ship conditions
-
 	green==1
 	yellow==2
 	red==3
-
 ;;;	OFLG values
-
 	short==-1		;use short format output
 	medium==0		;use medium format output
 	long==1			;use long format output
-
 ;;;	ICFLG/OCFLG values
-
 	krel==-1		;default to relative coordinates
 	kboth==0		;output both relative and absolute coords
 	kabs==1			;default to absolute coordinates
-
 ;;;	Codes for commands that are entry points in the LIST command
-
 	lstcmd==0		;LIST
 	sumcmd==1		;SUMMARY
 	bascmd==2		;BASES
 	plncmd==3		;PLANETS
 	tarcmd==4		;TARGETS
-
 ;;;	DISP constants
-
 	dxmpty==0		;empty space
 	dxfshp==1		;federation ship
 	dxeshp==2		;empire ship
@@ -369,9 +303,7 @@ lall
 	dxstar==9		;star
 	dxbhol==10		;black hole
 	subttl	FORTRAN interface -- high segment common block
-
 	common	hiseg
-
 	;High core zeroed out by first player
 	integer	hfz			;first location to zero out
 	hi.fst==hfz
@@ -416,20 +348,16 @@ lall
 	logical	dead			;true if KILHGH already called
 	integer	docked,<KNPLAY>		;docked flags
 	integer	hlz			;last location to zero out
-
 	;high core not zeroed out by first player
-
 	integer plnlok			;lock variable for LOCPLN array
 	integer frelok			;lock variable for FREE routine
 	integer quelok			;lock variable for queue routines
-
 	integer	device,<KNDEV>		;device names
 	integer	isaydo,<2,KNCMD>	;mnemonics for commands
 	integer	xhelp,<2,KNXTR>		;extra things help is available for
 	integer	ttydat,<2,KNTTY>	;mnemonics for supported TTYs
 	integer	names,<KNPLAY,3>	;names of players
-	integer	bits,<18>		;player's identification bit
-					;(powers of 2 table)
+	integer	bits,<18>		;player's identification bit (powers of 2 table)
 	integer sbits,<0,:,2>		;flag bits for different sides
 	integer cmdbts,<KNCMD>		;flags commands usable before game
 	integer	numply			;number of active players
@@ -440,16 +368,13 @@ lall
 	integer score,<KNPOIN,knplay>		;ship score information
   ;look into this
 	;integer hi.lst			; highest location for remap
-
 	common	timers			; block of data for timers
 	integer timnam,^d50		; names
 	integer timcnt,^d50		; # times used
 	integer timtot,^d50		; total time
 	integer timhi,^d50		; high time
 	subttl	FORTRAN interface -- low segment common block
-
 	common	lowseg
-
 	integer	lfz			;first location of LOWSEG
 	integer	ntok			;number of tokens on input line
 	integer	tknlst,<kmaxtk>		;buffer for tokens from input line
@@ -503,14 +428,10 @@ lall
 	integer addrck			; -1 if address check has occured
 	integer lkfail			; -1 if failed. setom for -1. setzm for 0.
 	integer	terwid			; holds user's terminal width (chars)
-
 	internal inwait,hungup,addrck
 	subttl	FORTRAN interface -- general purpose common block (low seg)
-
 	common	local
-
 	integer	loc..,<locsiz>
-
 	;SCAN variables
 	Hmin==loc..+0
 	Hmax==loc..+1
@@ -519,7 +440,6 @@ lall
 	dH==loc..+4
 	dV==loc..+5
 	screen==loc..+6
-
 	;OSTS.Y variables  (Pre-game GRIPE line info)
 	jobnum==loc..+0
 	nam1==loc..+1
@@ -527,30 +447,24 @@ lall
 	ppn==loc..+3
 	ttynum==loc..+4
 	ttyspd==loc..+5
-
 	radix	8
 	subttl	Registers and other constants
-
 	f=0			;flags
 	t0=0			;FORTRAN function value
 	t1=1			;temporary
 	t2=2
 	t3=3
 	t4=4
-
 	x1=5			;must be preserved by low level routines
 	x2=6
 	x3=7
 	x4=10
-
 	c=11			;character
 	p1=12			;byte pointer
 	p2=13
-
 	s=15			;arg save stack
 	arg=16
 	p=17
-
 	pdlsiz==50		;depth of push down list
 	stksiz==50		;depth of argument save stack
 	ntry=^D30		;# of times to try to access locked routine
@@ -558,11 +472,9 @@ lall
 	cmdtim=^D5000		;milliseconds to sleep between commands
 	maxcnt==^D80		;maximum number of characters per line
 	grpsiz==^D20		;maximum number of lines in a gripe
-
 	cr=15			;carriage return
 	lf=12			;line feed
 	sp=40			;space
-
 	tty==0			;TTY output channel
 	nws==1			;NEWS input channel
 	hlp==2			;HELP input channel
@@ -570,9 +482,7 @@ lall
 	ini==4			;DECWAR.INI input channel
 	ren==5			;channel to rename high seg on
 	sta==6			; channel for DECWAR.STA
-
 	;Token flag bits
-
 	tf.num==1		;token had some leading digits
 	tf.nnm==2		;token is non-numeric
 	tf.eol==4		;eol was seen after token
@@ -580,9 +490,7 @@ lall
 	tf.sgn==20		;token has a sign (+/-)
 	tf.pnt==40		;token has a decimal point
 	tf.neg==100		;token started with a minus sign
-
 	;File block offsets (see Low Level I/O for a detailed description)
-
 	.fbcio==0		;addr of char I/O routines
 	.fbbuf==1		;addr of buffers
 	.fbfnc==2		;channel,,function
@@ -595,24 +503,17 @@ lall
 	.fbprv==11		;protection code
 	.fbppn==12		;PPN
 	.fbsfd==13		;SFDs
-
-	debug.==0		;if nonzero, include error checking and
-				;diagnostic prints
+	debug.==0		;if nonzero, include error checking and diagnostic prints
 	dbque.==0		; -1 to check the queues
 	dbzer.==0		; -1 to check for storing zero values in setdsp
 	db777.==0		; -1 to check for storing 7777 in setdsp
-
 	subttl	low segment data
-
 	reloc	0
-
 hand:	block	2		;drforbin
-
 ;This is CISNG block  commented out (drforbin)
 ;save$v:	block	1		; saves contents of $v in havenq
 ;hang$v:	block	1		; saves contents of $v in hang
 ;hangta:	block	1		; save for register ta
-
 hv.lok::block	1		; set to -1 when enq. request is granted
 vector:	exp 	havenq
 	exp 	0
@@ -635,43 +536,33 @@ psilck:	movei	t1,vector
 		exit
 		]
 	popj	p,	 
-
 LVLTBL:	block	2
-
 pdl:	block	pdlsiz		;push down list
 stk:	block	stksiz		;argument save stack
-
 	;Info needed to rename/delete program binary
 p.nam:	block	1		;filename
 p.ppn:	block	1		;PPN
 p.dev:	block	1		;device
-
 echflg:	block	1		;-1 if echoing is currently off, else 0
 iniflg:	block	1		;-1 if input from DECWAR.INI, else 0
-
 scale:	block	1		;scale factor used by ANUM.
-
 ccflg.::block	1		;used to unstack multiple cmds/line on ^C
 bufptr:	block	1		;pointer to input buffer, or -1
 chrcnt:	block	1		;count of number of characters on line
 linbuf:	block	maxcnt+1	;buffer to store input line
-
 obflb:	block	1		;address of current output file block
 obfctr:	0+.BFCTR		;address of current output character count
 obfptr:	0+.BFPTR		;address of current output character pointer
 obfins:	output	0,		;current buffer output instruction
 oc:	pushj	p,ochr.		;current character output routine
-
 ibflb:	block	1		;address of current input file block
 ibfctr:	0+.BFCTR		;address of current input character count
 ibfptr:	0+.BFPTR		;address of current input character pointer
 ibfins:	in	0,		;current buffer input instruction
 ic:	pushj	p,ichr.		;current character input routine
-
 tobcb:	block	3		;tty output buffer control block
 tobuf:	block	3		;tty output buffer header block
 	block	50		;tty output buffer
-
 frebie:	block	1		; -1 if free user running
 ftlerr:	block	1		; holds address of where to go on APR trap
 ;locked:	block	1		; holds address of most recent LOCK,,UNLOCK
@@ -700,97 +591,73 @@ stfiow:	iowd	^d128*5,stabuf
 	0
 sysppn==5,,30			; ppn for system files
 debflg:	block	1		; 0 = user PPN; -1 = 55,7; +1 = 77xxx,*
-
 dbuf:	block	3		;disk I/O buffer cntrl blk (news,gripe,help)
 dibuf:	block	3		;DECWAR.INI input buffer control block
-
-tmp:	block	6
-
-	;^C and fatal error intercept block
+tmp:	block	6       ;^C and fatal error intercept block
 intblk:	4,,inth.		;block length ,, addr of interrupt handler
-	ER.ICC		;intercept ^C and fatal errors
+	ER.ICC		        ;intercept ^C and fatal errors
 intadr:	block	1		;PC word at time of interrupt
 inttyp:	block	1		;error bit ,, channel number
-
 intsav:	block	1		;save AC to check out interrupt type
 intflg:	block	1		;-1 if ^C is being processed, else 0
 trpadr:	block	1		;address of ^C trap routine
 savr:	block	17		;for storage of ACs during trap routine
-
 seed:	block	1		;random number seed
-
-	;OPEN./CLOSE. data block
-
+;OPEN./CLOSE. data block
 fl.ff:	block	1		;old .JBFF
-
-foblk:				;filop. block
+foblk:				    ;filop. block
 fo.fnc:	block	1		;protection bit,,function code
 fo.ios:	block	1		;open flags, data mooe
 fo.dev:	block	1		;device name
 fo.brh:	block	1		;addr of output,,input buffer control blocks
 fo.nbf:	block	1		;number of output,,input buffers
 fo.leb:	block	1		;addr of rename,,lookup/enter blocks
-
-leblk:				;lookup/enter block
+leblk:				    ;lookup/enter block
 le.nam:	block	1		;file name
 le.ext:	block	1		;extension
 le.prv:	block	1		;protection code
 le.ppn:	block	1		;PPN or pointer to path. block
-
-ptblk:				;path. block
+ptblk:				    ;path. block
 pt.fcn:	block	1		;function code
 pt.swt:	block	1		;flags and switches
 pt.ppn:	block	1		;PPN
 pt.sfd:	block	5		;SFDs
 pt.max:	block	1		;terminating word
-
 ifn debug., <
 oldobj:	block	1		;object at location on board before zero
 > ;end ifn debug.
-
-	;RUN code in low seg, so can recover from RUN error
+;RUN code in low seg, so can recover from RUN error
 rundec:	run	t1,
 	jrst	monit
-
 queue:	xwd	1,5		; used by LOCK. and UNL.
 quereq:	xwd	0,0		; rh = request ID
 	xwd	200000,-2	; ignore sequence errors
 queuen:	xwd	500000,0
 	xwd	0
-
 	subttl	high segment data
-
 	reloc	400000
-
 jsqtim:	block	1		; time for next scan for job activity
 jsqtab:	block	^d10		; table of jsq,,jbn for active jobs
-
 hitser:	block	1	; serial number for finding oldest hit queue entry
 	block	1	; master pointer for hit queue
 hitql:	block	knhit		;hit queue link list
 hitq:	block	4*knhit		;hit queue
-
 	block	1	; master pointer for message queue
 msgql:	block	knmsg		;message queue link list
 msgq:	block	msglen*knmsg	;message queue
-
 	;File blocks
-
 	;TTY I/O
 ttyfil:	ochr.b,,ichr.t		;buffered output, TTCALLs for input
 	0,,tobuf		;address of output buffer
 	tty,,.FOWRT		;channel TTY,,open for input
-
 ;edited by drforbin make backspace work properly
 ;remove IO.LEM (special editor MODE)
 ;.IOASC+UU.PHS+IO.LEM	;physical device only, special editor mode
-
   .IOASC+UU.PHS	;physical device only, special editor mode
 	sixbit /TTY/
 	tobcb,,0		;output buffer control block
 	1,,0			;1 output buffer
 	z
-
 	;DECWAR.INI
 inibeg:	0,,iich.		;buffered input
 	-1,,203			;generate 203 words of buffer space
@@ -804,7 +671,6 @@ inibeg:	0,,iich.		;buffered input
 	0
 	0			;use logged in PPN
 	z
-
 iniint:	0,,iich.		;buffered input
 	-1,,203			;generate 203 words of buffer space
 	ini,,.FORED		;channel INI,,open for input
@@ -817,7 +683,6 @@ iniint:	0,,iich.		;buffered input
 	0
 	0			;use logged in PPN
 	z
-
 iniexp:	0,,iich.		;buffered input
 	-1,,203			;generate 203 words of buffer space
 	ini,,.FORED		;channel INI,,open for input
@@ -830,7 +695,6 @@ iniexp:	0,,iich.		;buffered input
 	0
 	0			;use logged in PPN
 	z
-	
 	;News file
 nwsfil:	0,,ichr.b		;buffered input
 	-1,,406			;generate 406 words of buffer space
@@ -843,7 +707,6 @@ nwsfil:	0,,ichr.b		;buffered input
 	sixbit /NWS/
 	0
 	z
-
 	;Special help file
 hl1fil:	0,,ichr.b		;buffered input
 	-1,,406			;generate 406 words of buffer space
@@ -859,7 +722,6 @@ hl1fil:	0,,ichr.b		;buffered input
 	sixbit /DECWAR/
 	sixbit /HLP/
 	z
-
 	;Standard help file
 hl2fil:	0,,ichr.b
 	-1,,406
@@ -872,7 +734,6 @@ hl2fil:	0,,ichr.b
 	sixbit /HLP/
 	z
 	z
-
 	;Gripe file
 grpfil:	ogch.,,0
 	0,,0
@@ -885,7 +746,6 @@ grpfil:	ogch.,,0
 	sixbit /GRP/
 	byte	(9) 010,0,0,0
 	exp	sysppn
-
 	; DECWAR.STA
 stared:	xwd	0,0
 	xwd	0,0
@@ -898,7 +758,6 @@ stared:	xwd	0,0
 	sixbit	/STA/
 	0
 	exp	sysppn
-
 staupd:	xwd	0,0
 	xwd	0,0
 	xwd	sta,.fowrt
@@ -910,7 +769,6 @@ staupd:	xwd	0,0
 	sixbit	/STA/
 	byte	(9) 010,0,0,0
 	exp	sysppn
-
 	; DECWAF.STA		(status for "free" users)
 stfred:	xwd	0,0
 	xwd	0,0
@@ -923,7 +781,6 @@ stfred:	xwd	0,0
 	sixbit	/STA/
 	0
 	exp	sysppn
-
 stfupd:	xwd	0,0
 	xwd	0,0
 	xwd	sta,.fowrt
@@ -935,37 +792,29 @@ stfupd:	xwd	0,0
 	sixbit	/STA/
 	byte	(9) 010,0,0,0
 	exp	sysppn
-
 ;Both edits for edit mode disable drforbin
-
 ;eonblk:	.IOASC+UU.PHS+IO.LEM	;TTY:, echo on
 eonblk:	.IOASC+UU.PHS	;TTY:, echo on
 	sixbit	/TTY/
 	z
-
 ;eofblk:	.IOASC+UU.PHS+IO.LEM+IO.SUP ;TTY:, echo off
 eofblk:	.IOASC+UU.PHS+IO.SUP ;TTY:, echo off
 	sixbit	/TTY/
 	z
-
 cpopj1:	aos	(p)		;skip return
 cpopj:	popj	p,		;non-skip return
-
 	point	7,screen,-1
 b7tbl:	point	7,screen,6
 	point	7,screen,13
 	point	7,screen,20
 	point	7,screen,27
 	point	7,screen,34
-
 	point	12,board,-1
 b12tbl:	point	12,board,11
 	point	12,board,23
 	point	12,board,35
 	subttl	Character type bits
-
 	bit..==1
-
 	flgbit	cf.bsc		;delete previous character
 	flgbit	cf.bsl		;delete entire line
 	flgbit	cf.ign		;ignore this character
@@ -983,11 +832,9 @@ b12tbl:	point	12,board,11
 	flgbit	cf.sgn		;sign (+ or -)
 	flgbit	cf.dig		;digit (0 - 9)
 	flgbit	cf.pnt		;decimal point (.)
-
 	cf.del==cf.bsc!cf.bsl
 	cf.spe==cf.del!cf.etg!cf.eol!cf.dsp
 	cf.num==cf.sgn!cf.dig!cf.pnt
-
 cbits:	phase 0
 	cf.eol!cf.eoc			;^@
 	z				;^A
@@ -1118,19 +965,14 @@ cbits:	phase 0
 	z				;~
 	cf.bsc				;<DEL>
 	dephase
-
 	subttl	RESET./STOP./EXIT./EXIT/MONIT
-
 ;all changes below made by drforbin(merlyn)
 ;changes include ridding CIS variables and defining terminal wdth to 80 characters
-
 ;;;	RESET. -- This routine is called automatically by the FORTRAN
 ;	generated code.  It initializes all the I/O, etc.  Most of the
 ;	actual initialization is done in SETUP, which is low segment
 ;	code that is removed once the player is solidly in the game.
-;
-	extern	setup,z		;what a kludge, but for a Monitor bug
-				;what can you do?
+	extern	setup,z		;what a kludge, but for a Monitor bug what can you do?
 	entry	reset.
 	sixbit	/RESET./
 reset.:	reset
@@ -1152,12 +994,10 @@ reset.:	reset
 ;	movem	.sgnam,p.nam	;save program name
 ;	movem	.sgppn,p.ppn	;save source PPN
 ;	movem	.sgdev,p.dev	;save device
-
 	move	t1,.JBFF	;get last used location in low seg
 	cail	t1,z		;setup code loaded?
 	skipn	setup		;for sure?
 	jrst	start		;low seg not all there; try a RUN
-
 	move	p,[iowd pdlsiz,pdl] ;init subroutine stack
 	move	s,[iowd stksiz,stk] ;init data stack
 	addi	16,1		;return addr -1 is passed in AC16
@@ -1169,16 +1009,13 @@ reset.:	reset
 ;	skipn	t1
 	movei	t1,^d80			; default
 	movem	t1,terwid
-
 	hrroi	t0,30			; if not 'WIZARD' running
 	gettab	t0,
 	  setz	t0,
-
 iswiz:
 	setz	t1,
 	setuwp	t1,
 	  halt
-
 	setzm	ccflg		;^C not typed yet
 	setzm	ccflg.		;used to unstack multiple commands per line
 	setzm	trpadr		;no ^C trap routine selected
@@ -1198,7 +1035,6 @@ iswiz:
 	aprenb	t1,
 	setom	bufptr		;time to read another line of input
 	setzm	echflg		;echoing is turned on
-
 	move	x1,[ttyfil,,ttyfil]
 	pushj	p,open.		;open TTY
 	  halt
@@ -1214,7 +1050,6 @@ iswiz:
 	skipn	hungup
 	output	tty,
 	popj	p,
-    
 ;	entry	stop., exit., exit
 ;	sixbit	/EXIT/
 ;stop.:
@@ -1240,17 +1075,13 @@ exit:
 	pushj	p,unlo. ;release all locks
 	exit	0,
 	popj	p,		;WILL NEVER GET HERE		
-
 	subttl	PTY
-
 ;;;	PTY -- Check to see if job is logged on to a PTY.  This is done
 ;	because a ^C received by such a job will unconditionally stop it,
 ;	without even checking for an intercept routine.  So, since DECWAR
 ;	has to do some cleaning up before letting a player out, we have to
 ;	say that you can't play from a PTY.
-;
 ;	PTY(dummy) = TRUE if running from a PTY.
-;
 	entry	pty
 	sixbit	/PTY/
 pty:	seto	t1,
@@ -1259,12 +1090,9 @@ pty:	seto	t1,
 	tdza	t0,t0		;no, FALSE
 	seto	t0,		;yes, TRUE
 	popj	p,
-
 	subttl	DECINI
-
 ;;;	DECINI -- Switch input from TTY to DECWAR.INI, and back again
 ;	on eof.
-;
 	entry	DECINI
 	sixbit	/DECINI/
 decini:	save	<x1,p1>
@@ -1310,11 +1138,8 @@ iich.2:	save	<x1,p1>
   clrbfi
   outstr  [asciz "[Reading Commands From TTY]"]
   popj  p,
-
 	subttl	ECHON/ECHOFF/DMPBUF/TTYON
-
 ;;;	ECHON -- turn echoing on
-;
 	entry	echon
 	sixbit	/ECHON/
 echon:	;popj	p,
@@ -1322,9 +1147,7 @@ echon:	;popj	p,
 	  halt
 	setzm	echflg
 	popj	p,
-
 ;;;	ECHOFF -- turn echoing off
-;
 	entry	echoff
 	sixbit	/ECHOFF/
 echoff:	;popj	p,
@@ -1332,17 +1155,13 @@ echoff:	;popj	p,
 	  halt
 	setom	echflg
 	popj	p,
-
 ;;;	DMPBUF -- dump the tty output buffer
-;
 	entry	dmpbuf
 	sixbit	/DMPBUF/
 dmpbuf:	skipn	hungup
 	output	tty,
 	popj	p,
-
 ;;;	TTYON -- dump the TTY buffer and clear ^O
-;
 	entry	ttyon
 	sixbit	/TTYON/
 ttyon:	skipn	hungup
@@ -1351,72 +1170,14 @@ ttyon:	skipn	hungup
 	skpinl
 	  jfcl
 	popj	p,
-
-	subttl	Low Level I/O -- Introduction
-
-comment %
-Added by drforbin
------
-it seems that the way it works is as follows;
-It uses filop. to init the channel. (open.)
-Then uses IN and OUT calls to get and put data.
-The SETI. and SETO. are used to set the 
-BUFFER input/out routines
-set in ic: and oc: by SETI. and SETO.
-the routine used to read into the buffers is sperate and
-again is set by SET(i/o)
-the input buffer instruction (ibfins) and output buffer instruction (obfins) is
-set by SETI and SETO. 
-To suspend output to the current file and open a new file for output
-	MOVE X1,[<file block>,,<file block>]
-	PUSHJ P,OPEN.
-	  open failed
-	PUSHJ P,SETO.
-To output the character from c to the current output file,
-	PUSHJ P,OCHR.
-To close the current output file and restore the old output file
-	PUSHJ P,CLOSE.
-	PUSHJ P,SETO.	(X1 must have value returned by previous call to SETO.)
-To suspend input from the current file and open a new file for input
-	HRLI X1,<file block>
-	PUSHJ P,OPEN.
-	  open failed
-	PUSHJ P,SETI.
-To input a character from the current input file into c
-	PUSHJ P,ICHR.
-To close the current input file and restore the old input file
-	PUSHJ P,CLOSE.
-	PUSHJ P,SETI.	(X1 must have value returned by previous call to SETI.)
-The file block has the format
-	.fbcio	address of character output,,input routines
-	.fbbuf	0,,address of buffers
-		or -1,,amount of space to allocate for buffers @ .JBFF
-	.fbfnc	protection bit, channel,,filop. function code
-	.fbios	open flags, data mode
-	.fbdev	device name
-	.fbbrh	address of output,,input buffer control blocks
-	.fbnbf	number of output,,input buffers
-	.fbnam	file name
-		or 0 to end block (if init device only)
-	.fbext	extension
-	.fbprv	protection code (if writing file)
-	.fbppn	PPN
-		or 0 to end block (if ersatz device)
-	.fbsfd	SFDs, terminated by the first 0 word
-%
-
 	subttl	Low Level I/O -- OPEN./CLOSE.
-
 ;;;	OPEN. -- Open file for input and/or output.
-;
 ;		MOVEI	X1,<file block>
 ;		PUSHJ	P,OPEN.
 ;		  nope
 ;		success
-;
 ;	Input
 ;	  X1	address of file block
-;
 ;	Note: throughout this routine,
 ;	X2 points to the bottom of the buffer space.  If buffer space
 ;	is allocated by this routine X2 will be the value of .JBFF upon
@@ -1424,7 +1185,6 @@ The file block has the format
 ;	(probably the TTY output buffer).
 ;	X3 holds the value of .JBFF (.JBFF itself is changed so FILOP.
 ;	allocates any buffer space in the right place).
-;
 open.:	save	<x2,x3>
 	setzm	fl.ff		;no buffers allocated yet
 	move	x3,.JBFF	;save real value of .JBFF
@@ -1439,11 +1199,9 @@ open.:	save	<x2,x3>
 	core	t1,
 	  warn	<Not enough core>,open.7
 open.1:	movem	x2,.JBFF	;start of buffers (for filop.)
-
 	hrlzi	t1,.fbfnc(x1)	;copy filop. block
 	hrri	t1,foblk
 	blt	t1,foblk+4
-
 	skipn	.fbnam(x1)	;file name given?
 	jrst	open.4		;no, just opening device (must be tty)
 	hrrzi	t1,leblk
@@ -1457,7 +1215,6 @@ open.1:	movem	x2,.JBFF	;start of buffers (for filop.)
 	  jfcl
 	movem	t1,leblk+3
 	jrst	open.3		;and ignore any SFDs
-
 open.2:
 open.3:	skipa	t1,[6,,foblk]	;use long filop. block (open file too)
 open.4:	move	t1,[5,,foblk]
@@ -1479,7 +1236,6 @@ open.8:	filop.	t1,		;open it, set up buffers, etc.
 	  jrst	open.5		;oops!
 	aos	(p)
 	jrst	open.6
-
 open.5:	came	x3,.JBFF	;buffer space allocated by this routine?
 	jrst	open.6		;no, don't need to deallocate
 	movei	x3,(x2)		;pull .JBFF back down
@@ -1488,18 +1244,14 @@ open.5:	came	x3,.JBFF	;buffer space allocated by this routine?
 open.6:	movem	x3,.JBFF	;restore .JBFF
 open.7:	restor	<x3,x2>
 	popj	p,
-
 ;;;	CLOSE. -- Close the most recently opened file and release any
 ;	core that was allocated for buffers.
-;
 close.:	hrlzi	t1,(close 0,)	;build close instr
 	hlrz	t2,fo.fnc	;add in channel number
 	dpb	t2,[point 4,t1,12]
 	xct	t1		;close it
-
 	skipg	t1,fl.ff	;need to reduce core?
 	popj	p,		; no
-
 	setzm	fl.ff
 	movem	t1,.JBFF
 	andi	t1,^-777	;last page used
@@ -1507,72 +1259,54 @@ close.:	hrlzi	t1,(close 0,)	;build close instr
 	andi	t2,^-777	;last page allocated
 	cain	t1,(t2)		;same?
 	popj	p,		;yes, forget CORE UUO
-
 	core	t1,		;deallocate buffer space
 	  warn	<Can't reduce core>
 	popj	p,
 	subttl	Low Level I/O -- SETO./SETI.
-
 ;;;	SETO. -- Set up for output to new file.
-;
 ;	Input
 ;	  X1[L]	address of new output file block
 ;	Output
 ;	  X1[L]	address of old output file block
-;
 seto.:	hlrz	t1,x1
 	hrl	x1,obflb	;get addr of old file block
 	hrrm	t1,obflb	;save addr of new file block
-
 	hlrz	t2,.fbcio(t1)	;get addr of char out routine
 	movem	t2,oc		;save it
-
 	hlrz	t2,.fbbrh(t1)	;addr of buffer control block
 	movei	t3,.BFCTR(t2)	;addr of char count
 	movem	t3,obfctr
 	movei	t3,.BFPTR(t2)	;addr of char pointer
 	movem	t3,obfptr
-
 	hrlzi	t2,(output 0,)	;build output instr
 	movem	t2,obfins
 	hlrz	t2,.fbfnc(t1)	;add in channel number
 	dpb	t2,[point 4,obfins,12]
-
 	popj	p,
-
 ;;;	SETI. -- Set up for input from new file.
-;
 ;	Input
 ;	  X1[R]	address of new input file block
 ;	Output
 ;	  X1[R]	address of old input file block
-;
 seti.:	hrrzi	t1,(x1)
 	hrr	x1,ibflb	;get addr of old file block
 	hrrm	t1,ibflb	;save addr of new file block
-
 	hrrz	t2,.fbcio(t1)	;get addrr of char in routine
 	movem	t2,ic		;save it
-
 	hrrz	t2,.fbbrh(t1)	;addr of buffer control block
 	movei	t3,.BFCTR(t2)	;addr of char count
 	movem	t3,ibfctr
 	movei	t3,.BFPTR(t2)	;addr of char pointer
 	movem	t3,ibfptr
-
 	hrlzi	t2,(in 0,)	;build in instr
 	movem	t2,ibfins
 	hlrz	t2,.fbfnc(t1)	;add in channel number
 	dpb	t2,[point 4,ibfins,12]
-
 	popj	p,
 	subttl	Low Level I/O -- OCHR./ICHR.
-
 ;;;	OCHR. -- Low level character output routine.
 ;	Output the character from c.
-;
 ochr.:	jrst	@oc		;dispatch to character output routine
-
 ochr.b:	skipe	hungup		; if job hung up
 	popj	p,		; then ignore this output request!
 	sosl	@obfctr		;buffered output
@@ -1583,59 +1317,46 @@ ochr.b:	skipe	hungup		; if job hung up
 	movem	0,@obfctr
 	pop	p,0
 	jrst	ochr.b
-
 ochr.t:	skipn	hungup		; ignore outchr if job hungup
 	outchr	c		;ttcall output
 	jrst	.+2
-
 ochr.x:	idpb	c,@obfptr
 	aos	hcpos		;update horizontal cursor position
 	trne	c,140		;control char?
 	popj	p,		;no, no special processing required
-
 	save	<c>
 	hrrzi	c,(c)
 	sos	hcpos		;most control chars are non printing
-
 	caie	c,cr		;carriage return?
 	jrst	ochr.1		;no
 	skipe	hcpos		;line was blank?
 	setom	blank		;no, next <LF> will be first blank line
 	setzm	hcpos		;back at left margin
 	jrst	ochr.2
-
 ochr.1:	cain	c,lf		;line feed?
 	aos	blank		;yes, increment blank line count
-
 	cain	c,010		;backspace?
 	sos	hcpos		;yes, back up one
-
 	caie	c,011		;tab?
 	jrst	ochr.2		;no
 	move	c,hcpos		;get old horizontal cursor position
 	addi	c,10		;compute new position
 	andi	c,^-37
 	movem	c,hcpos
-
 ochr.2:	restor	<c>
 	popj	p,
-
 ;;;	ICHR. -- Low level character input routine.
 ;	Input a character into c.
-;
 ichr.: jrst	@ic		;dispatch to character input routine
-
   ichr.b:	sosge	@ibfctr		;buffered input
 	jrst	ichr.1
 	ildb	c,@ibfptr	;get character
 	jumpe	c,ichr.b	;ignore nulls
 	popj	p,
-
 ichr.1:	xct	ibfins		;get next buffer
 	  jrst	ichr.b
 	seto	c,		;any error is assumed to be eof
 	popj	p,
-
 ichr.t:	skipn	hungup		; if job is hungup
 	skipe	ccflg		; or ^C was seen
 	jrst	incr.h		; then return an <esc>
@@ -1653,16 +1374,13 @@ incr.h:	jrst	[movei	c,12	; then return <lf>
 	cain	c,15		; ignore <ret>
 	jrst	ichr.t
 	popj	p,
-
 	subttl	GTKN -- GTKN
-
 ;;;	GTKN -- Read and parse a line of input.  Return the individual
 ;	tokens in TKNLST, their numeric value in VALLST (else 0), their
 ;	type (eol, null, integer, floating point, alfa) in TYPLST, and
 ;	a pointer to the first character in PTRLST.  The last token  will
 ;	always be EOL.  Return the number of tokens (minus the EOL) in
 ;	NTOK.
-;
 	entry	gtkn
 	sixbit	/GTKN/
 gtkn:	skipe	hungup	; if job is hung up
@@ -1673,7 +1391,6 @@ gtkn:	skipe	hungup	; if job is hung up
 	jrst	gtkn.1		;yes, get new input line
 	pushj	p,ocrl.
 	jrst	gtkn.2
-
 gtkn.1:
 ;	move	t1,locked	; if we have database locked
 ;	movem	t1,svlock
@@ -1696,7 +1413,6 @@ gtkn.2:	setz	f,
 		 movem	t1,tknlst(x1)
 		 aoja	x1,gtkn.5
 		]
-
 gtkn.3:	pushj	p,nxtt.		;scan off next token
 	movei	t1,knul		;assume token is blank
 	trne	f,tf.num
@@ -1708,19 +1424,16 @@ gtkn.3:	pushj	p,nxtt.		;scan off next token
 	movem	t1,typlst(x1)	;store token type
 	trne	f,tf.eol	;end of line?
 	jrst	gtkn.4		;yes
-
 	aobjn	x1,gtkn.3
 	movei	p1,[ascil <Too many words -- line ignored>]
 	pushj	p,ostr.
 	setz	x1,
 	setom	bufptr
 	jrst	gtkn.5
-
 gtkn.4:	trnn	f,tf.chr	;any characters in token?
 	trne	x1,777777	;no, is this the first token?
 	hrrzi	x1,1(x1)	;increment token count
 	hrrzi	x1,(x1)
-
 gtkn.5:	movem	x1,ntok
 	movx	t1,keol		;type of last token is end of line
 	movem	t1,typlst(x1)
@@ -1729,19 +1442,15 @@ gtkn.5:	movem	x1,ntok
 	setzm	tknlst(t1)
 	restor	<x2,x1>
 	popj	p,
-
 	subttl	GTKN -- NXTT.
-
 ;;;	NXTT. -- Get the next token from the input line and store it
 ;	in TKNLST, store it's numeric value is VALLST, and store the
 ;	index to the first character of the token in PTRLST.
-;
 ;	Input
 ;	  X1	Token index
 ;	Output
 ;	  F	LH  input line flag bits (lf.eol)
 ;		RH  token flag bits
-
 	sixbit	/NXTT./
 nxtt.:	save	<x2,x3,p1>
 	hllz	f,f		;zero out local flag bits
@@ -1750,7 +1459,6 @@ nxtt.:	save	<x2,x3,p1>
 	setzm	(p1)
 	movei	x3,5		;max number of chars in token
 	setz	x2,		;numeric value of token
-
 	pushj	p,skpb.		;skip leading spacing characters
 	move	t1,bufptr
 	movem	t1,ptrlst(x1)	;save index to beginning of token
@@ -1772,7 +1480,6 @@ nxtt.1:	hrrz	c,@bufptr	;get character from input line
 	tro	f,tf.chr	;flag that a character has been seen
 	aos	bufptr
 	jrst	nxtt.1
-
 nxtt.2:	pushj	p,skpb.		;skip trailing spacing characters
 	tlne	c,cf.dlm	;terminating character is a delimiter?
 	aos	bufptr		;yes, skip it
@@ -1780,7 +1487,6 @@ nxtt.2:	pushj	p,skpb.		;skip trailing spacing characters
 nxtt.3:	tro	f,tf.eol	;yes, flag it
 	tlne	c,cf.eol!cf.com	;end of line?
 	setom	bufptr		;yes
-
 	trnn	f,tf.nnm	;non-numeric character seen?
 	jrst	nxtt.4		;no
 	setz	x2,		;make sure 0 is returned for numeric value
@@ -1790,9 +1496,7 @@ nxtt.4:	trne	f,tf.neg	;number is negative?
 	movem	x2,vallst(x1)
 	restor	<p1,x3,x2>
 	popj	p,
-
 	;Skip string of spacing characters pointed to by BUFPTR.
-
 	sixbit	/SKPB./
 skpb.:	move	c,@bufptr	;get next character
 	hrl	c,cbits(c)	;get character type bits
@@ -1800,9 +1504,7 @@ skpb.:	move	c,@bufptr	;get next character
 	popj	p,		;no, done
 	aos	bufptr		;yes, skip it
 	jrst	skpb.
-
 	;Add C to the partially built number in X2.
-
 	sixbit	/ANUM./
 anum.:	tlnn	c,cf.sgn	;sign?
 	jrst	anum.1		;no
@@ -1812,7 +1514,6 @@ anum.:	tlnn	c,cf.sgn	;sign?
 	cain	t1,"-"		;minus sign?
 	tro	f,tf.neg	;yes, remember that
 	popj	p,
-
 anum.1:	tlnn	c,cf.pnt	;decimal point?
 	jrst	anum.2		;no
 	troe	f,tf.pnt	;flag that decimal point has been seen
@@ -1821,14 +1522,12 @@ anum.1:	tlnn	c,cf.pnt	;decimal point?
 	hrlzi	x3,(10.0)
 	movem	x3,scale	;scaling factor for first fractional digit
 	popj	p,
-
 anum.2:	tro	f,tf.num	;digit seen
 	trne	f,tf.pnt	;working on fraction portion?
 	jrst	anum.3		;yes
 	imuli	x2,^D10
 	addi	x2,-"0"(c)	;add digit into integer
 	popj	p,
-
 anum.3:	movei	t1,-"0"(c)	;get digit to add to fraction
 	fltr	t1,t1		;float it
 	move	t2,scale	;get scaling factor
@@ -1837,13 +1536,10 @@ anum.3:	movei	t1,-"0"(c)	;get digit to add to fraction
 	fmpri	t2,(10.0)	;adjust scaling factor for next digit
 	movem	t2,scale
 	popj	p,
-
 anum.4:	tro	f,tf.nnm	;illegal sequence of numeric characters
 	setz	x2,
 	popj	p,
-
 	subttl	GETLIN -- INLI.
-
 ;;;	INLI. -- Read a line from the tty and store it in LINBUF.
 ;	If the first character typed is <ESC> (even before ^H or ^U),
 ;	return the previous input line.  Handle line editing (^H, ^U,
@@ -1851,7 +1547,6 @@ anum.4:	tro	f,tf.nnm	;illegal sequence of numeric characters
 ;	Ignore <CR>, and convert the end of line character to <NUL>.
 ;	Always echo <CR>, and also echo <LF> if the end of line char
 ;	didn't output any line feed (<ESC>).
-;
 	sixbit	/INLI./
 inli.:	skipn	hungup
 	output	tty,
@@ -1861,11 +1556,9 @@ inli.:	skipn	hungup
 	jrst	inli.1		;no
 	setom	rptflg		;yes, say so (can't repeat TELL commands)
 	jrst	inli.5
-
 inli.1:	setzm	rptflg		;this is a new command
 	setzm	chrcnt		;no characters read yet
 	jrst	.+2
-
 inli.2:	pushj	p,nxch.		;get next character
 	trne	f,cf.spe	;character requires special action?
 	jrst	inli.3		;yes
@@ -1874,7 +1567,6 @@ inli.2:	pushj	p,nxch.		;get next character
 	caige	t1,maxcnt	;buffer full yet?
 	jrst	inli.2		;no, get next character
 	jrst	inli.4		;yes, terminate input line
-
 inli.3:	trnn	f,cf.eol	;end of line character?
 	jrst	inli.6		;no
 inli.4:	aos	t1,chrcnt
@@ -1889,18 +1581,14 @@ inli.5:	movei	c,cr		;return to left margin
 	skipe	echflg		;echoing turned off?
 	pushj	p,echon		;yes, turn it on again
 	popj	p,
-
 inli.6:	trne	f,cf.etg
 	pushj	p,echg.		;toggle echo
-
 	trne	f,cf.dsp
 	pushj	p,disp.		;display line
-
 	trnn	f,cf.bsc	;back up over single character?
 	jrst	inli.7		;no
 	sosge	chrcnt
 	setzm	chrcnt
-
 inli.7:	trnn	f,cf.bsl	;back space over entire line?
 	jrst	inli.2		;no
 	setzm	chrcnt		;yes, no more chars in buffer
@@ -1909,46 +1597,31 @@ inli.7:	trnn	f,cf.bsl	;back space over entire line?
 	skipge	echflg		;echoing off?
 	pushj	p,echon		;yes, turn it on
 	jrst	inli.2
-
 	subttl	GETLIN -- NXCH.
-
 ;;;	Get the next character and return it's flag bits.
-;
 ;	Input
 ;	  F	LH  line processing flags (global to all characters)
 ;	Output
 ;	  F	RH  flag bits for character
 ;	  CHR	RH  character
-;
 	sixbit	/NXCH./
 nxch.: pushj	p,ichr.		;get the next character
 	hrr	f,cbits(c)	;get the character type bits
-
 	trne	f,cf.ign	;ignore this character?
 	jrst	nxch.		;yes
-
 	skipe	echflg		;characters are being echoed?
 	trz	f,cf.cr!cf.ff	;no, didn't echo <CR> or <LF>,<VT>,<FF>
-
 	popj	p,
-
 	subttl	GETLIN -- DISP.
-
 ;;;	DISP. -- Display the current input line in response to ^R.
-;
 	sixbit	/DISP./
 disp.:	skipn	hungup
-
-
 	outstr	[byte (7) 15,12]
-
 	skipge	echflg		;is echoing turned on?
 	pushj	p,echon		;no, turn it on
-
 	movn	t1,chrcnt	;negative number of characters in buffer
 	hrlzi	t1,-1(t1)
 	hrri	t1,linbuf-1
-
 disp.2:	aobjp	t1,disp.4	;no more characters to echo
 	hrrz	c,(t1)		;get character from buffer
 	cail	c,007
@@ -1961,28 +1634,20 @@ disp.2:	aobjp	t1,disp.4	;no more characters to echo
 disp.3:	skipn	hungup
 	outchr	c
 	jrst	disp.2
-
 disp.4:	popj	p,
-
 	subttl	GETLIN -- ECHG.
-
 ;;;	ECHG. -- Toggle echo in response to ^G input.
-;
 	sixbit	/ECHG./
 echg.:	skipge	echflg		;echo on?
 	pjrst	echon		;no, turn echo on
 	pjrst	echoff		;yes, turn echo off
 	subttl	Output -- OUT/SKIP
-
 ;;;	OUT -- output an asciz string, optionally followed by a number
 ;	of <CR><LF>.
-;
 ;		CALL OUT (str,n)
-;
 ;	str is either the address of an asciz string, else the address
 ;	of the actual address (indirect bit won't be set).  n is the
 ;	number of <CR><LF> to output after the string.
-;
 	entry	out
 	sixbit	/OUT/
 out:	movei	p1,@0(arg)	;address of string to output
@@ -1991,24 +1656,18 @@ out:	movei	p1,@0(arg)	;address of string to output
 	tlnn	t1,777777
 	move	p1,(p1)		;was really the address of an address
 	pushj	p,ostr.
-
 	move	t1,@1(arg)	;get number of <CR><LF>s to output
 	jrst	skip.1		;go do it
-
 	entry	skip		;output specified number of <CR><LF>s
 	sixbit	/SKIP/
 skip:	move	t1,@0(arg)	;get number of <CR><LF>s to output
-
 skip.1:	sojl	t1,cpopj
 	ochr	cr
 	ochr	lf
 	jrst	skip.1
 	subttl	Output -- TAB/SPACES/OSPC./OCRL./CRLF
-
 ;;;	TAB -- absolute tab to column
-;
 ;		CALL TAB (col)
-;
 	entry	tab
 	sixbit	/TAB/
 tab:	move	x1,@0(arg)
@@ -2017,11 +1676,8 @@ tab.:	sub	x1,hcpos
 	sojle	x1,cpopj
 	pushj	p,ochr.
 	jrst	.-2
-
 ;;;	SPACES -- relative tab (output n spaces)
-;
 ;		CALL SPACES (n)
-;
 	entry	spaces
 	sixbit	/SPACES/
 spaces:	move	x1,@0(arg)
@@ -2029,23 +1685,17 @@ spcs.:	movei	c,sp
 	sojl	x1,cpopj
 	pushj	p,ochr.
 	jrst	.-2
-
 ;;;	SPACE/OSPC. -- Output a space.
-;
 ;		PUSHJ	P,OSPC.
-;
 	entry	space
 	sixbit	/SPACE/
 space:
 ospc.:	movei	c,sp		;get a space
 	pushj	p,ochr.		;and output it
 	popj	p,
-
 ;;;	OCRL./CRLF -- Output <CR><LF> if not at left margin or previous
 ;	output line wasn't blank.
-;
 ;		PUSHJ	P,OCRL.
-;
 	entry	crlf
 	sixbit	/CRLF/
 crlf:
@@ -2053,20 +1703,17 @@ ocrl.:	skiple	blank		;any blank lines yet?
 	skipe	hcpos		;and at left margin?
 	jrst	.+2
 	popj	p,		;yes, don't output another blank line
-
 	movei	c,cr
 	pushj	p,ochr.
 	movei	c,lf		;get a line feed
 	pushj	p,ochr.
 	popj	p,
 	subttl	Output -- OUTC/OUT2C/OUTW/OUT2W
-
 	entry	outc		;output a single, left justified character
 	sixbit	/OUTC/
 outc:	ldb	c,[point 7,@0(arg),6]
 	pushj	p,ochr.
 	popj	p,
-
 	entry	out2c		;output two left justified characters
 	sixbit	/OUT2C/
 out2c:	ldb	c,[point 7,@0(arg),6]
@@ -2074,7 +1721,6 @@ out2c:	ldb	c,[point 7,@0(arg),6]
 	ldb	c,[point 7,@0(arg),13]
 	pushj	p,ochr.
 	popj	p,
-
 	entry	outw		;output a single left justified word
 	sixbit	/OUTW/
 outw:	move	t1,@0(arg)	;get word
@@ -2083,7 +1729,6 @@ outw:	move	t1,@0(arg)	;get word
 	movei	p1,tmp
 	pushj	p,ostr.
 	popj	p,
-
 	entry	out2w		;output two words
 	sixbit	/OUT2W/
 out2w:	move	t1,@0(arg)	;get first word
@@ -2095,9 +1740,7 @@ out2w:	move	t1,@0(arg)	;get first word
 	pushj	p,ostr.
 	popj	p,
 	subttl	Output -- OTIM
-
 	;Output the time in the format hh:mm:ss
-	;
 	;	CALL OTIM (TIME)
 	entry	otim
 	sixbit	/OTIM/
@@ -2114,7 +1757,6 @@ otim:	move	x1,@0(arg)
 	movei	t1,(x3)
 	pushj	p,o2d		;output the seconds
 	popj	p,
-
 	sixbit	/O2D/
 o2d:	idivi	t1,^D10
 	movei	c,"0"(t1)	;output first digit
@@ -2123,36 +1765,29 @@ o2d:	idivi	t1,^D10
 	pushj	p,ochr.
 	popj	p,
 	subttl	Output -- OSTR./OSTB./O2DG./O2DB./OSIX.
-
 ;;;	OSTR. -- Output the asciz string pointed to by P1.
-;
 ostr.:	hrli	p1,(point 7)
 ostr.x:	ildb	c,p1
 	jumpe	c,cpopj
 	pushj	p,ochr.
 	jrst	ostr.x
-
 ;;;	OSTB. -- Output the string pointed to by P1.  Either a null or
 ;	blank terminates the string.  Output no more than 10 characters.
-;
 ostbx.:	hrli	p1,(point 7,0)
 	save	<x1,x2>
 	movei	x1,^d10
 	seto	x2,		; pad out to 10 columns
 	jrst	ostb.1
-
 ostb.:	hrli	p1,(point 7)
 ostb.x:	save	<x1,x2>
 	setz	x2,
 	movei	x1,^D10
-
 ostb.1:	ildb	c,p1
 	caie	c,0
 	cain	c," "
 	jrst	ostb.2
 	pushj	p,ochr.
 	sojg	x1,ostb.1
-
 ostb.2:
 	jumpe	x2,ostb.4
 ostb.3:	sojle	x1,ostb.4
@@ -2162,12 +1797,9 @@ ostb.3:	sojle	x1,ostb.4
 ostb.4:
 	restor	<x2,x1>
 	popj	p,
-
 ;;;	O2DG. -- output the 2 digit decimal number from X1.
-;
 ;		MOVE	X1,number
 ;		PUSHJ	P,O2DG.
-;
 	sixbit	/O2DG./
 o2dg.:	save	<x1,x2>
 	idivi	x1,^D100	;ignore any overflow digits
@@ -2179,9 +1811,7 @@ o2dg.:	save	<x1,x2>
 	pushj	p,ochr.
 	restor	<x2,x1>
 	popj	p,
-
 ;;;	O2DB. -- Output a 2 digit number, suppress leading 0.
-;
 o2db.:	save	<x1,x2>
 	idivi	x1,^D10
 	movei	c,"0"(x1)
@@ -2192,14 +1822,10 @@ o2db.:	save	<x1,x2>
 	pushj	p,ochr.
 	restor	<x2,x1>
 	popj	p,
-
-
 ;;;	OSIX. -- output the sixbit word from X1 using the field width
 ;	in X2.
-;
 ;		MOVE	X1,[sixbit /str/]
 ;		PUSHJ	P,OSIX.
-;
 	sixbit	/OSIX./
 osix.:	save	<x1,c+1>
 	move	c+1,x1		;sixbit word to output
@@ -2212,28 +1838,22 @@ osix.1:	setz	c,
 	restor	<c+1,x1>
 	popj	p,
 	subttl	Output -- ODEC./OOCT.
-
 ;;;	ODEC. -- output the decimal number from X1 using the field width
 ;	in X2.
-;
 ;		MOVE	X1,number
 ;		MOVEI	X2,field width
 ;		PUSHJ	P,ODEC.
-;
 	sixbit	/ODEC./
 odec.:	save	<x3>
 	movei	x3,^D10		;radix 10
 	pushj	p,onum.		;output the number
 	restor	<x3>
 	popj	p,
-
 ;;;	OOCT. -- output the octal number from X1 using the field width in
 ;	X2.
-;
 ;		MOVE	X1,number
 ;		MOVEI	X2,field width
 ;		PUSHJ	P,OOCT.
-;
 	sixbit	/OOCT./
 ooct.:	save	<x3>
 	movei	x3,^D8		;radix 8
@@ -2241,32 +1861,24 @@ ooct.:	save	<x3>
 	restor	<x3>
 	popj	p,
 	subttl	Output -- ONUM./OSN1./OSN2./OSN3.
-
 ;;;	In the following output routines, the field width has the
 ;	following meanings:
-;
 ;	w > 0 --> pad out to field width (blanks before numbers and after
 ;		  after strings) or truncate if neccessary.
 ;	w = 0 --> use free format (take up just as much space as needed).
 ;	w < 0 --> pad out to field width, expand field if neccessary.
-;
 ;	The actual field width used is always returned in the same AC
 ;	that the original field width was passed in (X2).
-
-
 ;;;	ONUM. -- output the number from X1, using the field width in X2
 ;	and the radix in X3.
-;
 ;		MOVE	X1,number
 ;		MOVEI	X2,width
 ;		MOVEI	X3,radix
 ;		PUSHJ	P,ONUM.
-;
 ;	entry ONUM. -- Output sign if negative.
 ;	entry OSN1. -- Output sign if non-zero.
 ;	entry OSN2. -- Output sign always.  0 counts as positive.
 ;	entry OSN3. -- Output sign always.  0 counts as negative.
-;
 osn1.:	jumpe	x1,onum.	;-1 --> -1 ; 0 --> 0 ; 1 --> +1
 osn2.:	jumpge	x1,.+2		;-1 --> -1 ; 0 --> +0 ; 1 --> +1
 osn3.:	jumple	x1,.+2		;-1 --> -1 ; 0 --> -0 ; 1 --> +1
@@ -2276,35 +1888,28 @@ osn3.:	jumple	x1,.+2		;-1 --> -1 ; 0 --> -0 ; 1 --> +1
 onum.:	jumpl	x1,.+2		;negative; output sign
 	tdza	t2,t2
 	movei	t2,"-"
-
 onum.1:	save	<x1,x4>
 	movm	x4,x2		;get abs(field width)
 	movni	x4,(x4)
 	hrlzi	x4,(x4)		;-width,,0
-
 	save	<[-1]>		; save sentinel
-
 	movm	t1,x1		;get number to output
 	movei	x1,(t2)		;remember sign
 	jumpe	x1,onum.2	;don't output sign
 	aobjn	x4,.+2		;more room in field
 	jumpg	x2,onum.4	;field is full
-
 onum.2:	idivi	t1,(x3)		;get least significant digit
 	save	<t2>		; save it
 	jumpe	t1,onum.3	;no more digits to strip off
 	aobjn	x4,onum.2	;more room in field
 	jumple	x2,onum.2	;free format or expand field if necessary
 	jrst	onum.4		;overflow
-
 	pushj	p,ospc.		;pad in leading space
 onum.3:	aobjn	x4,.-1		;field not full yet
 	tdza	x2,x2		;field didn't overflow
 onum.4:	seto	x2,		;field did overflow
-
 	skipe	c,x1
 	pushj	p,ochr.		;output sign
-
 onum.5:	restor	<c>		; get digit
 	jumpl	c,onum.6	;-1 signals end of number
 	addi	c,"0"		;change to character code
@@ -2312,20 +1917,15 @@ onum.5:	restor	<c>		; get digit
 	movei	c,"*"		;yes, output stars instead
 	pushj	p,ochr.		;output character
 	jrst	onum.5		;loop for remaining digits
-
 onum.6:	movei	x2,(x4)		;get actual field width used
 	restor	<x4,x1>
 	popj	p,
 	subttl	Output -- ODEC/OSDEC
-
 ;;;	ODEC -- Output decimal number (-1, 0, 1)
 ;;;	OSDEC -- Output signed decimal number (-1, 0, +1)
-;
 ;		CALL ODEC/OSDEC (n,w)
-;
 ;	n is number to output
 ;	w is field width
-;
 	entry	odec,osdec	;output decimal number
 osdec:	skipa	t1,[osn1.]
 odec:	movei	t1,onum.
@@ -2337,17 +1937,13 @@ odec:	movei	t1,onum.
 	restor	<x3,x2,x1>
 	popj	p,
 	subttl	Output -- OFLT/OSFLT
-
 ;;;	OFLT -- Output a fixed point decimal number (-1.0, 0.0, 1.0)
 ;;;	OSFLT -- Output a signed fixed point decimal number (-1.0, -0.0, +1.0)
 ;	(The sign is fixed at 1 fractional digit.).  Omit the decimal
 ;	point and fractional digit if output format is set to short.
-;
 ;		CALL OFLT (n,w)
-;
 ;	n = number to output
 ;	w = field width for integer part
-;
 	entry	oflt,osflt
 osflt:	skipg	@0(arg)		;n > 0?
 	skipa	t1,[osn3.]	;no, output as negative
@@ -2370,14 +1966,11 @@ oflt:	movei	t1,onum.
 oflt.1:	restor	<x4,x3,x2,x1>
 	popj	p,
 	subttl	Output -- ODISP
-
 ;;;	ODISP -- output the symbol for the object whose display code
 ;	is disp_code.  Use the long form if LNGBIT is set in OFLG,
 ;	else use the short form.  Output a space after the symbol if
 ;	space_flag > 0.
-;
 ;		CALL ODISP (disp_code,space_flag)
-;
 	entry	odisp
 	sixbit	/ODISP/
 odisp:	move	t1,@0(arg)	;get display code of object to output
@@ -2394,7 +1987,6 @@ odisp:	move	t1,@0(arg)	;get display code of object to output
 	skiple	@1(arg)
 	pushj	p,ospc.
 	popj	p,
-
 shtdsp:	[asciz	/./]
 	shtshp-1(t2)		;federation ship
 	shtshp-1(t2)		;empire ship
@@ -2406,7 +1998,6 @@ shtdsp:	[asciz	/./]
 	[asciz	/-@/]		;Empire planet
 	[asciz	/*/]		;star
 	[asciz	/BH/]		;black hole
-
 shtshp:	asciz	/E/
 	asciz	/F/
 	asciz	/I/
@@ -2416,7 +2007,6 @@ shtshp:	asciz	/E/
 	asciz	/T/
 	asciz	/V/
 	asciz	/Y/
-
 	asciz	/B/
 	asciz	/C/
 	asciz	/D/
@@ -2426,7 +2016,6 @@ shtshp:	asciz	/E/
 	asciz	/M/
 	asciz	/P/
 	asciz	/W/
-
 lngdsp:	[asciz	/Empty Space/]
 	@lngshp-1(t2)		;federation ship
 	@lngshp-1(t2)		;empire ship
@@ -2438,7 +2027,6 @@ lngdsp:	[asciz	/Empty Space/]
 	[asciz	/Emp planet/]
 	[asciz	/Star/]
 	[asciz	/Black Hole/]
-
 lngshp: [asciz  /Excalibur/]
     [asciz	/Farragut/]
     [asciz	/Intrepid/]
@@ -2448,7 +2036,6 @@ lngshp: [asciz  /Excalibur/]
     [asciz	/Trenton/]
 	[asciz	/Vulcan/]
 	[asciz	/Yorktown/]
-
     [asciz	/Buzzard/]
 	[asciz	/Cobra/]
 	[asciz	/Demon/]
@@ -2459,12 +2046,9 @@ lngshp: [asciz  /Excalibur/]
     [asciz	/Panther/]
 	[asciz	/Wolf/]
 	subttl	Output -- ODEV
-
 ;;;	ODEV -- Output the name of a device.  Use different formats
 ;	depending on the value of OFLG (short, medium, or long).
-;
 ;		CALL ODEV (dev_num)
-;
 	entry	odev
 	sixbit	/ODEV/
 odev:	move	t1,@0(arg)	;get device number
@@ -2476,7 +2060,6 @@ odev:	move	t1,@0(arg)	;get device number
 	move	p1,lngdev-1(t1) ;long format
 	pushj	p,ostr.
 	popj	p,
-
 shtdev:	asciz	/SH /		;deflector shields
 	asciz	/WA /		;warp engines
 	asciz	/IM /		;impulse engines
@@ -2486,7 +2069,6 @@ shtdev:	asciz	/SH /		;deflector shields
 	asciz	/CO /		;computer
 	asciz	/RA /		;radio
 	asciz	/TR /		;tractor beam
-
 meddev:	[asciz	/Shields /]
 	[asciz	/Warp /]
 	[asciz	/Impulse /]
@@ -2496,7 +2078,6 @@ meddev:	[asciz	/Shields /]
 	[asciz	/Computer /]
 	[asciz	/Radio /]
 	[asciz	/Tractor /]
-
 lngdev:	[asciz	/Deflector Shields /]
 	[asciz	/Warp Engines /]
 	[asciz	/Impulse Engines /]
@@ -2507,11 +2088,8 @@ lngdev:	[asciz	/Deflector Shields /]
 	[asciz	/Radio /]
 	[asciz	/Tractor Beam /]
 	subttl	Output -- OCOND
-
 ;;;	OCOND -- Output condition ([docked +] green, yellow, red)
-;
 ;		CALL OCOND (condition)
-;
 	entry	OCOND
 	sixbit	/OCOND/
 ocond:	move	t1,who		;get player index
@@ -2527,20 +2105,15 @@ ocon.1:	move	t1,@0(arg)	;get ship condition code
 	move	p1,shtcnd-1(t1)	;yes, get single character condition code
 	pushj	p,ostr.
 	popj	p,
-
 lngcnd:	[asciz	/Green/]
 	[asciz	/Yellow/]
 	[asciz	/Red/]
-
 shtcnd:	[asciz	/G/]
 	[asciz	/Y/]
 	[asciz	/R/]
 	subttl	Output -- OSTS./STAT
-
 ;;;	OSTS. -- Output initial gripe line info.
-;
 osts.:	save	<x1,x2,x3,x4>
-
 	ochr	"["
 	ochr	"V"		;output version number
 	move	x1,versio	;get version number
@@ -2551,11 +2124,8 @@ osts.:	save	<x1,x2,x3,x4>
 	pushj	p,ochr.
 	movei	c,"0"(x2)	;minor version
 	pushj	p,ochr.
-
 	pushj	p,ospc.		;output date
 	pushj	p,ospc.
-
-
 ;added by drforbin to added date and time to gripe
 	date 	t1,
 	dacon	t1,day#,month#,year#
@@ -2569,28 +2139,22 @@ osts.:	save	<x1,x2,x3,x4>
 	pushj	p,ostr.
 	move	x1,year
 	pushj	p,o2dg.;drforbin end code
-
 	pushj	p,ospc.
-
 	mstime	t1,
 	movem	t1,@0(arg)
 	pushj	p,otim
 ;end
-
 ;-------------------edited out by drforbin used CIS calls
 ;	movei	x1,tmp		; get current date
 ;	calli	x1,-121		; UNDAT. uuo
 ;	  jfcl
 ;	pushj	p,xfrtmp
 ;	pushj	p,ospc.
-;
-;
 ;	movei	x1,tmp		; get current time
 ;	calli	x1,-120		; UNTIM. uuo
 ;	  jfcl
 ;	pushj	p,xfrtmp
 ;-----------------------end drforbin
-
 	pushj	p,ospc.
 	pushj	p,ospc.
 	move	x3,who		;who to output user info for
@@ -2614,23 +2178,18 @@ osts.p:	pushj	p,stat.x
 	pushj	p,ocrl.
 	restor	<x4,x3,x2,x1>
 	popj	p,
-
 xfrtmp:	move	x1,[point 7,tmp]
 xfrtm1:	ildb	c,x1
 	skipn	c
 	popj	p,
 	pushj	p,ochr.
 	jrst	xfrtm1
-
 ;;;	STAT -- Output user info.
-;
 	entry	stat
 	sixbit	/STAT/
 stat:	move	x3,@1(arg)	;get player to output info for
 	movn	x4,@0(arg)	;get number of items to output
-
 ;;;	STAT.X:	In-game output routine for user info.
-;
 stat.x:	aojg	x4,stat.1	;ship name
 	move	p1,lngshp-1(x3)
 	hrli	p1,(point 7)
@@ -2639,7 +2198,6 @@ stat.x:	aojg	x4,stat.1	;ship name
 	sub	x1,hcpos	;negative number of spaces used
 	addi	x1,^D10		;number of filler spaces needed
 	pushj	p,spcs.
-
 	aojg	x4,stat.1	;captain's name
 	pushj	p,ospc.
 ;	pushj	p,osix.
@@ -2647,13 +2205,11 @@ stat.x:	aojg	x4,stat.1	;ship name
 	pushj	p,osix.
 	move	x1,job+KNPLAY*<KNAM2-1>-1(x3) ;second half of name
 	pushj	p,osix.
-
 	aojg	x4,stat.1	;terminal speed
 	pushj	p,ospc.
 	move	x1,job+knplay*<kttysp-1>-1(x3)
 	movei	x2,4
 	pushj	p,odec.
-
 	aojg	x4,stat.1	;PPN
 	pushj	p,ospc.
 	pushj	p,ospc.
@@ -2669,23 +2225,18 @@ stat.x:	aojg	x4,stat.1	;ship name
 	jrst	.+2
 	pushj	p,ospc.		;pad in a trailing blank
 	aojl	x2,.-1		;go back for more
-
 	aojg	x4,stat.1	;TTY number
 	pushj	p,ospc.
 	move	x1,job+KNPLAY*<KTTYN-1>-1(x3) ;TTY number
 	pushj	p,osix.		; output in sixbit!
-
 	aojg	x4,stat.1	;job number
 	pushj	p,ospc.
 	pushj	p,ospc.
 	move	x1,job+KNPLAY*<KJOB-1>-1(x3) ;job number
 	movei	x2,3		;field width of 3
 	pushj	p,odec.
-
 stat.1:	popj	p,
-
 ;;;	STAT.Y:	For use in Pre-game gripes only.
-;
 stat.y:	aojg	x4,stat.2	;ship name
 	movei	p1,[asciz /Pre-game/]
 	hrli	p1,(point 7)
@@ -2694,20 +2245,17 @@ stat.y:	aojg	x4,stat.2	;ship name
 	sub	x1,hcpos	;negative number of spaces used
 	addi	x1,^D10		;number of filler spaces needed
 	pushj	p,spcs.
-
 	aojg	x4,stat.2	;captain's name
 	pushj	p,ospc.
 	move	x1,nam1		;first half of name
 	pushj	p,osix.
 	move	x1,nam2		;second half of name
 	pushj	p,osix.
-
 	aojg	x4,stat.2	;terminal speed
 	pushj	p,ospc.
 	move	x1,ttyspd	;TTY speed
 	movei	x2,4		;field width of 4
 	pushj	p,odec.
-
 	aojg	x4,stat.2	;PPN
 	pushj	p,ospc.
 	pushj	p,ospc.
@@ -2723,56 +2271,40 @@ stat.y:	aojg	x4,stat.2	;ship name
 	jrst	.+2
 	pushj	p,ospc.		;pad in a trailing blank
 	aojl	x2,.-1		;go back for more
-
 	aojg	x4,stat.2	;TTY number
 	pushj	p,ospc.
 	move	x1,ttynum	;TTY number
 	pushj	p,osix.
-
 	aojg	x4,stat.2	;job number
 	pushj	p,ospc.
 	pushj	p,ospc.
 	move	x1,jobnum	;job number
 	movei	x2,2		;field width of 2
 	pushj	p,odec.
-
 stat.2:	popj	p,
-
 	subttl	Random number generator
-
 ;;;	SETRAN -- Initialize the random number generator.
-;
 	entry	setran
 	sixbit	/SETRAN/
 setran:	skipn	t1,@0(arg)	;seed given?
 	mstime	t1,		;no, make one up
 	movem	t1,seed
 	popj	p,
-
-
 ;;;	IRAN -- Return an integer random integer between 1 and n, inclusive.
-;
 ;		ir = IRAN(n)
-;
 	entry	iran
 	sixbit	/IRAN/
 iran:	pushj	p,ran.		;get "random" number
 	idiv	t0,@0(arg)	;scale it to desired range
 	movei	t0,1(t1)
 	popj	p,
-
-
 ;;;	RAN -- Return a floating point random number n, where 0 <= n < 1.
-;
 ;		r = RAN(dummy)
-;
 	entry	ran
 	sixbit	/RAN/
 ran:	pushj	p,ran.		;get random number
 	fsc	t0,200		;float it
 	popj	p,
-
-
 ran.:	move	t1,seed		;get current seed
 	trnn	t1,-1		;any low order bits set?
 	hrri	t1,^D260543	;no, set some
@@ -2782,13 +2314,9 @@ ran.:	move	t1,seed		;get current seed
 	move	t0,t1
 	idivi	t0,^D257	;the first prime number > 2^8
 	popj	p,
-
 	subttl	PWR
-
 ;;;	PWR -- Raise a floating point number to an integer power.
-;
 ;		PWR(f,n) = f^n
-;
 	entry	pwr
 	sixbit	/PWR/
 pwr:	save	<x1,x2,x3>
@@ -2798,11 +2326,9 @@ pwr:	save	<x1,x2,x3>
 	move	t0,x1
 	restor	<x3,x2,x1>
 	popj	p,
-
 pwr.:	save	<x3,x4>
 	cail	x3,5		;small enough to compute without recursing?
 	jrst	pwr.1		;no
-
 	hrlzi	t1,(1.0)	;X2 ^ 0
 	cail	x3,1
 	move	t1,x2		;X2 ^ 1
@@ -2814,17 +2340,14 @@ pwr.:	save	<x3,x4>
 	fmpr	t1,X2		;X2 ^ 4
 	movem	t1,x1
 	jrst	pwr.2
-
 pwr.1:	idivi	x3,2		;split power in half
 	pushj	p,pwr.		;compute the value of the first half
 	fmpr	x1,x1		;compute the value of the two halves combined
 	jumpe	x4,pwr.2	;did the original power divide evenly?
 	fmpr	x1,x2		;no, add in one more
-
 pwr.2:	restor	<x4,x3>
 	popj	p,
 	subttl	SCAN -- SETSCN
-
 	entry	setscn
 	sixbit	/SETSCN/
 setscn:	move	x1,@0(arg)	;Hmin
@@ -2839,25 +2362,21 @@ setscn:	move	x1,@0(arg)	;Hmin
 	movem	x4,Hmax
 	subi	x4,-1(x1)	;dH
 	movem	x4,dH
-
 	movei	p1,-1(x2)
 	imuli	p1,ksid
 	movei	t1,-1(x1)
 	idivi	t1,3
 	addi	p1,(t1)
 	add	p1,b12tbl-1(t2)
-
 	move	x1,p1
 	move	p2,[point 7,screen]
 	move	x2,p2
 	jrst	sets.2
-
 sets.1:	addi	x1,ksid
 	move	p1,x1
 	addi	x2,^D9
 	move	p2,x2
 	move	x4,dH
-
 sets.2:	ildb	t1,p1		;get object code from board
 	cain	t1,7777		;cloaked ship?
 	setz	t1,		;yes, show empty space
@@ -2883,13 +2402,11 @@ objtbl:	dmove	t1,[exp " ","."] ; 0 = nothing
 	dmove	t1,[exp "@","E"] ; 8 = emp planet
 	dmove	t1,[exp " ","*"] ; 9 = star
 	dmove	t1,[exp " "," "] ; 10 = black hole
-
 getshp:	add	t2,[point 7,shtshp-1,6]
 	movei	t1," "
 	ldb	t2,t2
 	popj	p,
 	subttl	SCAN -- MARK
-
 	entry	mark
 	sixbit	/MARK/
 mark:	move	x1,@1(arg)	;horizontal center
@@ -2899,21 +2416,18 @@ mark:	move	x1,@1(arg)	;horizontal center
 	pushj	p,reloc.
 	jumple	x2,cpopj
 	dmove	x3,x1		;X3 = Hf, X4 = dH
-
 	move	x1,@0(arg)	;vertical center
 	move	x2,@2(arg)
 	move	t1,Vmin
 	move	t2,Vmax
 	pushj	p,reloc.	;X1 = Vf, X2 = dV
 	jumple	x2,cpopj
-
 	movei	p1,-1(x1)
 	imuli	p1,ksid
 	movei	t1,-1(x3)
 	idivi	t1,3
 	addi	p1,(t1)
 	add	p1,b12tbl-1(t2)
-
 	movei	p2,(x1)
 	sub	p2,Vmin
 	imuli	p2,^D9
@@ -2924,18 +2438,15 @@ mark:	move	x1,@1(arg)	;horizontal center
 	idivi	t1,5
 	addi	p2,(t1)
 	add	p2,b7tbl-1(t2)
-
 	move	x1,p1		;pointer to board
 	move	x3,p2		;pointer to screen buffer
 	movei	t3,(x4)		;distance to scan accross
 	jrst	mark.2
-
 mark.1:	addi	x1,ksid		;next row of board
 	move	p1,x1
 	addi	x3,^D9		;next row of screen buffer
 	move	p2,x3
 	movei	t3,(x4)
-
 mark.2:	ildb	t1,p1		;get object code from board
 	caie	t1,0		;empty space?
 	cain	t1,7777	;or cloaked ship?
@@ -2948,7 +2459,6 @@ mark.2:	ildb	t1,p1		;get object code from board
 	sojg	t3,mark.2	;flag remaining columns
 	sojg	x2,mark.1	;flag remaining rows
 	popj	p,
-
 ;	Input
 ;	  X1: center
 ;	  X2: radius
@@ -2957,7 +2467,6 @@ mark.2:	ildb	t1,p1		;get object code from board
 ;	Output
 ;	  X1: first
 ;	  X2: distance
-;
 reloc.:	movei	t3,(x1)
 	addi	t3,(x2)
 	caile	t3,(t2)
@@ -2969,7 +2478,6 @@ reloc.:	movei	t3,(x1)
 	hrrei	x2,1(t3)
 	popj	p,
 	subttl	SCAN -- SHWSCN
-
 	entry	shwscn
 	sixbit	/SHWSCN/
 shwscn:	pushj	p,ocrl.
@@ -2979,7 +2487,6 @@ shwscn:	pushj	p,ocrl.
 	imuli	x2,^D9
 	addi	x2,screen-^D9	;pointer to string for row
 	jrst	shws.2
-
 shws.1:	subi	x1,1		;next row
 	camge	x1,Vmin
 	jrst	shws.3		;done
@@ -2995,11 +2502,8 @@ shws.2:	pushj	p,o2db.		;output row number
 	jrst	shws.1		;no, continue scan output
 	setzm	ccflg		;yes, clear it
 	popj	p,		;and quit
-
 shws.3:	pushj	p,labl.
 	popj	p,
-
-
 labl.:	save	<x1>
 	pushj	p,ospc.
 	move	x1,Hmin
@@ -3008,7 +2512,6 @@ labl.:	save	<x1>
 	pushj	p,ospc.
 	pushj	p,ospc.
 	jrst	labl.2
-
 labl.1:	pushj	p,ospc.
 	skipl	scnflg		;short scan?
 	pushj	p,ospc.		;no, output 2 spaces between column numbers
@@ -3022,41 +2525,7 @@ labl.2:	pushj	p,o2db.
 	restor	<x1>
 	popj	p,
 	subttl	Qmanager -- SETQH/SEQTM
-
-Comment %
-
-The procedure to make a queue entry:
- 1.  Call RSRV. to reserve a spot in the queue.
- 2.  Make an entry into the queue data area.
- 3.  Call UPDT. to update the queue pointers and make the new entry
-     available to other jobs.
-
-The procedure to retrieve a queue entry:
- 1.  Call SRCH. to locate an entry intended for a particular user.
- 2.  Read the specified entry.
- 3.  Call REMV. to remove the user from the destination word of the
-     entry, and possibly remove the entry.
-
-Structure of the queue link lists:
-
-	+-------+-------+
-	|^first | ^last |
-	+-------+-------+
-  QLNK:	| ^next | dbits |  \
-	+-------+-------+   \
-	| ^next | dbits |  QLEN
-	+-------+-------+   /
-	|   -1  | dbits |  /
-	+-------+-------+
-
-All pointers (in the left half word) are relative to QLNK.
-The destination bits (right half word) are never zero if the pointer in
-the left half of the same word is nonzero.
-%
-
-
 ;;;	SETQH -- Initialize the hit queue.
-;
 	entry	setqh
 	sixbit	/SETQH/
 setqh:	setom	hitql-1		;link list header word
@@ -3064,10 +2533,7 @@ setqh:	setom	hitql-1		;link list header word
 	move	t1,[hitql+0,,hitql+1]
 	blt	t1,hitql+knhit-1
 	popj	p,
-
-
 ;;;	SETQM -- Initialize the message queue.
-;
 	entry	setqm
 	sixbit	/SETQM/
 setqm:	setom	msgql-1		;link list header word
@@ -3076,22 +2542,17 @@ setqm:	setom	msgql-1		;link list header word
 	blt	t1,msgql+knmsg-1
 	popj	p,
 	subttl	Qmanager -- SHQA./SHQD.
-
 ifn dbque., <
-
 ;;;	SHQA./SHQD. -- Show addition to/deletion from queue (for
 ;	debugging purposes only).
-;
 ;	Input
 ;	  X1	Address of queue link list
-;
 shqa.:	skipa	t1,["+"]	;adding entry to queue
 shqd.:	movei	t1,"-"		;removing entry from queue
 	skipn	pasflg		; only if user has *password set!
 	popj	p,
 	save	<x1,x2,x3,p1,c>
 	movei	x3,(t1)
-
 	hrrzi	x1,(x1)		;addr of queue link list
 	movei	p1,[asciz /[?Q/] ;unknown queue
 	cain	x1,hitql
@@ -3099,20 +2560,16 @@ shqd.:	movei	t1,"-"		;removing entry from queue
 	cain	x1,msgql
 	movei	p1,[asciz /[MQ/] ;message queue
 	pushj	p,ostr.
-
 	movei	c,(x3)		;+/-
 	pushj	p,ochr.
 	pushj	p,ospc.
-
 	hrrei	x3,(x2)		;entry index
 	addi	x3,(x1)		;link list entry address
 	hrrz	x3,(x3)		;get destination bits
-
 	hrrei	x1,(x2)		;show entry index
 	setz	x2,
 	pushj	p,odec.
 	pushj	p,ospc.
-
 	tdza	x1,x1		;show who entry is intended for
 shq.1:	lsh	x3,-1
 	jumpe	x3,shq.2
@@ -3120,18 +2577,14 @@ shq.1:	lsh	x3,-1
 	trne	x3,1
 	pushj	p,ostr.		;output first char of ship name
 	aoja	x1,shq.1
-
 shq.2:	movei	p1,[byte (7) "]",cr,lf,0]
 	pushj	p,ostr.
 	skipn	hungup
 	output	tty,
-
 	restor	<c,p1,x3,x2,x1>
 	popj	p,
-
 > ;end ifn debug.
 	subttl	Qmanager -- RSRV.
-
 ;;;	RSRV. -- Reserve a spot in a queue.  If the queue is full, it
 ;	must be because a player somehow died without first removing his
 ;	queue entries, or else the hit and message routines don't know
@@ -3179,7 +2632,6 @@ rsrv.4:	setom	(t1)		;reserve spot in queue
 	movei	t1,quelok
 	pushj	p,unlo.
 	popj	p,
-	
 	page
 	subttl	Qmanager -- RSRVHQ
 ;	CALL RSRVHQ (q)
@@ -3189,26 +2641,19 @@ rsrv.4:	setom	(t1)		;reserve spot in queue
 rsrvhq::
 	setzm	lkfail		; new MAKHIT does not need this routine
 	popj	p,
-
-
 	subttl	Qmanager -- UPDT.
-
 ;;;	UPDT. -- Update queue link list pointers to make new entry
 ;	available.
-;
 ;	Input
 ;	  X1[R]	Address of queue link list
 ;	  X2	Index to reserved spot
 ;	  X3[R]	Destination bits
-;
 updt.:	move	t1,[[asciz /UPDT./],,quelok]
 	pushj	p,lock.		;single job access only
 	skipe	lkfail
 	jrst	updt.		; we must update the queue!
 	pushj	p,qupdt.	; do the actual update
 	popj	p,
-
-
 qupdt.:	hrre	t1,-1(x1)	;index to last entry in queue link list
 	addi	t1,(x1)		;address of last entry
 	hrlm	x2,(t1)		;add new entry to chain
@@ -3216,7 +2661,6 @@ qupdt.:	hrre	t1,-1(x1)	;index to last entry in queue link list
 	movei	t1,(x2)		;index to new entry
 	addi	t1,(x1)		;address of new entry
 	hrrom	x3,(t1)		;save destination bits,,data
-
 	movei	t1,quelok
 	pushj	p,unlo.
 ifn dbque., <
@@ -3224,22 +2668,18 @@ ifn dbque., <
 > ;end ifn debug.
 	popj	p,
 	subttl	Qmanager -- SRCH.
-
 ;;;	SRCH. -- Search a queue link list for an entry to be received
 ;	by a particular player.
-;
 ;	Input
 ;	  X1[R]	Address of queue link list
 ;	  X3	Destination bit to check for
 ;	Output
 ;	  X2[R]	Index to entry
 ;	  X2[L]	Address of previous entry
-;
 ;	MOVEI X1,QLNK
 ;	PUSHJ P,SRCH.
 ;	  no matching entries found
 ;	X2 contains index to entry
-;
 srch.:	move	t1,[[asciz /SRCH./],,quelok]
 	pushj	p,lock.		;single job access only
 	skipe	lkfail
@@ -3250,7 +2690,6 @@ srch.:	move	t1,[[asciz /SRCH./],,quelok]
 	movei	t1,quelok
 	pushj	p,unlo.
 	popj	p,
-
 srch.x:	hrlzi	x2,-1(x1)
 	hlre	t1,-1(x1)	;index to first entry in queue
 srch.1:	jumpl	t1,srch.3	;end of chain, and no match
@@ -3260,24 +2699,19 @@ srch.1:	jumpl	t1,srch.3	;end of chain, and no match
 	hrlzi	x2,(t1)		;remember address of entry
 	hlre	t1,(t1)		;get index to next entry
 	jrst	srch.1
-
 srch.2:	subi	t1,(x1)
 	hrri	x2,(t1)
 	aos	(p)
-
 srch.3:	popj	p,
 	subttl	Qmanager -- REMV.
-
 ;;;	REMV. -- Remove a player from the destination bits of a queue
 ;	entry.  If no more destination bits are set, remove the entry
 ;	from the queue.
-;
 ;	Input
 ;	  X1[R]	Address of queue link list
 ;	  X2[L]	Address of entry preceding the entry to be removed
 ;	  X2[R] Index to entry to remove
 ;	  X3	Bit to zero in destination word
-;
 remv.:	move	t1,[[asciz /REMV./],,quelok]
 	pushj	p,lock.		;single job access only
 	skipe	lkfail		; if lock failed
@@ -3286,7 +2720,6 @@ remv.:	move	t1,[[asciz /REMV./],,quelok]
 	movei	t1,quelok
 	pushj	p,unlo.
 	popj	p,
-
 remv.x:
 ifn dbque., <
 	pushj	p,shqd.
@@ -3304,18 +2737,13 @@ ifn dbque., <
 	subi	t3,(x1)		;get index to preceding entry
 	hrrm	t3,-1(x1)	;new last entry
 remv.1:	setzm	(t1)		;zero entry so it can be used again
-
 remv.2:	popj	p,
 	subttl	Hit communication -- MAKHIT
-
 ;;;	MAKHIT -- Record a hit in the hit queue so the victim can receive
 ;	a message that he's been hit.
-;
 ;		SUBROUTINE MAKHIT
-;
 ;	Uses these low segment common variables:
 ;	DBITS	(18) Bits of players to receive the message
-;
 ;	DISPFR	(18) DISP code of player who scored the hit
 ;	DISPTO	(18) DISP code of player who received the hit
 ;	IWHAT	( 4) The type of hit
@@ -3332,15 +2760,12 @@ remv.2:	popj	p,
 ;	SHSTFR	(10)
 ;	SHSTTO	(10)
 ;	SHJUMP	( 1)
-;
 ;	Structure of hit queue entry:
-;
 ;	DISPFR,,DISPTO
 ;	IHITA,,CRITDM
 ;	<IWHAT>B3 + <CRITDV>B7 + <VFROM>B14 + <HFROM>B21 + <VTO>B28 + <HTO>B35
 ;	<KLFLG>B1 + <SHCNFR>B2 + <SHCNTO>B3 + <SHSTFR>B13 + <SHSTTO>B23
 ;	  + <SHJUMP>B24
-;
 	entry	makhit
 	sixbit	/MAKHIT/
 makhit:	skipn	dbits
@@ -3361,14 +2786,12 @@ mhit.a:	move	t2,hitql(x1)	; get the queue entry
 		 move	x2,x1
 		 jrst	.+1]
 	aos	x1
-	sojg	t1,mhit.a
-				; x2 now points to the oldest entry
+	sojg	t1,mhit.a   ; x2 now points to the oldest entry
 mhit.b:	aos	t1,hitser	; bump the serial number
 	hrlzm	t1,hitql(x2)
 	movei	t1,(x2)
 	imuli	t1,4		;get offset into hit queue
 	addi	t1,hitq		;get absolute address of entry
-
 	move	t2,dispfr	;DISP code of source
 	hrlm	t2,0(t1)
 	move	t2,dispto	;DISP code of target
@@ -3420,7 +2843,6 @@ mhit.1:
 	dpb	t2,[point 10,3(t1),23]
 	move	t2,shjump
 	dpb	t2,[point 1,3(t1),24]
-
 	move	x3,dbits	;destination bits
 	iorm	x3,hitql(x2)	; set the destination bits in queue
 mhit2a:	move	t1,dbits	;get bits of players to inform
@@ -3430,7 +2852,6 @@ mhit.2:	trne	t1,1		;inform this guy?
 	lsh	t1,-1		;get bit for next guy
 	aoj	t2,		;index for next guy's hit flag
 	jumpn	t1,mhit.2	;inform next guy
-
 mhit.3:	setzm	dispfr
 	setzm	dispto
 	setzm	ihita
@@ -3449,15 +2870,11 @@ mhit.3:	setzm	dispfr
 	setzm	shjump
 	popj	p,
 	subttl	Hit communication -- GETHIT
-
 ;;;	GETHIT -- Retrieve hit information from the hit queue for the
 ;	specified player.
-;
 ;		SUBROUTINE GETHIT (player)
-;
 ;	Parameters are the same as in MAKHIT, except they are returned
 ;	instead of set.
-;
 	entry	gethit
 	sixbit	/GETHIT/
 gethit:	move	t1,@0(arg)	;index of player
@@ -3480,7 +2897,6 @@ ghit.1:	setzm	dispfr
 	setzm	shstto
 	setzm	shjump
 	popj	p,
-
 ghit.2:	setz	x2,		; index into hit queue
 	move	x3,bits-1(t1)	;bit of player to check for
 	movei	t1,knhit	; total number of entries in hit queue
@@ -3490,7 +2906,6 @@ ghit.a:	tdnn	x3,hitql(x2)	; if this one is for this ship
 	movei	t1,(x2)
 	imuli	t1,4		;offset into hit queue
 	addi	t1,hitq		;absolute location of entry
-
 	hlrz	t2,0(t1)
 	cain	t2,777777	; defensive
 	setz	t2,
@@ -3538,20 +2953,15 @@ ghit.a:	tdnn	x3,hitql(x2)	; if this one is for this ship
 	andcam	x3,hitql(x2)	; remove this entry
 	popj	p,
 	subttl	Message communication -- MAKMSG
-
 ;;;	MAKMSG -- Enter a message into the message queue.
-;
 ;		SUBROUTINE MAKMSG (msg)
-;
 ;	Uses the low segment variables DISPFR and DBITS, which tell who
 ;	the message came from and who it's going to.  MSG is optional,
 ;	and if not specified the message will be taken from the TTY.
-;
 	entry	makmsg
 	sixbit	/MAKMSG/
 makmsg:	skipn	dbits
 	popj	p,		;no guys to inform, so don't
-
 	hlre	p1,-1(arg)	;neg number of args
 	jumpe	p1,mmsg.1	;no arguments, so get input from TTY
 	movei	p1,@0(arg)	;get address of string to send
@@ -3560,7 +2970,6 @@ makmsg:	skipn	dbits
 	move	p1,(p1)		;arg was really address of address
 	hrli	p1,(point 7)	;create pointer to source string
 	jrst	mmsg.3
-
 mmsg.1:	move	p1,[point 36,linbuf]
 mmsg.2:	ildb	c,p1		;get char
 	cain	c,";"		;start of message
@@ -3572,7 +2981,6 @@ mmsg.2:	ildb	c,p1		;get char
 	skipe	ccflg		;^C?
 	jrst	mmsg.5		;yes, no message sent
 	move	p1,[point 36,linbuf]
-
 mmsg.3:	move	x1,[-knmsg,,msgql] ;message queue link list
 	pushj	p,rsrv.		; reserve a spot in the message queue
 	skipe	lkfail		; if lock failed,
@@ -3584,21 +2992,18 @@ mmsg.3:	move	x1,[-knmsg,,msgql] ;message queue link list
 	hrr	t2,dbits	;to
 	movem	t2,-1(t1)
 	movni	t2,<msglen-1>*5-3 ;max number of chars to store
-
 mmsg.4:	ildb	c,p1
 	aojge	t2,.+2		;more room in buffer?
 	idpb	c,t1		;yes, stick character into buffer
 	move	t3,cbits(c)	;get character type bits
 	trnn	t3,cf.eol	;end of line?
 	jrst	mmsg.4		;no, keep on reading
-
 	movei	c,cr
 	dpb	c,t1		;force a <CR>
 	movei	c,lf
 	idpb	c,t1		;force a <LF>
 	setz	c,
 	idpb	c,t1		;end message with null byte
-
 	addi	t2,<msglen-1>*5-3 ;number of characters in message
 	caile	t2,2		;more than 2 characters?
 	jrst	mmsg.6		;yes
@@ -3608,7 +3013,6 @@ mmsg.5:	movei	p1,[ascil <No message sent>]
 	move	x1,[-knmsg,,msgql]
 	pushj	p,remv.		;free up reserved spot
 	jrst	mmsg.8
-
 mmsg.6:	move	x3,dbits	;destination bits
 	pushj	p,updt.		;make queue entry
 	move	t1,dbits	;get bits of players to inform
@@ -3618,20 +3022,15 @@ mmsg.7:	trne	t1,1		;inform this player?
 	lsh	t1,-1		;get next player's bit
 	aoj	t2,		;index of next player's mesage count
 	jumpn	t1,mmsg.7	;inform next player
-
 mmsg.8:	setzm	dbits
 	popj	p,
 	subttl	Message communication -- GETMSG
-
 ;;;	GETMSG -- Retrieve a message from the message queue for the
 ;	specified player.
-;
 ;		SUBROUTINE GETMSG (player,msg)
-;
 ;	Output
 ;	  DISPFR  code for sender of message
 ;	  DBITS   bits of all receivers of message
-;
 	entry	getmsg
 	sixbit	/GETMSG/
 getmsg:	move	t1,@0(arg)	;index of player
@@ -3642,7 +3041,6 @@ gmsg.1:	move	t1,@0(arg)
 	setzm	dispfr
 	setzm	dbits
 	popj	p,
-
 gmsg.2:	movei	x4,@1(arg)	;address of array to store message in
 	movei	x1,msgql	;address of message queue link list
 	move	x3,bits-1(t1)	;bit of player to check for
@@ -3669,11 +3067,9 @@ usrprj:	hlrz	0,usppn			;return user's project #
 	cain	0,337			;watch for devel. ppn
 	movei	0,70000			;make it look like CIS staff
 	popj	p,
-
 ;this seems to NOT be used (nte popj return)
 ;	chkseq:		check jobs for continued activity
 ;	call chkseq	(from GETCMD)
-
 	sixbit	/frcchk/
 frcchk::
 	setzm	jsqtim
@@ -3709,21 +3105,15 @@ chksq2:	save<t1>
 	restore<t1>
 chksq1:	sojge	t1,chksq0
 	popj	p,
-
 	subttl	JOBSTA
-
 	;Return various job related parameters.
-	;
 	;SUBROUTINE JOBSTA (job,nam1,nam2,ppn,TTY#,TTYspeed)
-
 	entry	jobsta
 	sixbit	/JOBSTA/
-	
 jobsta:
 	output	tty,			; flush tty buffer
 	pjob	t1,
 	movem	t1,@kjob-1(arg)	;job number
-
 ;commented by merlyn (drforbin)
 ;	move	t1,[	2,,[	1016
 ;				-1
@@ -3767,12 +3157,9 @@ jobsta:
 			^d2400		; 11
 		](t1)
 	movem	t1,@kttysp-1(arg)
-
 ;end rewrite
-
 ;-------------NOT NEEDED
 ;	skipe	t1,who			; if ship is assigned  ;commented by drforbin (not needed)
-
 ;	jrst	[calli	t2,-46		;commented drforbin;then set up the sequence #
 ;This is not needed
 ;	jrst	[pjob	t2,		;added drforbin;then set up the sequence #
@@ -3824,7 +3211,6 @@ jobsta:
 	jumpn	t2,gnm2			; then use it as player's name
 ;	skipe	usid1.##		; else if user has an acct ID
 ;	jrst	gnm5			; then use that
-
 gnm:	skipn	hungup
 	outstr	[asciz "
 Your name please: "]			; else ask for his/her name
@@ -3844,15 +3230,12 @@ gnm0:	inchwl	t2
 	jrst	gnm1
 	idpb	t2,t1
 	jrst	gnm0
-
 gnm1:	movei	t2,0
 	idpb	t2,t1
 	move	t1,[point 7,hand]	;deleted # drforbin
-
 gnm2:	move	t2,[point 6,tmp]	;added 'hand' as variable (DF) drforbin
 	setzm	tmp
 	setzm	tmp+1
-
 gnm3:	ildb	t3,t1
 	jumpe	t3,gnm4
 	cail	t3,"a"
@@ -3861,7 +3244,6 @@ gnm3:	ildb	t3,t1
 	idpb	t3,t2
 	came	t2,[point 6,tmp+1,35]	;same as above(DF) drforbin
 	jrst	gnm3
-
 gnm4:	move	t1,tmp			;same as above(DF) drforbin
 	jumpe	t1,gnm
 	movem	t1,@knam1-1(arg)
@@ -3870,13 +3252,10 @@ gnm4:	move	t1,tmp			;same as above(DF) drforbin
 gnm5:
 ;***	CIS change:
 	popj	p,
-
 ;drforbin explination 
 ;the following code is used ONLY to wait using HIBER call and and if times out
 ;or a character is received the hiber returns. This is used for COMMAND loop.
-
 	subttl	INPUT/CLEAR
-
 	entry	input
 	sixbit	/INPUT/
 input:	skiple	bufptr		;any part of multiple command line left?
@@ -3914,13 +3293,9 @@ clear:	skipe	hungup		; if job is not hungup
 	clrbfi			;clear the input buffer
 	setom	bufptr		;clear multiple command line
 	popj	p,
-
 	subttl	BLKSET/BLKMOV/LOCF
-
 ;;;	BLKSET -- Fill a array or data area with a value.
-;
 ;		CALL BLKSET (array,value,size)
-;
 	entry	blkset
 	sixbit	/BLKSET/
 blkset:	move	t1,@1(arg)	;get value
@@ -3932,11 +3307,8 @@ blkset:	move	t1,@1(arg)	;get value
 	add	t2,@2(arg)
 	blt	t1,(t2)
 	popj	p,
-
 ;;;	BLKMOV -- Move a block of data.
-;
 ;		call BLKMOV (from,to,nwords)
-;
 	entry	blkmov
 	sixbit	/BLKMOV/
 blkmov:	hrli	t1,@0(arg)
@@ -3945,22 +3317,15 @@ blkmov:	hrli	t1,@0(arg)
 	add	t2,@2(arg)
 	blt	t1,(t2)
 	popj	p,
-
 ;;;	LOCF -- Return the location of a variable.
-;
 ;		addr = LOCF(var)
-;
 	entry	locf
 	sixbit	/LOCF/
 locf:	movei	0,@0(16)
 	popj	17,
-
 	subttl	DAYTIM/RUNTIM/ETIM/PAUSE
-
 	;Return the current time of day.
-	;
 	;	CALL DAYTIM (DTIM)
-
 	entry	daytim
 	sixbit	/DAYTIM/
 daytim:	mstime	0,
@@ -3974,9 +3339,7 @@ daytim:	mstime	0,
     warn <Something went wrong in GETTAB call in getdat routine>,exit.
   movem 0,@0(arg)
   popj  p,
-
 	;Return the current run time.
-	;
 	;	CALL RUNTIM (RTIM)
 	entry	runtim
 	sixbit	/RUNTIM/
@@ -3984,7 +3347,6 @@ runtim:	setz	0,
 	runtim	0,
 	movem	0,@0(arg)
 	popj	p,
-
 	;Return the amount of time elapsed since the given time.
 	;The given time is in milliseconds past midnight, and may
 	;exceed 24*60*60*1000.
@@ -3994,7 +3356,6 @@ runtim:	setz	0,
 	;of the values
 	;   abs(TIM0) - current_time
 	;   abs(TIM0) - current_time + 12 hours
-	;
 	;	dT = ETIM (TIM0)
 	entry	etim
 	sixbit	/ETIM/
@@ -4005,12 +3366,8 @@ etim:	mstime	0,
 	camle	0,[^D1000*^D60*^D60*^D12]
 	sub	0,[^D1000*^D60*^D60*^D24]
 	popj	p,
-
-
 	;Pause for the specified number of milliseconds.
-	;
 	;	CALL PAUSE (time)
-
 	entry	pause
 	sixbit	/PAUSE/
 ;both comments and mstime calls added by merlyn
@@ -4049,42 +3406,32 @@ paus.3:
 ;		 jrst	.+1]
 	popj	p,
 	subttl	PRGNAM/USRNAM
-
 ;;;	PRGNAM -- Change the name of the program.
-;
 ;		CALL PRGNAM (name)
-;
 	entry	prgnam
 	sixbit	/PGRNAM/
 prgnam:
 	popj	p,
-
 ;;;	USRNAM -- Change the name of the user in the JOB array.
-;
 ;		f = USRNAM (index)
-;
 ;	where index is the number of the token preceding the name.
 ;	f is true if the name got set (non zero), otherwise it's false.
-;
 	entry	usrnam
 	sixbit	/USRNAM/
 usrnam:	setz	t0,		;get set to return false
 	skipn	p1,@0(arg)	;get token index
 	jrst	usrn.2		;first token, so start scanning at first char
-
 	move	p1,ptrlst-1(p1)	;get ptr to first char of token preceding name
 usrn.1:	skipn	c,(p1)		;get char of token
 	jrst	usrn.5		;end of line, and no name found
 	hrl	c,cbits(c)	;get character type bits
 	tlnn	c,cf.dlm	;delimiter (end of token)?
 	aoja	p1,usrn.1	;no, keep looking
-
 	aoja	p1,.+2		;skip to first char of new name
 usrn.2:	movei	p1,linbuf	;pointer to first char of input line
 	move	p2,[point 6,tmp];stick it here for right now
 	setzm	tmp+0
 	setzm	tmp+1
-
 	movei	t1,^D12		;copy at most 12 characters
 usrn.3:	skipn	c,(p1)		;get character from input line
 	jrst	usrn.4		;end of line, so done
@@ -4096,7 +3443,6 @@ usrn.3:	skipn	c,(p1)		;get character from input line
 	idpb	c,p2		;and stow it away
 	addi	p1,1		;point to next char of input
 	sojg	t1,usrn.3	;and get any more characters
-
 usrn.4:	dmove	t1,tmp
 	jumpn	t1,.+3		;first half of name zero?
 	jumpn	t2,.+2		;and second half of name zero?
@@ -4105,24 +3451,19 @@ usrn.4:	dmove	t1,tmp
 	move	t3,who		;get index of player
 	movem	t1,JOB-1+<KNAM1-1>*KNPLAY(t3)
 	movem	t2,JOB-1+<KNAM2-1>*KNPLAY(t3)
-
 usrn.5:	setom	bufptr		;SET NAME is last on line
 	popj	p,
 	subttl	CCTRAP
-
 ;;;	CCTRAP -- Control action of ^C when not waiting for input.
-;
 ;		CALL CCTRAP		!turn ^C off
 ;		    or
 ;		CALL CCTRAP (sub)	!trap to sub on ^C
-;
 ;	The FORTRAN calling routine must declare sub to be external.
 ;	^C will be disabled for the duration of the trap routine,
 ;	but the original action will be automatically restored when
 ;	the routine is finished (the trap routine may call CCTRAP,
 ;	but it won't take affect until after the return from the
 ;	original trap routine).
-;
 	entry	cctrap
 	sixbit	/CCTRAP/
 cctrap:	movei	t1,@0(arg)	;get address of trap routine
@@ -4130,9 +3471,7 @@ cctrap:	movei	t1,@0(arg)	;get address of trap routine
 	setzm	ccflg		;clear ^C flag
 	popj	p,
 	subttl	INTH.
-
 ;;;	INTH. -- Interrupt handler.  Take care of ^C and fatal errors.
-;
 ;	On trapped interrupt:
 ;	If fatal error then
 ;	  Abort.
@@ -4156,7 +3495,6 @@ cctrap:	movei	t1,@0(arg)	;get address of trap routine
 ;	  Restore the ACs.
 ;	  Clear ^C process flag.
 ;	Continue execution at the interrupted PC.
-;
 inth.:
 	push	p,intadr	;set up stack with PC at time of interrupt
 	skipge	ccflg.		; if already working on ^C
@@ -4180,11 +3518,8 @@ inth.:
 	blt	16,16
 	setom	intflg		;finished processing ^C interrupt
 	popj	p,
-
 	subttl	ABORT
-
 ;;;	ABORT -- If you have to leave the hard way, at least die gracefully.
-;
 ;	(Doesn't really do all of this yet)
 ;	If we got this far, the high segment must be bashed, so:
 ;	Rename high segment to itself to remove it from the swapper.
@@ -4192,7 +3527,6 @@ inth.:
 ;	Issue message to all players.
 ;	Log the error.
 ;	Exit.
-;
 abort:	skipn	hungup
 	outstr	[asciz "
 The center of the galaxy has exploded!
@@ -4216,11 +3550,8 @@ abor.1:	pushj	p,kilhgh	;remove high segment from swapper
 	pushj	p,makmsg
 	;log error
 	jrst	monit
-
 	subttl	KILHGH/KILLOW
-
 ;;;	KILHGH -- Remove DECWAR high segment from the swapper.
-;
 	entry	kilhgh
 	sixbit	/KILHGH/
 kilhgh:	skipe	dead		;high seg alread removed?
@@ -4239,7 +3570,6 @@ kilhgh:	skipe	dead		;high seg alread removed?
 	  jrst	kilh.1
 	move	t4,p.ppn
 	rename	ren,t1		;remove high segment from swapper
-
 kilh.1:	  warn	<Can't remove DECWAR high segment from swapper>,kilh.2
 	movei	p1,[ascil <[DECWAR high segment removed from swapper]>]
 	pushj	p,ostr.
@@ -4248,16 +3578,13 @@ kilh.1:	  warn	<Can't remove DECWAR high segment from swapper>,kilh.2
 	output	tty,
 	jfcl
 kilh.2:	popj	p,
-
 ;;;	KILLOW -- Get rid of once only low segment code (SETUP, etc.)
 ;	and fix up the start address to do a RUN on DECWAR.
-;
 ;	extern	a		;kill everything after this dummy subroutine
 ;	entry	killow
 ;	sixbit	/KILLOW/
 ;killow:	skipe	.JBDDT		;DDT loaded?
 ;	popj	p,		;yes, don't wipe out DDT
-;
 ;	movei	t1,start
 ;	hrrm	t1,.JBSA	;on a START do a RUN instead
 ;	movei	t1,a
@@ -4265,7 +3592,6 @@ kilh.2:	popj	p,
 ;	core	t1,		;get rid of once only code
 ;	  warn	<Can't remove once only code>
 ;	popj	p,
-
 start::	move	t1,p.dev
 	movem	t1,tmp+0	;device
 	move	t1,p.nam
@@ -4277,11 +3603,8 @@ start::	move	t1,p.dev
 	setzm	tmp+5		;core
 	movei	t1,tmp
 	jrst	rundec		;go run the game (from the low segment)
-
 	subttl	DEBUG
-
 	extern	unkcom,forhlp
-
 	entry	timin,timout
 	sixbit	/TIMIN/
 timin:	pushj	p,timsrc	; find index in TIMNAM
@@ -4290,7 +3613,6 @@ timin:	pushj	p,timsrc	; find index in TIMNAM
 	  setz	t1,
 	movem	t1,timsta(t2)
 	popj	p,
-
 	sixbit	/TIMOUT/
 timout:	pushj	p,timsrc	; get index
 	came	t1,timlcn(t2)	; if not same name
@@ -4303,7 +3625,6 @@ timout:	pushj	p,timsrc	; get index
 	camle	t1,timhi(t2)
 	movem	t1,timhi(t2)
 	popj	p,
-
 timsrc:	move	t1,@0(arg)	; search for the timer name
 	movei	t2,^d49
 	camn	t1,timnam(t2)
@@ -4324,7 +3645,6 @@ debug:	skipge	pasflg		;has the user supplied the password?
 	movei	p1,forhlp	;" -- for help type HELP"
 	pushj	p,ostr.
 	popj	p,
-
 deb.1:		; display the timers
 	outstr	[asciz "
 Name	Calls	Total	High
@@ -4352,18 +3672,13 @@ deb.2:	skipn	timnam(x1)
 	outstr	[asciz "
 "]
 	soja	x1,deb.2
-
 	subttl	EQUAL
-
 ;;;	EQUAL -- compare equality of 2 strings.  The case of the characters
 ;	doesn't matter.  Either null, space, or 5 characters is end of string.
-;
 ;		v = EQUAL (str1,str2)
-;
 ;	If str1 is exactly equal to str2, v is -2.
 ;	If str1 is a substring of str2, v is -1.
 ;	If str1 doesn't match str2 at all, v is 0.
-;
 	entry	equal
 	sixbit	/EQUAL/
 equal:	save	<p1,p2>
@@ -4372,7 +3687,6 @@ equal:	save	<p1,p2>
 	pushj	p,equal.
 	restor	<p2,p1>
 	popj	p,
-
 equal.:	save	<p1,p2,c>
 	hrli	p1,(point 7)
 	hrli	p2,(point 7)
@@ -4381,7 +3695,6 @@ equal.:	save	<p1,p2,c>
 	caie	c,000		;null?
 	cain	c,040		;or space?
 	jrst	equa.4		;yes; null substring always returns not equal
-
 	movei	t1,5		;check at most 5 characters
 equa.1:	ildb	c,p1		;get char from substring
 	caie	c,000		;null?
@@ -4396,7 +3709,6 @@ equa.1:	ildb	c,p1		;get char from substring
 	jrst	equa.4		;no, strings aren't equal
 	sojg	t1,equa.1	;check remaining characters
 	jrst	equa.3		;strings are equal
-
 equa.2:	movni	t0,1		;end of 1st string; assume substring match
 	ildb	c,p2		;get next char from master string
 	caie	c,000		;null?
@@ -4407,10 +3719,8 @@ equa.4:	setz	t0,		;strings aren't equal
 	restor	<c,p2,p1>
 	popj	p,
 	subttl	LDIS
-
 ;;;	LDIS(v1,h1,v2,h2,n) is TRUE if
 ;	(v1,h1) is within n sectors of (v2,h2).
-;
 	entry	ldis
 	sixbit	/LDIS/
 ldis:	move	t1,@0(arg)	;get vertical coordinate of first point
@@ -4426,10 +3736,8 @@ ldis.1:	tdza	0,0		;no, return FALSE
 	seto	0,		;yes, return TRUE
 	popj	p,
 	subttl	INGAL
-
 ;;;	INGAL(v,h) is TRUE if
 ;	(v,h) is a legal coordinate (if it's in the "galaxy").
-;
 	entry	ingal
 	sixbit	/INGAL/
 ingal:	skiple	t1,@0(arg)	;vertical coordinate too small?
@@ -4441,9 +3749,7 @@ inga.1:	tdza	0,0		;yes, return FALSE
 	seto	0,		;no, return TRUE
 	popj	p,
 	subttl	PDIST
-
 ;;;	PDIST(v1,h1,v2,h2) = distance between points (v1,h1) and (v2,h2).
-;
 	entry	pdist
 	sixbit	/PDIST/
 pdist:	move	t0,@0(arg)	;get vertical coordinate of first point
@@ -4455,7 +3761,6 @@ pdist:	move	t0,@0(arg)	;get vertical coordinate of first point
 	caige	t0,(t1)		;horizontal distance > vertical distance?
 	movei	t0,(t1)		;yes, use horizontal distance instead
 	popj	p,
-
 	subttl	LOCK/LOCK./UNLOCK/UNLO.
 ;;;	LOCK / UNLOCK
 	entry	lock
@@ -4487,7 +3792,6 @@ unlo.:
 	deq.	t2,
 	jfcl	0,  					; noop
 	popj	p,
-
 deboct:	idivi	t1,8
 	hrlm	t2,0(p)
 	skipe	t1
@@ -4502,11 +3806,8 @@ debdec:	idivi	t1,^d10
 	skipe	t1
 	pushj	p,debdec
 	jrst	debcom
-
 	subttl	NEWS
-
 ;;;	NEWS -- Display the DECWAR news file.
-;
 	entry	news
 	sixbit	/NEWS/
 news:	save	<x1,x2,x3>
@@ -4515,14 +3816,12 @@ news:	save	<x1,x2,x3>
 	pushj	p,open.		;open DECWAR.NWS for input
 	  warn	<Can't read DECWAR.NWS>,news.5
 	pushj	p,seti.		;set up for input from news file
-
 news.1:	setz	x3,		;last char wasn't eol
 news.2:	pushj	p,ichr.		;get char from news file
 	jumpl	c,news.4	;eof
 	jumpe	x3,.+2		;last char was eol?
 	caie	c,"."		;and this char is "."?
 	jrst	news.3		;no, keep going
-
 	pushj	p,ttyon		;clear ^O
 	movei	p1,[asciz /Do you want to continue viewing the news file? /]
 	pushj	p,ostr.
@@ -4534,7 +3833,6 @@ news.2:	pushj	p,ichr.		;get char from news file
 	pushj	p,equal.
 	jumpl	t0,news.1	;yes
 	jrst	news.4		;no, done
-
 news.3:	pushj	p,ochr.		;echo character
 	cail	c,012
 	caile	c,014
@@ -4548,7 +3846,6 @@ news.3:	pushj	p,ochr.		;echo character
 	skipge	alive-1(t1)	;alive?
 	setzm	active-1(t1)	;yes, don't count as idle during news output
 	jrst	news.2
-
 news.4:	setzm	ccflg		;in case exit because of ^C
 	hrrzs	.jbren##	; or ^P
 	pushj	p,close.	;close news file
@@ -4556,10 +3853,8 @@ news.4:	setzm	ccflg		;in case exit because of ^C
 news.5:	restor	<x3,x2,x1>
 	popj	p,
 	subttl	GRIPE
-
 ;;;	GRIPE -- Prompt for and read a gripe from the current input,
 ;	and add the gripe to the beginning of DECWAR.GRP
-;
 	entry	gripe
 	sixbit	/GRIPE/
 gripe:
@@ -4574,20 +3869,17 @@ while under RED alert!
 			 popj	p,]
 		jrst	.+1]
 	pushj	p,eshp.		;erase ship from board unless condition red
-
 	move	t1,.JBFF
 	movem	t1,dbuf+.BFADR	;this is where the gripe buffer starts
 	hrli	t1,(point 7)
 	movem	t1,dbuf+.BFPTR	;pointer to first character space in buffer
 	setzm	dbuf+.BFCTR	;buffer length is currently 0
-
 	movei	p1,[ascil <Enter gripe, end with ^Z>]
 	skipn	addrck		; if processing an address check, don't
 	pushj	p,ostr.
 	move	x1,[grpfil,,grpfil]
 	pushj	p,seto.		;set up for output to gripe buffer
 	pushj	p,osts.		;output status line (version, date, time, etc.)
-
 	skipe	addrck		; if address failure
 	jrst	grip.a		; then dump the information
 	movei	x2,grpsiz
@@ -4604,7 +3896,6 @@ grip.1:	subi	x2,1
 	skipl	alive-1(t1)	;and alive?
 	jrst	.+2		;no
 	setzm	active-1(t1)	;yes, don't count as idle during GRIPE input
-
 	setz	p1,
 	cain	x2,2
 	movei	p1,[ascil <[Only 2 more message lines allowed]>]
@@ -4616,9 +3907,7 @@ grip.1:	subi	x2,1
 	pushj	p,seto.		;restore output to gripe file
 	jumpn	x2,grip.1
 	jrst	grip.3
-
 ;;;	Here to write out the diagnostic dump from an address failure
-
 grip.a:
 	skipl	addrck		; if doing a *Zap
 	jrst	grip.z		; then write out the statistics into gripe file
@@ -4712,7 +4001,6 @@ grip.t:	move	x1,pdl(x3)
 	camg	t1,t2
 	jrst	grip.t
 	pushj	p,crlf
-
 	movei	p1,[asciz "*** HITQL-1:"]
 	pushj	p,ostr.
 	movei	x1,hitql-1
@@ -4743,7 +4031,6 @@ griptu:	move	x1,loktab-1(x3)
 	aoja	x3,griptu
 	pushj	p,crlf
 	jrst	grip.3		;	copy to gripe file
-
 oct.o:	save	<[-1]>
 	move	t1,x1
 oct.01:	hrrz	t2,t1
@@ -4757,11 +4044,9 @@ oct.02:	restore <c>
 	addi	c,"0"
 	pushj	p,ochr.
 	jrst	oct.02
-
 grip.z:	movei	arg,[[1]]
 ;	pushj	p,shosta		; display to gripe buffer
 	jrst	grip.3
-
 grip.2:	cain	x2,grpsiz-1	;any full lines entered?
 	skipe	linbuf		;no, any chars on the first line?
 	jrst	.+2		;yes, record gripe
@@ -4773,7 +4058,6 @@ grip.3:	movei	p1,[asciz /----------/]
 	pushj	p,ocrl.
 	move	x2,dbuf+.BFPTR	;address of word containing last gripe char
 	hrli	x2,(x2)
-
 grip.4:	move	x1,[grpfil,,grpfil]
 	pushj	p,open.		;open DECWAR.GRP
 	  jrst	.+2
@@ -4788,7 +4072,6 @@ grip.4:	move	x1,[grpfil,,grpfil]
 	skipn	ccflg		;^C during wait?
 	jrst	grip.4		;no, try again
 	jrst	grip.8		;yes, forget it
-
 grip.5:	skipl	t4,leblk+3	;neg length of file,,0
 	jrst	[setzm	leblk+3	; force to 0 (virgin file bug)
 		 jrst	grip.7]
@@ -4800,14 +4083,12 @@ grip.5:	skipl	t4,leblk+3	;neg length of file,,0
 	jrst	grip.6		;yes, don't need to allocate any more
 	core	t1,
 	  warn	<Can't get core to read DECWAR.GRP>,grip.8
-
 grip.6:	hlr	t4,x2		;build IOWD word for dump mode transfer
 	movem	t4,tmp		;must be in low core (not in an AC) to work
 	setzm	tmp+1
 	in	grp,tmp		;append old gripes to new one in core
 	jrst	.+2
 	  warn	<Can't read DECWAR.GRP>,grip.8
-
 grip.7:	move	t1,dbuf+.BFADR	;address of output buffer
 	subi	t1,1(x2)	;neg # of words in buffer
 	hrl	t1,dbuf+.BFADR	;build IOWD word for dump mode transfer
@@ -4818,7 +4099,6 @@ grip.7:	move	t1,dbuf+.BFADR	;address of output buffer
 	out	grp,tmp		;write new gripe file
 	jrst	.+2
 	  warn	<Can't write DECWAR.GRP>
-
 grip.8:	move	t1,dbuf+.BFADR	;reduce core to here
 	movem	t1,fl.ff
 	pushj	p,close.	;close gripe file & deallocate buffer space
@@ -4827,12 +4107,9 @@ grip.8:	move	t1,dbuf+.BFADR	;reduce core to here
 	pushj	p,pshp.		;put ship back on board
 	setzm	ccflg		;clear ^C flag
 	popj	p,
-
 ;;;	OGCH. -- Output character to gripe buffer.
-;
 ogch.:	sosl	@obfctr		;any room in buffer?
 	pjrst	ochr.x		;yes, add character normally
-
 	hrrz	t1,dbuf+.BFPTR	;last word used in gripe buffer
 	movei	t2,^D20(t1)	;allocate another 20 words
 	camg	t2,.JBREL	;already there?
@@ -4841,7 +4118,6 @@ ogch.:	sosl	@obfctr		;any room in buffer?
 	core	t3,
 	  warn	<Can't get more core>,cpopj
 ogch.1:	movem	t2,.JBFF
-
 	setzm	1(t1)		;zero out allocated words
 	movei	t1,2(t1)
 	hrli	t1,-1(t1)
@@ -4850,14 +4126,11 @@ ogch.1:	movem	t2,.JBFF
 	movem	t1,dbuf+.BFCTR
 	jrst	ogch.
 	subttl	HELP -- HELP
-
 ;;;	HELP -- On line DECWAR help system.  Give general info, command list,
 ;	and text from help file on individual commands.
-;
 ;	HELP		;give general info, direct to other sources of help
 ;	HELP *		;give list of commands
 ;	HELP keyword	;type text associated with keyword from help file
-;
 	entry	help
 	sixbit	/HELP/
 help:
@@ -4874,26 +4147,21 @@ RED alert!
 		]
 	pushj	p,eshp.		;remove ship from board
 	setz	x3,		;index to current modifier
-
 	skipl	typlst+1	;any modifiers?
 	jrst	help.1		;yes
 	pushj	p,hlpxtr	;give general help info
 	jrst	help.4
-
 	pushj	p,ttyon		;clear ^O
-
 help.1:	addi	x3,1		;index to next help item
 	skipl	typlst(x3)	;end of list?
 	skipe	ccflg		;or ^C typed?
 	jrst	help.4		;yes, done
-
 	movei	p1,tknlst(x3)	;build pointer to next item
 	movei	p2,[asciz /*/]
 	pushj	p,equal.
 	jumpge	t0,help.2	;not HELP *
 	pushj	p,hlpall
 	jrst	help.1
-
 help.2:	skipl	pasflg		;password set?
 	skipa	x1,[<-2*<kncmd-kscmd>>,,isaydo]
 	move	x1,[<-2*kncmd>,,isaydo]
@@ -4906,19 +4174,15 @@ help.2:	skipl	pasflg		;password set?
 	hrrzi	x2,[asciz /I don't know the term /]
 	pushj	p,slst.
 	  jrst	help.1
-
 help.3:	movei	p1,(p2)
 	pushj	p,shlp.		;search help file and show info
 	jrst	help.1
-
 help.4:	setzm	ccflg
 	pushj	p,pshp.		;put ship back on board
 	popj	p,
 	subttl	HELP -- HLPXTR/HLPALL
-
 ;;;	HLPXTR -- Give general help info and list extra things help is
 ;	available for (besides commands).
-;
 	entry	hlpxtr
 	sixbit	/HLPXTR/
 hlpxtr:	movei	p1,xhlp1
@@ -4928,7 +4192,6 @@ hlpxtr:	movei	p1,xhlp1
 	movei	p1,xhlp2
 	pushj	p,ostr.
 	popj	p,
-
 xhlp1:	asciz /
 For a list of commands type HELP *
 For help on a particular command type HELP command
@@ -4940,10 +4203,7 @@ xhlp2:	asciz /
 Upper case letters mark the shortest acceptable abbreviation.
 
 /
-
-
 ;;;	HLPALL -- Give list of all commands
-;
 	entry	hlpall
 	sixbit	/HLPALL/
 hlpall:	pushj	p,ocrl.
@@ -4956,10 +4216,8 @@ hlpall:	pushj	p,ocrl.
 	pushj	p,olst.
 	popj	p,
 	subttl	HELP -- SHLP.
-
 ;;;	SHLP. -- Search help file for keyword and type text associated
 ;	with keyword.
-;
 shlp.:	save	<x2,x3,p1,p2>
 	hrrzs	.jbren		; clear ^P flag
 	setzm	ccflg		; and ^C flag
@@ -4974,7 +4232,6 @@ shlp.1:	hrrzi	x1,hl2fil
 	pushj	p,open.		;try standard help file
 	  warn	<Can't read help file>,shlp.e
 shlp.2:	pushj	p,seti.		;set up for input from help file
-
 	hrli	p1,(point 7)	;pointer to keyword being searched for
 	seto	x2,		;not on right section yet
 shlp.3:	pushj	p,ichr.		;get next char from help file
@@ -4985,7 +4242,6 @@ shlp.4:	jumpl	c,shlp.8	;eof
 	pushj	p,ochr.		;type this section of help file
 	caie	c,012		;eol?
 	jrst	shlp.3		;no, don't check for section border
-
 shlp.5:	skipn	ccflg		;^C was typed?
 	skipge	.jbren##	; or ^P?
 	jrst	shlp.9		;yes, quit
@@ -4999,7 +4255,6 @@ shlp.5:	skipn	ccflg		;^C was typed?
 	caie	c,"."		;section border?
 	jrst	shlp.4		;no, false alarm
 	jumpg	x2,shlp.9	;finished typing help text
-
 	move	p2,p1		;get pointer to keyword being searched for
 	movei	x3,5		;check at most 5 characters
 shlp.6:	pushj	p,ichr.		;get char from help file
@@ -5016,7 +4271,6 @@ shlp.6:	pushj	p,ichr.		;get char from help file
 	sojg	x3,shlp.6	;check remaining chars in keyword
 shlp.7:	setz	x2,
 	jrst	shlp.3
-
 shlp.8:	jumpg	x2,shlp.9
 	movei	p2,(p1)
 	movei	p1,[asciz /%Can't find help on /]
@@ -5024,7 +4278,6 @@ shlp.8:	jumpg	x2,shlp.9
 	movei	p1,(p2)
 	pushj	p,ostb.
 	pushj	p,ocrl.
-
 shlp.9:	pushj	p,close.	;close help file
 	pushj	p,seti.		;restore input from tty
 shlp.e:	restor	<p2,p1,x3,x2>
@@ -5032,9 +4285,7 @@ shlp.e:	restor	<p2,p1,x3,x2>
 	setzm	ccflg		; and ^C
 	popj	p,
 	subttl	SLST./OLST.
-
 ;;;	SLST. -- Search list.
-;
 ;	Input
 ;	  P1	pointer to word to search for
 ;	  X1	-2*n,,addr
@@ -5042,21 +4293,16 @@ shlp.e:	restor	<p2,p1,x3,x2>
 ;		n = number of entries in the list
 ;	  X2[L]	if negative, don't list ambiguous hits
 ;	  X2[R]	address of warning message to output when no match is found
-;
 ;	Output
 ;	  P2	pointer to word in list that matched
 ;	  X1	entry index (0..n-1)
-;
 ;	Note	on the error return,
 ;	  X1 < 0 if no match
 ;	  X1 >= 0 if ambiguous match
-;
 ;	PUSHJ P,SLST.
 ;	  not a unique match
 ;	P1 points to the matched entry, X1 contains it's index
-;
 slst.:	save	<x3,x4,p1>
-
 	seto	x3,		;no matches yet
 	setz	x4,		;address,,index of matching entry
 	jrst	slst.2
@@ -5067,11 +4313,9 @@ slst.1:	aobjp	x1,slst.6	;advance to next entry
 slst.2:	movei	p2,(x1)		;get addr of word to check
 	pushj	p,equal.
 	jumpge	slst.1		;no match
-
 	aojg	x3,slst.3	;more than 1 match; ambiguous
 	hrli	x4,(p2)		;remember which one matched
 	jrst	slst.1
-
 slst.3:	save	<p1>
 	caie	x3,1		;first ambiguous match?
 	jrst	slst.4		;no, don't repeat message
@@ -5090,7 +4334,6 @@ slst.4:	movei	c,","
 	pushj	p,ostb.
 slst.5:	restor	<p1>
 	jumpge	x2,slst.1
-
 slst.6:	jumpe	x3,slst.8	;unambiguous match
 	setz	x1,		;assume ambiguous
 	jumpg	x3,slst.7	;ambiguous
@@ -5103,20 +4346,16 @@ slst.6:	jumpe	x3,slst.8	;unambiguous match
 	pushj	p,ostb.
 slst.7:	pushj	p,ocrl.
 	jrst	slst.9
-
 slst.8:	hlrz	p2,x4
 	hrrzi	x1,(x4)
 	aos	(p)
 slst.9:	restor	<p1,x4,x3>
 	popj	p,
-
 ;;;	OLST. -- Output a list.
-;
 ;	Input
 ;	  X1	-2*n,,addr
 ;		addr = addres of list of 2 word entries
 ;		n = number of entries
-;
 olst.:	save	<x1,x2>
 olst.1:	movei	x2,7		;6 columns per line
 olst.2:	dmove	t1,(x1)		;get words to output
@@ -5129,18 +4368,14 @@ olst.2:	dmove	t1,(x1)		;get words to output
 	sojg	x2,olst.2
 	pushj	p,ocrl.		;start a new line
 	jrst	olst.1
-
 olst.3:	pushj	p,ocrl.
 	restor	<x2,x1>
 	popj	p,
 	subttl	ESHP./PSHP.
-
 ;;;	ESHP. -- Erase a ship from the board (replace it with a 10) if
 ;	it's condition isn't red.
-;
 ;	Input
 ;	  WHO	number of ship to remove from board
-;
 eshp.:	skipg	t3,who		;see whose ship to erase
 	jrst	eshp.1		;nobody's
 	move	t1,shpcon+<KSPCON-1>*KNPLAY-1(t3)
@@ -5151,12 +4386,9 @@ eshp.:	skipg	t3,who		;see whose ship to erase
 	movei	t3,^D1000	;make black hole
 	pushj	p,sdsp.		;set display value
 eshp.1:	popj	p,
-
 ;;;	PSHP. -- Put ship on board.
-;
 ;	Input
 ;	  WHO	ship number to put back on board
-;
 pshp.:	skipg	t3,who
 	jrst	pshp.1
 	skipl	alive-1(t3)	;alive?
@@ -5169,11 +4401,8 @@ pshp.:	skipg	t3,who
 	pushj	p,sdsp.
 pshp.1:	popj	p,
 	subttl	DISP/DISPC/DISPX/SETDSP
-
 ;;;	DISP -- Return the code of a location on the board.
-;
 ;	n = DISP(v,h)
-;
 	entry	disp
 	sixbit	/DISP/
 disp:
@@ -5194,28 +4423,21 @@ ifn debug., <
 	pushj	p,chkd.		;check value of display code
 > ;end ifn debug.
 	popj	p,
-
 ;;;	DISPC -- Return DISP(v,h) div 100
-;
 	entry	dispc
 	sixbit	/DISPC/
 dispc:	pushj	p,disp
 	idivi	t0,^D100
 	popj	p,
-
 ;;;	DISPX -- Return DISP(v,h) mod 100
-;
 	entry	dispx
 	sixbit	/DISPX/
 dispx:	pushj	p,disp
 	idivi	t0,^D100
 	movei	t0,(t1)
 	popj	p,
-
 ;;;	SETDSP -- Set the contents of a location on the board.
-;
 ;	CALL SETDSP (v,h,n)
-;
 	entry	setdsp
 	sixbit	/SETDSP/
 setdsp:
@@ -5245,7 +4467,6 @@ ifn dbzer., <
 >
 > ;end ifn debug.
 	popj	p,
-
 ifn dbzer., <
 	save	<t0,t1,t2,t3,t4,x1,x2,p1,c>
 	pushj	p,ocrl.
@@ -5269,57 +4490,44 @@ ifn dbzer., <
 	restor	<c,p1,x2,x1,t4,t3,t2,t1,t0>
 	popj	p,
 > ;end ifn debug.
-
 ;;;	GDSP. -- Return the contents of a location on the board.
-;
 ;	Input
 ;	  T1	Vpos
 ;	  T2	Hpos
 ;	Output
 ;	  T3	Value
-;
 gdsp.:	pushj	p,gptr.		;get pointer to location
 	ildb	t3,t2		;get object at location
 	popj	p,
-
 ;;;	SDSP. -- Set the value of a location on the board.
-;
 ;	Input
 ;	  T1	Vpos
 ;	  T2	Hpos
 ;	  T3	Value
-;
 sdsp.:	save	<t3>
 	pushj	p,gptr.		;get pointer to location
 	restor	<t3>
 	idpb	t3,t2		;put object there
 	popj	p,
-
 ;;;	GPTR. -- Return a pointer to a location on the board.
-;
 ;	Input
 ;	  T1	Vpos
 ;	  T2	Hpos
 ;	Output
 ;	  T2	pointer
-;
 gptr.:	movei	t2,-1(t2)	;Hpos - 1
 	idivi	t2,3		;(Hpos - 1) / 3
 	imuli	t1,ksid		;Vpos * KSID
 	addi	t2,-ksid(t1)	;(Hpos-1) / 3 + (Vpos * Ksid) - Ksid
 	add	t2,b12tbl-1(t3)	;build pointer to location
 	popj	p,
-
 	subttl	CHKC./CHKD./TRAC.
-
 ifn debug., <
-
 ;;;	CHKC. -- Check coordinates for legality.  Since this is a debug
 ;	routine, to be placed anywhere, don't bash any ACs.
 ;	It is assumed that the calling routine was called from FORTRAN
 ;	with
 ;		CALL X (v,h)
-;
 	sixbit	/CHKC./
 chkc.:	skipn	pasflg
 	popj	p,
@@ -5334,7 +4542,6 @@ chkc.:	skipn	pasflg
 	jrst	chkc.1
 	restor	<t0>
 	popj	p,
-
 chkc.1:	save	<t1,t2,t3,t4,x1,x2,p1,c>
 	movei	p1,[asciz /%Illegal coordinate: /]
 	pushj	p,ostr.
@@ -5349,13 +4556,10 @@ chkc.1:	save	<t1,t2,t3,t4,x1,x2,p1,c>
 	restor	<c,p1,x2,x1,t4,t3,t2,t1>
 	restor	<t0>
 	popj	p,
-
 ;;;	CHKD. -- Check display code for legality.  Since this is a debug
 ;	routine, to be placed anywhere, don't bash any ACs.
-;
 ;	Input
 ;	  T0	Display code to check.
-;
 	sixbit	/CHKD./
 chkd.:	skipn	pasflg
 	popj	p,
@@ -5372,7 +4576,6 @@ chkd.:	skipn	pasflg
 	jrst	chkd.1
 	restor	<t3,t2,t1>
 	popj	p,
-
 chkd.1:	save	<t0,t4,x1,x2,p1,c>
 	movei	p1,[asciz /%Illegal display code: /]
 	pushj	p,ostr.
@@ -5384,7 +4587,6 @@ chkd.1:	save	<t0,t4,x1,x2,p1,c>
 	restor	<c,p1,x2,x1,t4,t0>
 	restor	<t3,t2,t1>
 	popj	p,
-
 	radix	10
 rngtbl:	0,,0			;empty space
 	1,,9			;federation ship
@@ -5398,9 +4600,7 @@ rngtbl:	0,,0			;empty space
 	0,,0			;star
 	0,,0			;black hole
 	radix	8
-
 ;;;	TRAC. -- Trace back the subroutine calls.
-;
 	sixbit	/TRAC./
 trac.:	save	<x1,x2,x3>
 	hlre	x2,p
@@ -5418,11 +4618,8 @@ trac.2:	pushj	p,ocrl.
 	output	tty,
 	restor	<x3,x2,x1>
 	popj	p,
-
 > ;end ifn debug.
-	
 	subttl	END
-
 ; Get here on an APR trap (data out of bounds/pdl overflow)
 aprtrp:
 	outstr	[asciz "***** aprtrp *****"]
@@ -5430,12 +4627,10 @@ aprtrp:
 	deq.	t2,
 	jfcl	0,  					; noop
 	jrst	monit	
-
 	entry	aprset		; set fatal return for APR trap
 aprset:	movei	0,@0(arg)
 	movem	0,ftlerr
 	popj	p,
-	
 	page
 	subttl *Zap	- clear statistics data files
 	entry	stazap
@@ -5468,7 +4663,6 @@ Finished!
 "]
 	setzm	addrck
 	popj	p,
-
 stzapx:	outstr	[asciz "
 
 Can't open file for output!
@@ -5476,10 +4670,8 @@ Can't open file for output!
 "]
 	jrst	stzap0
 	popj	p,
-
 	page
 	subttl	ROMSPK - The Romulan speaks!
-
 	entry	romspk
 romspk:
 	save <arg>
@@ -5494,7 +4686,6 @@ romspk:
 			777000	; klingons (Empire)
 			](t1)
 ;	jrst	rmspk1
-
 ;rmspk0:	move	t1,who		; get bit for the talking player
 ;	move	t1,bits-1(t1)
 ;	setzm	tmp		; remember single player!
@@ -5555,12 +4746,10 @@ romspk:
 	setz	c,
 	idpb	c,p1			; tack on a null
 	popj	p,
-
 rmcopy:	ildb	c,p2		; copy (p2) to (p1)
 	skipn	c
 	popj	p,
 	idpb	c,p1
 	jrst	rmcopy
-
 	page
 	end

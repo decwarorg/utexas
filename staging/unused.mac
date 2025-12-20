@@ -49,3 +49,83 @@ loknam:	xwd	'PPP',plnlok
 	xwd	'NNN',numply
 	xwd	'SSS',staupd
 	0
+
+	subttl	Low Level I/O -- Introduction
+
+comment %
+Added by drforbin
+-----
+it seems that the way it works is as follows;
+It uses filop. to init the channel. (open.)
+Then uses IN and OUT calls to get and put data.
+The SETI. and SETO. are used to set the 
+BUFFER input/out routines
+set in ic: and oc: by SETI. and SETO.
+the routine used to read into the buffers is sperate and
+again is set by SET(i/o)
+the input buffer instruction (ibfins) and output buffer instruction (obfins) is
+set by SETI and SETO. 
+To suspend output to the current file and open a new file for output
+	MOVE X1,[<file block>,,<file block>]
+	PUSHJ P,OPEN.
+	  open failed
+	PUSHJ P,SETO.
+To output the character from c to the current output file,
+	PUSHJ P,OCHR.
+To close the current output file and restore the old output file
+	PUSHJ P,CLOSE.
+	PUSHJ P,SETO.	(X1 must have value returned by previous call to SETO.)
+To suspend input from the current file and open a new file for input
+	HRLI X1,<file block>
+	PUSHJ P,OPEN.
+	  open failed
+	PUSHJ P,SETI.
+To input a character from the current input file into c
+	PUSHJ P,ICHR.
+To close the current input file and restore the old input file
+	PUSHJ P,CLOSE.
+	PUSHJ P,SETI.	(X1 must have value returned by previous call to SETI.)
+The file block has the format
+	.fbcio	address of character output,,input routines
+	.fbbuf	0,,address of buffers
+		or -1,,amount of space to allocate for buffers @ .JBFF
+	.fbfnc	protection bit, channel,,filop. function code
+	.fbios	open flags, data mode
+	.fbdev	device name
+	.fbbrh	address of output,,input buffer control blocks
+	.fbnbf	number of output,,input buffers
+	.fbnam	file name
+		or 0 to end block (if init device only)
+	.fbext	extension
+	.fbprv	protection code (if writing file)
+	.fbppn	PPN
+		or 0 to end block (if ersatz device)
+	.fbsfd	SFDs, terminated by the first 0 word
+%
+
+Comment %
+The procedure to make a queue entry:
+ 1.  Call RSRV. to reserve a spot in the queue.
+ 2.  Make an entry into the queue data area.
+ 3.  Call UPDT. to update the queue pointers and make the new entry
+     available to other jobs.
+The procedure to retrieve a queue entry:
+ 1.  Call SRCH. to locate an entry intended for a particular user.
+ 2.  Read the specified entry.
+ 3.  Call REMV. to remove the user from the destination word of the
+     entry, and possibly remove the entry.
+Structure of the queue link lists:
+	+-------+-------+
+	|^first | ^last |
+	+-------+-------+
+  QLNK:	| ^next | dbits |  \
+	+-------+-------+   \
+	| ^next | dbits |  QLEN
+	+-------+-------+   /
+	|   -1  | dbits |  /
+	+-------+-------+
+All pointers (in the left half word) are relative to QLNK.
+The destination bits (right half word) are never zero if the pointer in
+the left half of the same word is nonzero.
+%
+
