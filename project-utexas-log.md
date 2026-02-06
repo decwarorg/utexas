@@ -1,8 +1,13 @@
 # project utexas log
 
 major versions
+- v1.2.0 20260206
 - v1.1.0 20251201
 - v1.0.0 20251109
+
+# 20260206 v1.2 on github
+
+moved to github decwar org. there are cleanups in warmac and tested those with a docker build for this release.
 
 # 20251201 v1.1 on gitlab and bring in oddities folder
 
