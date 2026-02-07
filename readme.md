@@ -4,7 +4,7 @@
 - [guide](#guide)
 - [folder structure](#folder-structure)
 
-for a nutshell history, please see the [decwar/history readme](https://gitlab.com/decwar/history) and for push button installation and usage please see the [decwar/merely-players readme](https://gitlab.com/decwar/merely-players). the person to acknowledge up front is merlyn cousins, as noted in the decwar/history readme. working alone, around 2011, merlyn took the source code that had been modified to run on compuserve's pdp-10s and got it to run on standard tops-10, standard pdp-10. we have merlyn to thank for making the source code fully usable. here's a link to [merlyn's github repo](https://github.com/drforbin/decwar) where that all took place.
+for a nutshell history, please see the [decwar/history readme](https://github.com/decwarorg/history) and for push button installation and usage please see the [decwar/merely-players readme](https://github.com/decwarorg/merely-players). the person to acknowledge up front is merlyn cousins, as noted in the decwar/history readme. working alone, around 2011, merlyn took the source code that had been modified to run on compuserve's pdp-10s and got it to run on standard tops-10, standard pdp-10. we have merlyn to thank for making the source code fully usable. here's a link to [merlyn's github repo](https://github.com/drforbin/decwar) where that all took place.
 
 # going backwards
 
@@ -20,7 +20,7 @@ to have on the radar. project utexas relates with the higher-level [pidp10 proje
  
 # guide
 
-there used to be a series of steps here for preparing and running on a raspi, especially for driving the lights of a front panel if one is present. all of that is being obsoleted now by docker compose. we're only assuming that python and docker engine are present. that's true if docker desktop is installed. docker engine can also be present as a headless service, which is especially common on linux and necessary on raspi. for python and docker, [decwar/merely-players install.py](https://gitlab.com/decwar/merely-players/-/blob/main/readme.md) has complete 'push button' instructions.
+there used to be a series of steps here for preparing and running on a raspi, especially for driving the lights of a front panel if one is present. all of that is being obsoleted now by docker compose. we're only assuming that python and docker engine are present. that's true if docker desktop is installed. docker engine can also be present as a headless service, which is especially common on linux and necessary on raspi. for python and docker, [decwar/merely-players install.py](https://github.com/decwarorg/merely-players/-/blob/main/readme.md) has complete 'push button' instructions.
 
 # folder structure
 
