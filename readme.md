@@ -4,7 +4,7 @@
 - [guide](#guide)
 - [folder structure](#folder-structure)
 
-for a nutshell history, please see the [history readme](https://github.com/decwarorg/history) and for push button installation and usage please see the [merely-players readme](https://github.com/decwarorg/merely-players). the person to acknowledge up front is merlyn cousins, as noted in the decwar/history readme. working alone, around 2011, merlyn took the source code that had been modified to run on compuserve's pdp-10s and got it to run on standard tops-10, standard pdp-10. we have merlyn to thank for making the source code fully usable. here's a link to [merlyn's github repo](https://github.com/drforbin/decwar) where that all took place.
+for a nutshell history, please see the [history readme](https://github.com/decwarorg/history) and for push button installation and usage please see the [merely-players readme](https://github.com/decwarorg/merely-players). the person to acknowledge up front is merlyn cousins, as noted in the history readme. working alone, around 2011, merlyn took the source code that had been modified to run on compuserve's pdp-10s and got it to run on standard tops-10, standard pdp-10. we have merlyn to thank for making the source code fully usable. here's a link to [merlyn's github repo](https://github.com/drforbin/decwar) where that all took place.
 
 # going backwards
 
