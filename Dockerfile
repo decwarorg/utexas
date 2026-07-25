@@ -10,6 +10,15 @@ RUN cmake ..
 RUN make pdp10-kl # it's created as /docker/sims/BIN/pdp10-kl
 RUN cp /docker/sims/BIN/pdp10-kl /docker/pdp10-kl
 
+#RUN make pdp10-ki # linker error 
+#32.73 [100%] Linking C executable /docker/sims/BIN/pdp10-ki
+#32.81 /usr/bin/ld: CMakeFiles/pdp10-ki.dir/kx10_dpy.c.o: in function `wcnsls_reset':
+#32.81 kx10_dpy.c:(.text+0x33a): undefined reference to `vid_set_alpha_mode'
+#32.81 /usr/bin/ld: kx10_dpy.c:(.text+0x360): undefined reference to `vid_map_rgba_window'
+#32.81 /usr/bin/ld: CMakeFiles/pdp10-ki.dir/kx10_dpy.c.o: in function `wcnsls_devio':
+#32.81 kx10_dpy.c:(.text+0x87c): undefined reference to `vid_map_rgba_window'
+#32.82 collect2: error: ld returned 1 exit status
+
 WORKDIR /docker
 RUN gcc back10.c -o back10
 
