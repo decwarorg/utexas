@@ -1,3 +1,8 @@
+
+The folder vt52 contains [aap's](https://github.com/aap/vt05) fun and relatively simple terminal emulator. If you have the vt52 exe built for your local system, then you can do something like this to connect to your local utexas-10 container.
+
+    vt52 % ./vt52 telnet localhost 2030
+
 # project utexas
 
 - [going backwards](#going-backwards)
