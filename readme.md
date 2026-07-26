@@ -54,3 +54,21 @@ We're experimenting with Singer’s 1978 “Introduction to DECsystem-10 Assembl
     .make test
     *ihello world$ex$$
     .type test
+
+# Tape
+
+Flow extra files in via the tape by putting them in msc/to-tape. Then onboard the container, recreate the tape.
+
+    root@1ee085ff605a:/docker# ./msc/create-tape-utexas23-reconstruction
+
+And in TOPS-10 use backup to restore.
+
+    .r backup
+    /tape mta0:
+    /rewind
+    /inter
+    /files
+    /rest [,]*.*=*.*
+    ...snip...
+    /exit
+    .

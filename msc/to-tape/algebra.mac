@@ -1,0 +1,53 @@
+a=1
+c=2
+digitr=3 ; digit iteration
+itr=4
+x=10
+y=12
+tmp=14
+newlin: asciz/
+/
+start:  reset
+        movei   y,^d225
+        fltr    y,y
+        dfmp    y,[0.00001]
+        movei   x,^d1
+        fltr    x,x
+        movei   itr,0
+next:   move    tmp,y           ; tmp = y
+        dfmp    tmp,tmp         ; tmp = y*y
+        dfmp    y,x             ; y = y*x
+        dfmp    y,[2.0]         ; y = 2*y*x        
+        dfmp    x,x             ; x = x*x
+        dfsb    x,tmp           ; x = x*x - y*y
+        move    a,x
+        jsr     prflt           ; print x
+        movei   tmp," "
+        outchr  tmp             ; print space
+        move    a,y
+        jsr     prflt           ; print y
+        outstr  newlin        
+        addi    itr,1
+        caig    itr,11          ; jump to exit when itr > 11
+        jrst    next
+        exit
+prflt:  0                       ; print float less than one in accum a
+        jumpge  a,point         ; jump if not negative
+        movei   tmp,"-"         ; print negative sign
+        outchr  tmp
+        fmp     a,[-1.0]        ; make it positive
+point:  movei   tmp,"."         ; print period
+        outchr  tmp
+        movei   digitr,1        ; digitr is 1, digit iteration
+dig:    fmp     a,[10.0]        ; bring next digitr into ones place
+        fix     tmp,a           ; integer
+        fltr    c,tmp           ; float it
+        fsb     a,c             ; subtract off fraction
+        addi    tmp,"0"         ; insure it's at least zero
+        outchr  tmp             ; print it
+        addi    digitr,1        ; add one to digitr
+        caig    digitr,5        ; jump to return when digitr > 5
+        jrst    dig
+        jrstf   @prflt
+end     start
+        
