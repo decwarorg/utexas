@@ -5,7 +5,7 @@ Have Git, Python, and Docker Desktop installed on your system. Git clone the [ut
     utexas % python3 start.py
     telnet localhost 2030
 
-The folder mscvt52 contains [aap's](https://github.com/aap/vt05) fun and relatively simple terminal emulator. If you have the vt52 exe built for your system, then you can do something like this to connect to your utexas-10 container old-school style.
+The folder msc/vt52 contains [aap's](https://github.com/aap/vt05) fun and relatively simple terminal emulator. If you have the vt52 exe built for your system, then you can do something like this to connect to your utexas-10 container old-school style.
 
     msc/vt52 % ./vt52 telnet localhost 2030
 
@@ -32,7 +32,7 @@ Go ahead and login as decwar, no password needed. Once logged in, you can always
     ...snip...
     .r gam:decwar
 
-We're experimenting with Singer’s 1978 “Introduction to DECsystem-10 Assembler Language Programming”. Here's the [pdf within the project](msc/docs/dec10-assembler-singer.pdf). On page 4, using teco to create a test file.
+We're experimenting with Singer’s 1978 “Introduction to DECsystem-10 Assembler Language Programming”. Here's the [pdf within the project](msc/docs/dec10-assembler-singer.pdf). On page 4, using teco to create a test file. Note that $ is the TOPS-10 echo for the escape key. Where you see $, hit escape.
 
     .make test
     *ihello world$ex$$
