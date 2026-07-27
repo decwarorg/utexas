@@ -5,14 +5,15 @@
   - msc folder, [msc.com](utexas23-reconstruction/msc/MSC.COM) comment file.
   - tec folder, for [TECO-124 code](docs/sec9-utexas-primordial-tape.md/#teco-scripts) to auto-generate Fortran include files. TECO-124 is Clive Dawson's UT version adding screen editing to the standard DEC TECO-24.
 - [staging](staging/), questionable files that potentially could be brought into the reconstruction. Were they on the original SDT?
-- msc, miscellaneous shell scripts and related code
+- msc, miscellaneous shell scripts, tools, and related code
   - [create tape utexas23 reconstruction](msc/create-tape-utexas23-reconstruction)
-  - docs folder, docs focused on the UT HRC DEC-10.
+  - to-tape, these file are auto included in the tape as extras.
   - vt52 folder, fun vt52 emulator.
 - simh, simh scripts
   - [utexas do](simh/utexas.do)
   - [boot from disk](simh/boot-from-disk.ini)
   - [create boot disk from tape](simh/create-boot-disk-from-tape.ini)
+- docs folder, docs focused on UT HRC DEC-10 topics.
 - docker, matters specific to the project's Docker Container and the complete environment inside that.
 
 # Getting Started
@@ -49,7 +50,7 @@ Go ahead and login as decwar, no password needed. Once logged in, you can always
     ...snip...
     .r gam:decwar
 
-We're experimenting with Singer’s 1978 “Introduction to DECsystem-10 Assembler Language Programming”. Here's the [pdf within the project](msc/docs/dec10-assembler-singer.pdf). Page 4, using teco to create a test file. Note that $ is the TOPS-10 echo for the escape key. Where you see \$, hit escape.
+We're experimenting with Singer’s 1978 “Introduction to DECsystem-10 Assembler Language Programming”. Here's the [pdf within the project](docs/dec10-assembler-singer.pdf). Page 4, using teco to create a test file. Note that $ is the TOPS-10 echo for the escape key. Where you see \$, hit escape.
 
     .make test
     *ihello world$ex$$
@@ -57,7 +58,7 @@ We're experimenting with Singer’s 1978 “Introduction to DECsystem-10 Assembl
 
 # Tape
 
-Flow extra files in via the tape by putting them in msc/to-tape. Then onboard the container, recreate the tape.
+Flow extra files in via the tape by putting them in msc/to-tape. Then in the container, recreate the tape.
 
     root@1ee085ff605a:/docker# ./msc/create-tape-utexas23-reconstruction
 
