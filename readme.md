@@ -1,6 +1,6 @@
 # Project UTEXAS
 
-- utexas23-reconstruction, [UTEXAS Source Distribution Tape reconstruction](utexas23-reconstruction/DECWAR.TAP)
+- utexas23-reconstruction, [UTEXAS DECWAR 2.3 Source Distribution Tape Reconstruction](utexas23-reconstruction/DECWAR.TAP)
   - hlp folder, [hlp.com](utexas23-reconstruction/hlp/HLP.COM) comment file. Note [decwar.imp](utexas23-reconstruction/hlp/DECWAR.IMP) important file. And the 1982 letter from UTEXAS to Compuserve, included on the Decwar SDT as [decwar.ltr](utexas23-reconstruction/hlp/DECWAR.LTR).
   - msc folder, [msc.com](utexas23-reconstruction/msc/MSC.COM) comment file.
   - tec folder, for [TECO-124 code](docs/sec9-utexas-primordial-tape.md/#teco-scripts) to auto-generate Fortran include files. TECO-124 is Clive Dawson's UT version adding screen editing to the standard DEC TECO-24.
