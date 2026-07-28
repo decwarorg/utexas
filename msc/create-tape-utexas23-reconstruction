@@ -6,9 +6,9 @@ mkdir ./tmp
 
 cp $UTEXAS/*.FOR ./tmp
 cp $UTEXAS/*.MAC ./tmp
-cp $UTEXAS/hlp/DECWAR.HLP ./tmp
-cp $UTEXAS/hlp/DECWAR.NWS ./tmp
-cp $UTEXAS/hlp/DECWAR.GRP ./tmp
+cp $UTEXAS/HLP/DECWAR.HLP ./tmp
+cp $UTEXAS/HLP/DECWAR.NWS ./tmp
+cp $UTEXAS/HLP/DECWAR.GRP ./tmp
 cp msc/decwar.ini ./tmp
 
 cp msc/to-tape/* ./tmp

@@ -1,20 +1,20 @@
 # Project UTEXAS DECWAR
 
-- utexas23-reconstruction, [UTEXAS DECWAR 2.3 Source Distribution Tape Reconstruction](utexas23-reconstruction/DECWAR.TAP)
-  - HLP folder, [HLP.COM](utexas23-reconstruction/hlp/HLP.COM) comment file, [DECWAR.IMP](utexas23-reconstruction/hlp/DECWAR.IMP) important file, and the 1982 letter from UTEXAS to Compuserve, included on the Decwar SDT as [DECWAR.LTR](utexas23-reconstruction/hlp/DECWAR.LTR).
-  - MSC folder, [MSC.COM](utexas23-reconstruction/msc/MSC.COM) comment file.
-  - TEC folder, for [TECO-124 code](docs/sec9-utexas-primordial-tape.md/#teco-scripts) to auto-generate Fortran include files. TECO-124 is Clive Dawson's UT version adding screen editing to the standard DEC TECO-24.
-- [staging](staging/), Questionable files that potentially may be brought into the reconstruction. Were they on the original SDT?
-- msc, Miscellaneous shell scripts, tools, and related code.
-  - [create tape utexas23 reconstruction](msc/create-tape-utexas23-reconstruction)
-  - to-tape, These file are auto included in the tape as extras.
-  - vt52 folder, Fun vt52 emulator.
-- simh, SIMH scripts.
-  - [utexas do](simh/utexas.do)
-  - [boot from disk](simh/boot-from-disk.ini)
-  - [create boot disk from tape](simh/create-boot-disk-from-tape.ini)
-- docs folder, Docs focused on UT HRC DEC-10 topics.
-- docker, Matters specific to the project's Docker Container and the complete environment inside that.
+- [utexas23-reconstruction](utexas23-reconstruction) - [UTEXAS DECWAR 2.3 Source Distribution Tape Reconstruction](utexas23-reconstruction/DECWAR.TAP)
+  - [HLP](utexas23-reconstruction/HLP) - Comment File [HLP.COM](utexas23-reconstruction/HLP/HLP.COM), Important File [DECWAR.IMP](utexas23-reconstruction/HLP/DECWAR.IMP), and the 1982 letter from UTEXAS to Compuserve included on the Decwar SDT as [DECWAR.LTR](utexas23-reconstruction/HLP/DECWAR.LTR).
+  - [MSC](utexas23-reconstruction/MSC) - Comment File [MSC.COM](utexas23-reconstruction/MSC/MSC.COM).
+  - [TEC](utexas23-reconstruction/TEC) - TECO-124 code to auto-generate Fortran include files. TECO-124 is Clive Dawson's UT version adding screen editing to the standard DEC TECO-24.
+- [staging](staging/) - Questionable files that potentially may be brought into the reconstruction. Were they on the original SDT?
+- [msc](msc) - Miscellaneous shell scripts, tools, and related code.
+  - [msc/create-tape-utexas23-reconstruction](msc/create-tape-utexas23-reconstruction)
+  - [msc/to-tape](msc/to-tape) - These file are auto included in the tape as extras.
+  - [msc/vt52](msc/vt52) - Fun VT52 emulator.
+- [simh](simh) - SIMH scripts.
+  - [simh/utexas.do](simh/utexas.do)
+  - [simh/boot-from-disk.ini](simh/boot-from-disk.ini)
+  - [simh/create-boot-disk-from-tape.ini](simh/create-boot-disk-from-tape.ini)
+- [docs](docs) - Docs focused on UT HRC DEC-10 topics.
+- [docker](docker) - Matters specific to the project's Docker Container and the complete environment inside that.
 
 # Getting Started
 
