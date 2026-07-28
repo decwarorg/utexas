@@ -1,6 +1,6 @@
 # Project UTEXAS DECWAR
 
-- [utexas23-reconstruction](utexas23-reconstruction) - [UTEXAS DECWAR 2.3 Source Distribution Tape Reconstruction](utexas23-reconstruction/DECWAR.TAP)
+- [UTEXAS DECWAR 2.3 SDT Source Distribution Tape Reconstruction](utexas23-reconstruction) - SDT Contents Listing [DECWAR.TAP](utexas23-reconstruction/DECWAR.TAP)
   - [HLP](utexas23-reconstruction/HLP) - Comment File [HLP.COM](utexas23-reconstruction/HLP/HLP.COM), Important File [DECWAR.IMP](utexas23-reconstruction/HLP/DECWAR.IMP), and the 1982 letter from UTEXAS to Compuserve included on the Decwar SDT as [DECWAR.LTR](utexas23-reconstruction/HLP/DECWAR.LTR).
   - [MSC](utexas23-reconstruction/MSC) - Comment File [MSC.COM](utexas23-reconstruction/MSC/MSC.COM).
   - [TEC](utexas23-reconstruction/TEC) - TECO-124 code to auto-generate Fortran include files. TECO-124 is Clive Dawson's UT version adding screen editing to the standard DEC TECO-24.
