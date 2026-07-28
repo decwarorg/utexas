@@ -5,7 +5,7 @@
   - [HLP](utexas23-reconstruction/HLP) - Comment File [HLP.COM](utexas23-reconstruction/HLP/HLP.COM), Important File [DECWAR.IMP](utexas23-reconstruction/HLP/DECWAR.IMP), and the 1982 letter from UTEXAS to Compuserve included on the Decwar SDT as [DECWAR.LTR](utexas23-reconstruction/HLP/DECWAR.LTR).
   - [MSC](utexas23-reconstruction/MSC) - Comment File [MSC.COM](utexas23-reconstruction/MSC/MSC.COM).
   - [TEC](utexas23-reconstruction/TEC) - TECO-124 code to auto-generate Fortran include files. TECO-124 is Clive Dawson's UT version adding screen editing to the standard DEC TECO-24.
-- [staging](staging/) - Questionable files that potentially may be brought into the reconstruction. Were they on the original SDT?
+- [staging](staging/) - Questionable files that potentially may be brought into the SDT Reconstruction. Were they on the original UTEXAS SDT?
 - [msc](msc) - Miscellaneous shell scripts, tools, and related code.
   - [msc/create-tape-utexas23-reconstruction](msc/create-tape-utexas23-reconstruction)
   - [msc/to-tape](msc/to-tape) - These file are auto included in the tape as extras.
