@@ -19,16 +19,16 @@
 
 # Getting Started
 
-Have Git, Python, and Docker Desktop installed on your system. Git clone the [utexas project](https://github.com/decwarorg/utexas) to your system. You can start the utexas-10 container with start.py and then use another session to telnet into the DEC-10.
+Have Git, Python, Docker Desktop, and a clone of the [utexas project](https://github.com/decwarorg/utexas) repo on your system. Start the utexas-10 container with start.py. On every container start the Decwar source code is restored from the SDT, compiled, linked, and installed.
 
     utexas % python3 start.py
+
+Telnet into the DEC-10 from another session. The folder msc/vt52 contains [aap's](https://github.com/aap/vt05) fun and relatively simple terminal emulator. If you have the VT52 exe built for your system you can telnet from it.
+
     telnet localhost 2030
-
-The folder msc/vt52 contains [aap's](https://github.com/aap/vt05) fun and relatively simple terminal emulator. If you have the vt52 exe built for your system, then you can do something like this to telnet into the DEC-10.
-
     msc/vt52 % ./vt52 telnet localhost 2030
 
-Your telnet session will be connected to the DEC-10.
+Telnet will connect to the DEC-10.
 
     Trying ::1...
     Connected to localhost.
@@ -38,7 +38,7 @@ Your telnet session will be connected to the DEC-10.
     Connected to Node KL10(1) Line # 4
     Please LOGIN or ATTACH
 
-Go ahead and login as decwar, no password needed. Once logged in, you can always run the game with r gam:decwar.
+Login as decwar, no password needed, and run the game with r gam:decwar.
 
     .login decwar
     Job 2  KL703  TTY4
