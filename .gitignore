@@ -1,5 +1,28 @@
-# Ignore everything in the working tree
-*
+bts/
+dsk/
+tapes/
+tmp/
+/venv*
+.venv
+galaxy.json
 
-# Keep this ignore file tracked
-!.gitignore
+*.tap
+!decwar.tap
+*.log
+
+dec10
+dec10blinken
+dec10test
+
+back10
+*.tar.gz
+test
+job.for
+job.mac
+
+.idea
+.DS_Store
+.vscode
+.gitmessage.txt
+.githooks/commit-msg
+scripts/install-git-hooks.sh
