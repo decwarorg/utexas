@@ -19,7 +19,7 @@
 
 # Getting Started
 
-Have Git, Python, Docker Desktop, and a clone of this repo on your system. Start the utexas-10 container with start.py. Every time that the container starts, the Decwar source code is restored from the SDT, compiled, linked, and installed. You can also do all of the manually at any time. The source code is completely alive, active, and in-the-loop. 
+Have Git, Python, Docker Desktop, and a clone of this repo on your system. Start the utexas-10 container with start.py. Every time that the container starts, the Decwar source code is restored from the SDT, compiled, linked, and installed. You can also do all of this manually at any time. The source code is completely alive, active, and in-the-loop. 
 
     utexas % python3 start.py
 
