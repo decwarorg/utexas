@@ -21,3 +21,10 @@ job.for
 job.mac
 
 .idea
+.DS_Store
+.vscode
+
+# Local git hook and commit-template files
+.githooks/
+.gitmessage.txt
+scripts/
