@@ -5,6 +5,10 @@ major versions
 - v1.1.0 20251201
 - v1.0.0 20251109
 
+# 20260801 cleanup of readme, docs, and setup.for
+
+making the readme and project docs more understandable and ready for extension. have noted that setup.for had been missed during earlier cleanup. performing and testing that now.
+
 # 20260206 v1.2 on github
 
 moved to github decwar org. there are cleanups in warmac and tested those with a docker build for this release.

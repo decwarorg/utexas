@@ -88,19 +88,12 @@ C	if (lofchk(0)) call monit drforbin(merlyn)
 	if (CCFLG .or. hungup)  call monit 
 C	if (lofchk(0)) call monit drforbin(merlyn)-watch above line
 	if (ntok .eq. 0)  return
-	if (.not. equal (tknlst(1), 'HONORROLL')) goto 25
-c		call shosta (.true.)
-		goto 10
-25	if (.not. equal(tknlst(1), 'HELP'))  goto 20
+	if (.not. equal(tknlst(1), 'HELP'))  goto 20
 	call hlpxtr
 	call hlpall
 	call ttyon  ;  goto 10
   20	if (.not. equal(tknlst(1), 'PREGAME'))  goto 10
 	call out (pgame1, 1)		!inform player he is in Pre-game
-	call out ('Use the HO command to view the honor roll.', 1)
-C	if (.not. chkpay(0)) goto 50 drforbin(merlyn)
-	call out('Use the DO command to purchase', 1)
-	call out('documentation for DECWAR.', 1)
   50	call xgtcmd (n)          	!get next command to execute
 	goto (100,305,200,300,310,400,500,600,710,700,800,810,900, 
      +		1000,1100,1200), n
@@ -110,14 +103,9 @@ C	if (.not. chkpay(0)) goto 50 drforbin(merlyn)
 	goto 50
  300	call help			!help
 	goto 50
-C	305	call pdwdoc		!drforbin edit
-305	call out ('This is where CompuServe rips you off for 
-     + Documentation!',1)
-C	305	if (chkpay(0)) call pdwdoc drforbin(merlyn)		! print DECWAR.DOC
-	goto 50				! purchase DECWAR documentation
+305	call out ('     ',1)
+	goto 50
  310	goto 50
-c 	call shosta (.true.)		! Honor Roll
-c	goto 50
  400	call news			!news
 	goto 50
  500	call points (.FALSE.)		!points
@@ -420,10 +408,10 @@ C	(before a side and ship have been chosen).
 	dimension precmd(2,KNPCMD)
 	data ((precmd(i,j), i = 1, 2), j = 1, KNPCMD)/ 
      +	  'Activ', 'ate  ',
-     +    'DOcum', 'ent  ',
+     +    '     ', '     ',
      +	  'Gripe', '     ',
      +	  'Help ', '     ',
-     +    'HOnor', 'roll ',
+     +    '     ', '     ',
      +	  'News ', '     ',
      +	  'Point', 's    ',
      +	  'Quit ', '     ',
