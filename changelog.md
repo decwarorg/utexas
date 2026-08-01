@@ -1,53 +1,52 @@
-# project utexas log
+# Changelog
 
-major versions
-- v1.3.0 20260801
-- v1.2.0 20260207 switch to github/decwarorg
-- v1.1.0 20251201
-- v1.0.0 20251109
+All notable changes to Project UTEXAS DECWAR are recorded here.
 
-# 20260801 v1.3
+## [1.3.0] - 2026-08-01
+### Changed
+- Improved the README and project documentation for clarity and future expansion.
+- Included the previously missed `setup.for` file in the cleanup process.
 
-making the readme and project docs more understandable and ready for extension. have noted that setup.for had been missed during earlier cleanup. performing and testing that now.
+## [1.2.0] - 2026-02-07
+### Changed
+- Migrated the repository to `github.com/decwarorg/utexas`.
+- Cleaned up `warmac` and verified the release with a Docker build.
 
-# 20260206 v1.2 on github
+## [1.1.0] - 2025-12-01
+### Added
+- Added an `oddities/` directory for files referenced in commentary but not listed in `DECWAR.TAP`.
+- Preserved uncertain files in a staging area for later review.
 
-moved to github decwar org. there are cleanups in warmac and tested those with a docker build for this release.
+## [1.0.0] - 2025-11-09
+### Added
+- Initial public release of Project UTEXAS.
 
-# 20251201 v1.1 on gitlab and bring in oddities folder
+## 2025-11-30
+### Changed
+- Improved Docker Compose integration with bind-mounted `utexas23-reconstruction`.
+- Enabled live source updates inside the container without rebuilding the tape image.
 
-files not mentioned in DECWAR.TAP. these are the 'oddities'. they're mentioned in the 'commentary' files, but not DECWAR.TAP. oddities that don't very clearly belong in utexas23-reconstruction are kept in the oddities folder for now. this is a kind of waiting or staging area.
+## 2025-08-14
+### Added
+- Updated robot behavior to start aggressively and transition tactics after surviving long enough.
+- Documented Raspberry Pi setup issues and recovery steps in the main README.
 
-# 20251130 move further toward docker compose
+## 2025-07-19
+### Fixed
+- Corrected a `tell` command defect caused by incorrect hit-link list allocation in `warmac`.
+- Changed `knhit==knhshp*^d10` to `knhit==knhshp*^d18` to prevent message-list corruption.
 
-we're now depending more on docker compose, with late bind of the utexas23-reconstruction folder so that changes can be seen within the utexas container. it's a 'live tape' inside the container.
+## 2025-07-13
+### Added
+- Published the first public `workflow1` process for hardware and software setup.
+- Added `boot-from-disk-fast.ini` to reach the TOPS-10 prompt without rebuilding from tape.
+- Documented robot launch and log monitoring workflows.
 
-# 20251109 v1.0 on gitlab
+### Notes
+- Continued work on TOPS-10 locking and unlocking behavior using `enq`, `deq`, and `uuo`.
+- Continued investigation into the `tell` command and message queue behavior.
+- Continued troubleshooting Raspberry Pi PIDP-10 instability and reset procedures.
 
-# 20250814 gen2 robots
-
-each robot plays d at first. if it lives long enough, it switches to o. this is incentive to stay alive to help win. next up can be an instinct to repair when damaged. beginning to experiment with a 'graphical galaxy' for 'watching' the robots.
-
-as part of playing with using gitlab for decwar/utexas and decwar/galaxy did do a fresh setup on the raspi, which uncovered a few stealth speed bumps along the way. updated the main readme guide section with those, especially the summary paragraphs there.
-
-# 20250719 'tell issue' fixed
-
-came back after a few days with fresh eyes and spotted the problem. had already notice a crucial clue weeks ago but didn't understand it at first. strange 'tell messages' arriving with information about phaser and torpedo hits, blank lines, or occasionally even garbage. today noticed that with tell command bypassed these strange messages still arrive. this raised the question, could hit linked list entries be getting written into memory meant for the msg linked list? this is exactly what was happening. for the hit linked list, memory for ten ships was allocated, not for eighteen ships. the msg link list memory followed, and hit entries were getting written into it. simply needed to change the warmac line 'knhit==knhshp*^d10' to 'knhit==knhshp*^d18'. so now our outstanding topics are reduced to one - raspi pidp10 'temporary brain damage' - along with a note to keep in mind about locking unlocking.
-
-# 20250713 'nice enough' workflow1
-
-workflow1 has evolved enough to make public. nutshell -
-
-- step1 and step2, hardware - once tops10 boot disk is created, it's stable and doesn't need recreation. possible gotcha is discussed below as raspi pidp-10 'temporary brain damage', but seems that simh, mongen, tops10, etc doesn't have any influence.
-- step3 and step4, software - there's now a simh script boot-from-disk-fast.ini which goes directly to the tops10 prompt, without building decwar from tape, and can then run previous decwar build. the old boot-from-disk.ini is for initial decwar build or following builds.
-- robot hordes - start-some-robots.sh is for quickly bringing up a game with many robots. the way to shut them all down at once is 'pkill -f python'. to watch the log of a robot use 'tail -f logxyz'. have a terminal running 'tail -f log1' to watch the output from 'superbot nomad' and see all the ships, including the romulan '??' when he's alive.
-
-time to try moving onward to new topics, while continuing to improve the following old topics
-
-- locking unlocking using tops10 enq deq uuo - for now, this's been simplified 'as much as possible'. it uses integer 'user codes'. user code 1 for calls from fortran. user code 2 for calls from macro. each decwar job has one lock at a time, and can call unlock anytime anywhere to insure it's released!
-- tell command - there's work to do. if tell is bypassed, ten robots go indefinitely. with tell, they're usually fine for between one and three hours before eventually there's some trouble. currently some robots will get knocked out and can be restarted, the overall game goes on. there's not a total hard crash, more of a degradation. the problem has definitely been traced down below the fortran and into the msg que macro. the suspect code paths, with lower level funcs in parenthesis, are makmsg -> (rsrv, remv, updt) and getmsg -> (srch, remv).
-- raspi pidp-10 'temporary brain damage' - what we're seeing is the raspi pidp-10 combo occasionally misbehaving, blinking oddly, etc, including failing to build tops10 or decwar. using dec10test to 'clear the blinkers' or 'pulling the plug' is needed whenever things get sideways. after 'sufficient reset' things are fine again. basically the raspi pidp-10 has some kind of 'memory' or 'state' around what's happened to it recently, and it gets sideways over time. fine. nuke it from orbit.
-
-# 20250511 first public mention of project utexas
-
-first mention in github/drforbin/decwar discussions, 'project utexas - !call for testers!' - https://github.com/drforbin/decwar/discussions/27
+## 2025-05-11
+### Added
+- First public mention of Project UTEXAS in the DECWAR GitHub discussion: https://github.com/drforbin/decwar/discussions/27
