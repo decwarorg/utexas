@@ -1,11 +1,12 @@
 # project utexas log
 
 major versions
+- v1.3.0 20260801
 - v1.2.0 20260207 switch to github/decwarorg
 - v1.1.0 20251201
 - v1.0.0 20251109
 
-# 20260801 cleanup of readme, docs, and setup.for
+# 20260801 v1.3
 
 making the readme and project docs more understandable and ready for extension. have noted that setup.for had been missed during earlier cleanup. performing and testing that now.
 
