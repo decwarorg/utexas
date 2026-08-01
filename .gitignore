@@ -1,23 +1,5 @@
-bts/
-dsk/
-tapes/
-tmp/
-/venv*
-.venv
-galaxy.json
+# Ignore everything in the working tree
+*
 
-*.tap
-!decwar.tap
-*.log
-
-dec10
-dec10blinken
-dec10test
-
-back10
-*.tar.gz
-test
-job.for
-job.mac
-
-.idea
+# Keep this ignore file tracked
+!.gitignore
