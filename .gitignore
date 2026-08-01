@@ -26,4 +26,3 @@ job.mac
 .gitmessage.txt
 .githooks/commit-msg
 scripts/install-git-hooks.sh
-just-a-test
