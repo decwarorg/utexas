@@ -21,3 +21,8 @@ job.for
 job.mac
 
 .idea
+.DS_Store
+.vscode
+.gitmessage.txt
+.githooks/commit-msg
+scripts/install-git-hooks.sh
