@@ -1,4 +1,6 @@
-## useful passwords
+# useful passwords
+
+these aren't really needed for decwar, but are useful lore, especially the common or even stadard ppn numbers.
 
 - 1,2 FAILSA
 - 6,6 MAINT

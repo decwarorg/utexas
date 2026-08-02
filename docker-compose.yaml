@@ -1,4 +1,5 @@
-# docker compose  up --build --force-recreate utexas
+# docker compose up utexas
+# docker compose up --build --force-recreate utexas
 name: utexas-10
 services:
   utexas:
