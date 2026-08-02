@@ -1,0 +1,47 @@
+INT=1
+        HREM=2
+        TREM=3
+        UREM=4
+
+START:  INCHWL  INT          ;(a)
+        INCHWL  HREM
+        SUBI    INT,60
+        SUBI    HREM,60
+        CAIL    HREM,0
+        IMULI   INT,12
+        CAIL    HREM,0
+        ADD     INT,HREM
+
+        INCHWL  TREM         ;(b)
+        CAIN    TREM,15
+        INCHWL  TREM
+        CAIN    TREM,12
+
+        INCHWL  TREM         ;(c)
+        INCHWL  UREM
+        SUBI    TREM,60
+        SUBI    UREM,60
+        CAIL    UREM,0
+        IMULI   TREM,12
+        CAIL    UREM,0
+        ADD     TREM,UREM
+
+        IMUL    INT,TREM     ;(d)
+
+PRINT:  IDIVI   INT,12       ;(e)
+        MOVE    UREM,HREM
+        IDIVI   INT,12
+        MOVE    TREM,HREM
+        IDIVI   INT,12
+        ADDI    INT,60
+        CAIE    INT,60
+        OUTCHR  INT
+        ADDI    HREM,60
+        OUTCHR  HREM
+        ADDI    TREM,60
+        OUTCHR  TREM
+        ADDI    UREM,60
+        OUTCHR  UREM
+        EXIT
+        END     START
+        
