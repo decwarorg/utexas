@@ -51,7 +51,7 @@ Login as decwar, no password needed, and run the game with r gam:decwar.
     ...snip...
     .r gam:decwar
 
-We're experimenting with Singer’s 1978 “Introduction to DECsystem-10 Assembler Language Programming”. Here's the [pdf within the project](docs/msc/dec10-assembler-singer.pdf). Page 4, using teco to create a test file. Note that $ is the TOPS-10 echo for the escape key. Where you see \$, hit escape.
+In the following, hit the escape key for each $ symbol.
 
     .make test
     *ihello world$ex$$
