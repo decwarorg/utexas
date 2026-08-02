@@ -2,7 +2,7 @@
 to use this script to start the utexas container
 
     cd utexas
-    python3 start.py [--latest for newest release]
+    python3 start.py
 """
 import os
 import argparse
