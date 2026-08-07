@@ -11,8 +11,9 @@ start:  reset
         movei   y,^d225
         fltr    y,y
         dfmp    y,[0.00001]
-        movei   x,^d1
+        movei   x,^d99999       ; best so far for .99999746
         fltr    x,x
+        dfmp    x,[0.00001]  
         movei   itr,0
 next:   move    tmp,y           ; tmp = y
         dfmp    tmp,tmp         ; tmp = y*y
