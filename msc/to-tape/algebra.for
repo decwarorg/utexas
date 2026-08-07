@@ -5,11 +5,11 @@ c and squaring successively ten times. feynman's table 22-3.
       y = .00225
       x = sqrt(1. - y**2)
       do 20 i=1,11
-        write (5, 10) x, y
-        x2 = x**2 - y**2
-        y2 = 2. * x * y
-        x = x2
-        y = y2
+      write (5, 10) x, y
+      x2 = x**2 - y**2
+      y2 = 2. * x * y
+      x = x2
+      y = y2
 20    continue
       stop
       end
