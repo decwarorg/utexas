@@ -1,5 +1,5 @@
 c imaginary powers of 10, starting with 10**(i/1024),
-c and squaring successively ten times. feynman's table 22-3. 
+c and squaring successively ten times. feynman's table 22-3.
       real x, y, x2, y2
 10    format (2f10.5)
       y = .00225
