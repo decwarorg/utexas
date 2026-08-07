@@ -11,7 +11,7 @@ cp $UTEXAS/HLP/DECWAR.NWS ./tmp
 cp $UTEXAS/HLP/DECWAR.GRP ./tmp
 cp msc/decwar.ini ./tmp
 
-cp msc/to-tape/* ./tmp
+#cp msc/to-tape/* ./tmp
 
 ./back10 -cf ./tapes/$UTEXAS.tap ./tmp/*
 ./back10 -lf ./tapes/$UTEXAS.tap
