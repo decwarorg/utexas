@@ -59,7 +59,7 @@ In the following, hit the escape key for each $ symbol.
 
 # Tape
 
-Flow extra files in via the tape by putting them in msc/to-tape. Then in the container, recreate the tape.
+Tape ops are automated by [tape.py](msc/tape.py). Use it onboard the container. Have a terminal into the container, be in the msc folder, and do 'python3 tape.py'. Changes to your local clone of the repo within the utexas23-reconstruction and msc folders are live. The automation recreates the tape, telnets into the DEC-10, and then uses TOPS-10 to restore from the tape, all exactly as you can do manually with the following.
 
     root@1ee085ff605a:/docker# ./msc/create-tape-utexas23-reconstruction
 
