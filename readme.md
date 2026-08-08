@@ -7,7 +7,7 @@
   - [TEC](utexas23-reconstruction/TEC) - TECO-124 code to auto-generate Fortran include files from MACRO-10 assembly code. TECO-124 is Clive Dawson's UT version adding screen editing to the standard DEC TECO-24.
 - [staging](staging/) - Questionable files that potentially may be brought into the SDT Reconstruction. Were they on the original UTEXAS SDT?
 - [msc](msc) - Miscellaneous shell scripts, tools, and related code.
-  - [msc/create-tape-utexas23-reconstruction](msc/create-tape-utexas23-reconstruction)
+  - [msc/tape.py](msc/tape.py) - Automations for using the tape drive.
   - [msc/to-tape](msc/to-tape) - These file are auto included in the tape as extras.
   - [msc/vt52](msc/vt52) - Fun VT52 emulator.
 - [simh](simh) - SIMH scripts.
@@ -59,18 +59,6 @@ In the following, hit the escape key for each $ symbol.
 
 # Tape
 
-Tape ops are automated by [tape.py](msc/tape.py). Use it onboard the container. Have a terminal into the container, be in the msc folder, and do 'python3 tape.py'. Changes to your local clone of the repo within the utexas23-reconstruction and msc folders are live. The automation recreates the tape, telnets into the DEC-10, and then uses TOPS-10 to restore from the tape, all exactly as you can do manually with the following.
+Tape is automated by [tape.py](msc/tape.py). Have a terminal into the container, be in the docker folder, and do 'python3 msc/tape.py'. Recreates the tape from the utexas23-reconstruction and msc/to-tape folders, telnets into the DEC-10, and restores from the tape. To run it do
 
-    root@1ee085ff605a:/docker# ./msc/create-tape-utexas23-reconstruction
-
-And in TOPS-10 use backup to restore.
-
-    .r backup
-    /tape mta0:
-    /rewind
-    /inter
-    /files
-    /rest [,]*.*=*.*
-    ...snip...
-    /exit
-    .
+    root@1ee085ff605a:/docker# python3 msc/tape.py

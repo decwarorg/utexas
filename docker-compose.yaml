@@ -15,5 +15,5 @@ services:
       - type: bind
         source: ./msc
         target: /docker/msc
-    command: sh -c "msc/create-tape-utexas23-reconstruction && ./pdp10-kl ./simh/boot-from-disk.ini"
+    command: sh -c "python3 msc/tape.py --simple && ./pdp10-kl ./simh/boot-from-disk.ini"
     

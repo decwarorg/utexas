@@ -5,7 +5,7 @@ Page 4, creating a test file. Note that $ is the TOPS-10 echo for the escape key
     *ihello world$ex$$
     .type test
     
-chapter1 covers the basics of teco for file editing and octal numbers. it makes sense to include disucssion of the appendices on ddt and teco here, especially since both are dependent on the control characters of the terminal era and these can be an initial speed bump with modern hardware. remembering how to send a bare line feed is a reccuring theme (it's control-j). so before anything else, here's useful notes about some important key combinations. this is for a macbook.
+chapter1 covers the basics of teco for file editing and octal numbers. it makes sense to include discussion of the appendices on ddt and teco here, especially since both are dependent on the control characters of the terminal era and these can be an initial speed bump with modern hardware. remembering how to send a bare line feed is a recurring theme (it's control-j). so before anything else, here's useful notes about some important key combinations. this is for a macbook.
 
 * Terminal Shortcuts: Press Control + [A-Z] to send the matching ASCII code 1 through 26.
 * Unicode Hex Input: Enable "Unicode Hex Input" in keyboard settings, then hold Option (⌥) and type the 4-digit hex code (like 0008 for backspace).
