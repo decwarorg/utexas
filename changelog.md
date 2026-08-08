@@ -2,6 +2,12 @@
 
 All notable changes to Project UTEXAS DECWAR are recorded here.
 
+## [1.3.2] - 2026-08-08
+### Changed
+- Streamlined the tape rebuild workflow around the Python automation path and refreshed the related documentation.
+- Simplified the container and SIMH setup guidance and removed outdated wrapper documentation.
+- Expanded the preliminaries and fundamentals notes to better describe the reconstruction flow.
+
 ## [1.3.0] - 2026-08-01
 ### Changed
 - Improved the README and project documentation for clarity and future expansion.

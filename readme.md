@@ -59,6 +59,4 @@ In the following, hit the escape key for each $ symbol.
 
 # Tape
 
-Tape is automated by [tape.py](msc/tape.py). Have a terminal into the container, be in the docker folder, and do 'python3 msc/tape.py'. Recreates the tape from the utexas23-reconstruction and msc/to-tape folders, telnets into the DEC-10, and restores from the tape. To run it do
-
-    root@1ee085ff605a:/docker# python3 msc/tape.py
+Tape is automated by [tape.py](msc/tape.py). Have a terminal into the container, be in the docker folder, and do 'python3 msc/tape.py'. Recreates the tape from the utexas23-reconstruction and msc/to-tape folders, telnets into the DEC-10, and restores from the tape.
