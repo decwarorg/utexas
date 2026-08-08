@@ -1,5 +1,3 @@
-#FROM ubuntu:24.04
-#RUN apt-get update && apt-get install build-essential cmake telnet -y
 FROM ubuntu:22.04
 RUN apt-get update && apt-get install build-essential cmake telnet -y
 RUN apt-get install python3 python3-dev python3-pip python3-setuptools -y

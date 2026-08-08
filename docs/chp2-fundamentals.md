@@ -1,7 +1,7 @@
 
 the first section covers using the accumulators, the conditional skip line op, and handling basic i/o including separators. the first important code is on page 21 and included here as [pg21.mac](../msc/to-tape/pg21.mac). it multiplies two one or two digit decimal numbers and the emphasis is on understanding exactly what is happening in the accumulators, mentally, on paper, and in ddt. so this is an excellent time to work with ddt.
 
-meanwhile another curiosity is the small errors accumulating in algebr.mac relative to algebr.for since the fortran version is clearly a slightly better match with feynman's table 22-3. the differences are so small that it seems to have to be small rounding effects, but why? in the assembly the arithematic is done by opcodes. in the fortran by compiled functions. it seems the compiled functions have better numerical properties? a possibility is the fortran is getting double precision and the assembly is single. that was absoluetly it! after switching the assembly to explicit double precision the differences are negligible.
+meanwhile another curiosity is the small errors accumulating in algebr.mac relative to algebr.for since the fortran version is clearly a slightly better match with feynman's table 22-3. the differences are so small that it seems to have to be small rounding effects, but why? in the assembly the arithmetic is done by opcodes. in the fortran by compiled functions. it seems the compiled functions have better numerical properties? a possibility is the fortran is getting double precision and the assembly is single. that was absolutely it! after switching the assembly to explicit double precision the differences are negligible.
 
     .ex algebr.for
     FORTRAN: ALGEBR
