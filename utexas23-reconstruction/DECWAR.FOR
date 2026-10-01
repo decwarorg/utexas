@@ -999,8 +999,8 @@ C	and the job is returned to monitor level.
 	txtot = total (1)
 c	call updsta (txppn,txnm1,txnm2,txsh1,txsh2,txtot,txtim,txwhy, 
 c     +		txtem, who)
-	call free (who)
-	who = 0
+c	call free (who)
+c	who = 0
 c--	call shosta(0)			! show current standings
  400	call exit
 	end
